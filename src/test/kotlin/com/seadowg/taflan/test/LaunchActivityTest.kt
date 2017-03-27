@@ -1,6 +1,6 @@
 package com.seadowg.taflan.test
 
-import com.seadowg.taflan.activity.MainActivity
+import com.seadowg.taflan.activity.LaunchActivity
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,10 +14,10 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, sdk = intArrayOf(23))
-class MainActivityTest {
+class LaunchActivityTest {
 
     @Test
     fun testSomething() {
-        assertTrue(Robolectric.setupActivity(MainActivity::class.java) != null)
+        assertTrue(Robolectric.setupActivity(LaunchActivity::class.java) != null)
     }
 }
