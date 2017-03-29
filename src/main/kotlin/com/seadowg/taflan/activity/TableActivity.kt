@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.github.clans.fab.FloatingActionMenu
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
-import com.seadowg.taflan.activity.NewItemActivity.Companion.EXTRA_TABLE
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.reactive
@@ -27,32 +26,17 @@ class TableActivity : TaflanActivity() {
         setupFabHelper()
     }
 
-    private fun setupFabHelper() {
-        if (TEST_MODE) {
-            val fabHelper = findViewById(R.id.fab_helper)
-            fabHelper.visibility = View.VISIBLE
-
-            fabHelper.reactive().clicks.bind(this) { _, _ ->
-                val fabMenu = findViewById(R.id.fab) as FloatingActionMenu
-                fabMenu.open(true)
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
 
         val intentTable = intent.extras.getSerializable(EXTRA_TABLE) as Table
         val table = tableRepository.fetch(intentTable.id)
 
-        val itemsList = findViewById(R.id.items) as ViewGroup
-        itemsList.removeAllViews()
+        renderItems(table)
+        setupFAB(table)
+    }
 
-        table.items.forEach {
-            val itemItem = ItemItem.inflate(it, table, itemsList, this)
-            itemsList.addView(itemItem)
-        }
-
+    private fun setupFAB(table: Table) {
         val fabMenu = findViewById(R.id.fab) as FloatingActionMenu
 
         findViewById(R.id.add_item).reactive().clicks.bind(this) { _, _ ->
@@ -71,6 +55,28 @@ class TableActivity : TaflanActivity() {
             intent.putExtra(NewFieldActivity.EXTRA_TABLE, table)
 
             startActivity(intent)
+        }
+    }
+
+    private fun renderItems(table: Table) {
+        val itemsList = findViewById(R.id.items) as ViewGroup
+        itemsList.removeAllViews()
+
+        table.items.forEach {
+            val itemItem = ItemItem.inflate(it, table, itemsList, this)
+            itemsList.addView(itemItem)
+        }
+    }
+
+    private fun setupFabHelper() {
+        if (TEST_MODE) {
+            val fabHelper = findViewById(R.id.fab_helper)
+            fabHelper.visibility = View.VISIBLE
+
+            fabHelper.reactive().clicks.bind(this) { _, _ ->
+                val fabMenu = findViewById(R.id.fab) as FloatingActionMenu
+                fabMenu.open(true)
+            }
         }
     }
 
