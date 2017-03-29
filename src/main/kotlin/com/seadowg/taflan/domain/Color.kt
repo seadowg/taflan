@@ -1,6 +1,8 @@
 package com.seadowg.taflan.domain
 
-sealed class Color {
+import java.io.Serializable
+
+sealed class Color : Serializable {
     class Red : Color()
     class Blue : Color()
     class Green : Color()

@@ -11,11 +11,19 @@ class TaflanApplication : Application() {
 
     lateinit var kodein: Kodein
 
+    private lateinit var tableRepository: TableRepository
+
     override fun onCreate() {
         super.onCreate()
 
+        tableRepository = InMemoryTableRepository()
+
         kodein = Kodein {
-            bind<TableRepository>().with(singleton { InMemoryTableRepository() })
+            bind<TableRepository>().with(singleton { tableRepository })
         }
+    }
+
+    fun clearState() {
+        tableRepository.clear()
     }
 }

@@ -19,5 +19,13 @@
         <activity
             android:name=".activity.NewTableActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.TableActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.NewItemActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

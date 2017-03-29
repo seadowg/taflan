@@ -24,20 +24,9 @@ class TableItem : android.support.v7.widget.CardView {
             val name = view.findViewById(R.id.name) as TextView
             name.text = table.name
 
-            view.findViewById(R.id.content).background = backgroundForTable(table, context)
+            view.findViewById(R.id.content).background = table.colorDrawable(context)
 
             return view as TableItem
-        }
-
-        private fun backgroundForTable(table: Table, context: Context): Drawable {
-            val resource = when(table.color) {
-                is Color.Red -> R.color.card_red
-                is Color.Blue -> R.color.card_blue
-                is Color.Green -> R.color.card_green
-                is Color.Orange -> R.color.card_orange
-            }
-
-            return ColorDrawable(context.resources.getColor(resource))
         }
     }
 }

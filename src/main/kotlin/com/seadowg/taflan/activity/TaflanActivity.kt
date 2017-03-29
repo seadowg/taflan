@@ -1,5 +1,6 @@
 package com.seadowg.taflan.activity
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -16,9 +17,13 @@ open class TaflanActivity : AppCompatActivity() {
         injector.inject((application as TaflanApplication).kodein)
     }
 
-    protected fun setupToolbar(title: String) {
+    protected fun setupToolbar(title: String, color: Drawable? = null) {
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.title = title
+
+        if (color != null) {
+            supportActionBar?.setBackgroundDrawable(color)
+        }
     }
 }

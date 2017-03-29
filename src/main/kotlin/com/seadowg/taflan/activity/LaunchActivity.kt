@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.repository.TableRepository
+import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.TableItem
 
 class LaunchActivity : TaflanActivity() {
@@ -17,7 +18,7 @@ class LaunchActivity : TaflanActivity() {
         setContentView(R.layout.launch)
         setupToolbar("Taflan")
 
-        findViewById(R.id.fab).setOnClickListener {
+        findViewById(R.id.fab).reactive().clicks.bind(this) { _, _ ->
             startActivity(Intent(this, NewTableActivity::class.java))
         }
     }
@@ -28,8 +29,16 @@ class LaunchActivity : TaflanActivity() {
         val tablesList = findViewById(R.id.tables) as ViewGroup
         tablesList.removeAllViews()
 
-        tableRepository.fetchAll().forEach {
-            tablesList.addView(TableItem.inflate(it, tablesList, this))
+        tableRepository.fetchAll().forEach { table ->
+            val tableItem = TableItem.inflate(table, tablesList, this)
+
+            tableItem.reactive().clicks.bind(this) { _, _ ->
+                val intent = Intent(this, TableActivity::class.java)
+                intent.putExtra(TableActivity.EXTRA_TABLE, table)
+                startActivity(intent)
+            }
+
+            tablesList.addView(tableItem)
         }
     }
 }
