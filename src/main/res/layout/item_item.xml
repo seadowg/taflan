@@ -2,14 +2,16 @@
 <com.seadowg.taflan.view.ItemItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/fields"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:divider="@drawable/list_divider"
+        android:showDividers="middle"
+        android:orientation="vertical">
 
     </LinearLayout>
 
