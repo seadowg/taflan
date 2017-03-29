@@ -12,6 +12,7 @@ import com.seadowg.taflan.activity.LaunchActivity
 import android.support.test.rule.ActivityTestRule
 import org.junit.Rule
 import com.seadowg.taflan.R
+import org.hamcrest.Matchers.not
 import org.junit.Test
 
 
@@ -31,6 +32,16 @@ class CreateTableTest {
         addTablePage.fillInName("Shopping list").clickAdd()
 
         onView(withText("Shopping list")).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun cannotCreateTableWithEmptyName() {
+        val tablesPage = TablesPage()
+
+        val addTablePage = tablesPage.clickFAB()
+        addTablePage.fillInName("")
+
+        onView(withText("Add")).check(matches(not(isEnabled())))
     }
 }
 
