@@ -5,17 +5,25 @@ import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 
 class InMemoryTableRepository : TableRepository {
+
     private val tables = mutableListOf<Table>()
 
     override fun create(name: String, color: Color) {
-        tables.add(Table(name, color))
+        tables.add(Table(name, color, fields = listOf("Name")))
     }
 
     override fun addItem(table: Table, item: Item) {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
-        tables.add(Table(table.name, table.color, items = table.items + listOf(item)))
+        tables.add(Table(table.name, table.color, fields = table.fields, items = table.items + item))
+    }
+
+    override fun addField(table: Table, field: String) {
+        val table = tables.single { it.id == table.id }
+        tables.remove(table)
+
+        tables.add(Table(table.name, table.color, fields = table.fields + field, items = table.items))
     }
 
     override fun fetch(id: String): Table {

@@ -27,5 +27,9 @@
         <activity
             android:name=".activity.NewItemActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.NewFieldActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

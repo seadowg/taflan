@@ -12,6 +12,6 @@ class TaflanEspressoTestRule : ActivityTestRule<LaunchActivity>(LaunchActivity::
 
         val context = InstrumentationRegistry.getTargetContext().applicationContext
         val application = context as TaflanApplication
-        application.clearState()
+        application.setupTest()
     }
 }

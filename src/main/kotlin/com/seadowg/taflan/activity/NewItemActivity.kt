@@ -1,6 +1,9 @@
 package com.seadowg.taflan.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
@@ -21,10 +24,18 @@ class NewItemActivity : TaflanActivity() {
         val table = intent.getSerializableExtra(EXTRA_TABLE) as Table
         setupToolbar("Add Item", color = table.colorDrawable(this))
 
-        findViewById(R.id.add).reactive().clicks.bind(this) { _, _  ->
-            val nameField = findViewById(R.id.name) as TextView
+        val fieldList = findViewById(R.id.fields) as ViewGroup
+        val fields = table.fields.map { field ->
+            val editText = LayoutInflater.from(this).inflate(R.layout.field_entry, fieldList, false) as EditText
+            editText.hint = field
+            editText
+        }
 
-            tableRepository.addItem(table, Item(nameField.text.toString()))
+        fields.forEach { fieldList.addView(it) }
+
+        findViewById(R.id.add).reactive().clicks.bind(this) { _, _  ->
+            val values = fields.map { field -> field.text.toString() }
+            tableRepository.addItem(table, Item(values))
             finish()
         }
     }

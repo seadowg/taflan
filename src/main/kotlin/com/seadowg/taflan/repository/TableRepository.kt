@@ -10,4 +10,5 @@ interface TableRepository {
     fun clear()
     fun addItem(table: Table, item: Item)
     fun fetch(id: String): Table
+    fun addField(table: Table, field: String)
 }

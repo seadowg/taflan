@@ -1,5 +1,6 @@
 package com.seadowg.taflan.test.support
 
+import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.typeText
@@ -36,9 +37,32 @@ class TablePage(val name: String) {
     }
 
     fun clickAddItem(): AddItemPage {
-        onView(withId(R.id.fab)).perform(click())
+        onView(withId(R.id.fab_helper)).perform(click())
         onView(withText("Add Item")).perform(click())
         return AddItemPage(name)
+    }
+
+    fun clickAddField(): AddFieldPage {
+        onView(withId(R.id.fab_helper)).perform(click())
+        onView(withText("Add Field")).perform(click())
+        return AddFieldPage(name)
+    }
+}
+
+class AddFieldPage(val tableName: String) {
+
+    init {
+        onView(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Field"))).check(matches(isDisplayed()))
+    }
+
+    fun fillInName(name: String): AddFieldPage {
+        onView(withHint("Name")).perform(typeText(name))
+        return this
+    }
+
+    fun clickAdd(): TablePage {
+        onView(withText("Add")).perform(click())
+        return TablePage(tableName)
     }
 }
 

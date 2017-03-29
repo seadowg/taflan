@@ -26,4 +26,8 @@ open class TaflanActivity : AppCompatActivity() {
             supportActionBar?.setBackgroundDrawable(color)
         }
     }
+
+    companion object {
+        var TEST_MODE = false
+    }
 }

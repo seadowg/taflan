@@ -5,25 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/fields"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
-
-        <TextView
-            android:textColor="@color/secondary_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name"/>
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:textColor="@color/primary_text"
-            android:textSize="18sp"
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Some text here"/>
 
     </LinearLayout>
 
