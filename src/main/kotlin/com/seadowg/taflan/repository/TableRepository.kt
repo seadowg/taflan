@@ -4,5 +4,5 @@ import com.seadowg.taflan.domain.Table
 
 interface TableRepository {
     fun create(name: String)
-    fun  fetchAll(): List<Table>
+    fun fetchAll(): List<Table>
 }
