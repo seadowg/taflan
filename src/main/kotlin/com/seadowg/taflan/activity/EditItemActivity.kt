@@ -10,6 +10,7 @@ import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.reactive
+import com.seadowg.taflan.view.Form
 import com.seadowg.taflan.view.colorDrawable
 
 class EditItemActivity : TaflanActivity() {
@@ -25,19 +26,8 @@ class EditItemActivity : TaflanActivity() {
 
         setupToolbar(item.values[0], color = table.colorDrawable(this))
 
-        val fieldList = findViewById(R.id.fields) as ViewGroup
-
-        val fields = table.fields.zip(item.values).map { (field, value) ->
-            val editText = LayoutInflater.from(this).inflate(R.layout.field_entry, fieldList, false) as EditText
-            editText.hint = field
-            editText.setText(value)
-            editText
-        }
-
-        fields.forEach { fieldList.addView(it) }
-
-        findViewById(R.id.update).reactive().clicks.bind(this) { _, _ ->
-            val values = fields.map { field -> field.text.toString() }
+        val form = findViewById(R.id.form) as Form
+        form.setup(table.fields.zip(item.values), "Update") { values ->
             tableRepository.updateItem(table, Item.Existing(item.id, values))
             finish()
         }
