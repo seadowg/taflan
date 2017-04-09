@@ -26,7 +26,7 @@ class NewItemActivity : TaflanActivity() {
         setupToolbar("Add Item", color = table.colorDrawable(this))
 
         val form = findViewById(R.id.form) as Form
-        form.setup(table.fields.map { Pair(it, "") }, "Add") { values ->
+        form.setup(table.fields.map { Form.Field(it, "") }, "Add") { values ->
             tableRepository.addItem(table, Item.New(values))
             finish()
         }

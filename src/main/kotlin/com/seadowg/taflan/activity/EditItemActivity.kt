@@ -1,15 +1,11 @@
 package com.seadowg.taflan.activity
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.EditText
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
-import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.Form
 import com.seadowg.taflan.view.colorDrawable
 
@@ -26,8 +22,10 @@ class EditItemActivity : TaflanActivity() {
 
         setupToolbar(item.values[0], color = table.colorDrawable(this))
 
+        val fields = table.fields.zip(item.values) { name, value -> Form.Field(name, value) }
+
         val form = findViewById(R.id.form) as Form
-        form.setup(table.fields.zip(item.values), "Update") { values ->
+        form.setup(fields, "Update") { values ->
             tableRepository.updateItem(table, Item.Existing(item.id, values))
             finish()
         }

@@ -25,28 +25,42 @@ class Form : FrameLayout {
         inflate(context)
     }
 
-    fun setup(fieldsAndValues: List<Pair<String, String>>, submitText: String, onSubmit: (List<String>) -> Unit) {
-        val fieldList = findViewById(R.id.fields) as ViewGroup
-
-        val fields = fieldsAndValues.map { (field, value) ->
-            val editText = LayoutInflater.from(context).inflate(R.layout.field_entry, fieldList, false) as EditText
-            editText.hint = field
-            editText.setText(value)
-            editText
-        }
-
-        fields.forEach { fieldList.addView(it) }
+    fun setup(fields: List<Field>, submitText: String, onSubmit: (List<String>) -> Unit) {
+        val editTexts = renderFields(fields)
 
         val submitButton = findViewById(R.id.submit) as Button
         submitButton.text = submitText
 
+        editTexts.forEach { editText ->
+            editText.reactive().text.bind(this) { _, _ ->
+                submitButton.isEnabled = editTexts.filter { it.text.isEmpty() }.isEmpty()
+            }
+        }
+
         submitButton.reactive().clicks.bind(this) { _, _ ->
-            val values = fields.map { field -> field.text.toString() }
+            val values = editTexts.map { field -> field.text.toString() }
             onSubmit(values)
         }
+    }
+
+    private fun renderFields(fields: List<Field>): List<EditText> {
+        val fieldList = findViewById(R.id.fields) as ViewGroup
+
+        val editTexts = fields.map { (name, value) ->
+            val editText = LayoutInflater.from(context).inflate(R.layout.field_entry, fieldList, false) as EditText
+            editText.hint = name
+            editText.setText(value)
+
+            editText
+        }
+
+        editTexts.forEach { fieldList.addView(it) }
+        return editTexts
     }
 
     private fun inflate(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.form, this)
     }
+
+    data class Field(val name: String, val value: String)
 }
