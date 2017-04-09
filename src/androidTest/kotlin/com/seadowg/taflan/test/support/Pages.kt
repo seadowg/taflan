@@ -61,9 +61,20 @@ class TablePage(val name: String) {
     }
 
     fun clickOnItem(itemName: String): EditItemPage {
-        onView(allOf(withContentDescription("item"), hasDescendant(allOf(hasSibling(withText("Name")), withText(itemName))))).perform(click())
+        onView(itemCard(itemName)).perform(click())
         return EditItemPage(tableName = name, itemName = itemName)
     }
+
+    fun deleteItem(itemName: String): TablePage {
+        onView(allOf(isDescendantOfA(itemCard(itemName)), withContentDescription("menu"))).perform(click())
+        onView(withText("Delete")).perform(click())
+        return this
+    }
+
+    private fun itemCard(itemName: String) = allOf(
+            withContentDescription("item"),
+            hasDescendant(allOf(hasSibling(withText("Name")), withText(itemName)))
+    )
 }
 
 class EditItemPage(val tableName: String, itemName: String) {

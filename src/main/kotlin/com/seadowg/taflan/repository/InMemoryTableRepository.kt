@@ -38,6 +38,14 @@ class InMemoryTableRepository : TableRepository {
         tables.add(Table(table.name, table.color, fields = table.fields, items = updatedItems))
     }
 
+    override fun deleteItem(table: Table, item: Item.Existing) {
+        val table = tables.single { it.id == table.id }
+        tables.remove(table)
+
+        val updatedItems = table.items - item
+        tables.add(Table(table.name, table.color, fields = table.fields, items = updatedItems))
+    }
+
     override fun addField(table: Table, field: String) {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
@@ -60,5 +68,4 @@ class InMemoryTableRepository : TableRepository {
     private fun generateID(): String {
         return idCounter++.toString()
     }
-
 }

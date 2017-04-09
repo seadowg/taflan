@@ -2,18 +2,37 @@
 <com.seadowg.taflan.view.ItemItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:contentDescription="@string/item">
+    android:contentDescription="@string/item"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/fields"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:divider="@drawable/list_divider"
-        android:showDividers="middle"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:id="@+id/menu"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/menu"
+            android:src="@drawable/ic_more" />
+
+        <LinearLayout
+            android:id="@+id/fields"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/list_divider"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:showDividers="middle">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </com.seadowg.taflan.view.ItemItem>

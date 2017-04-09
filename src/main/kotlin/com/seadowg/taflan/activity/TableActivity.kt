@@ -2,6 +2,7 @@ package com.seadowg.taflan.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.PopupMenu
 import android.view.View
 import android.view.ViewGroup
 import com.github.clans.fab.FloatingActionMenu
@@ -29,6 +30,10 @@ class TableActivity : TaflanActivity() {
     override fun onResume() {
         super.onResume()
 
+        reloadData()
+    }
+
+    private fun reloadData() {
         val intentTable = intent.extras.getSerializable(EXTRA_TABLE) as Table
         val table = tableRepository.fetch(intentTable.id)
 
@@ -71,6 +76,19 @@ class TableActivity : TaflanActivity() {
                 intent.putExtra(EditItemActivity.EXTRA_ITEM, item)
 
                 startActivity(intent)
+            }
+
+            val menuButton = itemItem.findViewById(R.id.menu)
+            val popup = PopupMenu(this, menuButton)
+            popup.inflate(R.menu.item_menu)
+            popup.setOnMenuItemClickListener { menuItem ->
+                tableRepository.deleteItem(table, item)
+                reloadData()
+                true
+            }
+
+            menuButton.reactive().clicks.bind(this) {
+                popup.show()
             }
 
             itemsList.addView(itemItem)

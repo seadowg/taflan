@@ -5,4 +5,6 @@
     <string name="name">Name</string>
     <string name="item">item</string>
     <string name="update">Update</string>
+    <string name="menu">menu</string>
+    <string name="delete">Delete</string>
 </resources>

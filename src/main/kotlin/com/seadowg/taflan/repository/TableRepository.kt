@@ -12,4 +12,5 @@ interface TableRepository {
     fun fetch(id: String): Table
     fun addField(table: Table, field: String)
     fun updateItem(table: Table, item: Item.Existing)
+    fun deleteItem(table: Table, item: Item.Existing)
 }
