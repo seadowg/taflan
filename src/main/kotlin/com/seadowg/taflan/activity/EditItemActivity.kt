@@ -10,6 +10,7 @@ import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.reactive
+import com.seadowg.taflan.view.colorDrawable
 
 class EditItemActivity : TaflanActivity() {
 
@@ -22,7 +23,7 @@ class EditItemActivity : TaflanActivity() {
         val table = intent.getSerializableExtra(EXTRA_TABLE) as Table
         val item = intent.getSerializableExtra(EXTRA_ITEM) as Item.Existing
 
-        setupToolbar(item.values[0])
+        setupToolbar(item.values[0], color = table.colorDrawable(this))
 
         val fieldList = findViewById(R.id.fields) as ViewGroup
 
