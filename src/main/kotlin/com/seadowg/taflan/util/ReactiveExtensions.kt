@@ -19,13 +19,13 @@ class ViewReactive(private val view: View) {
             field.unbind(this)
 
             field = value
-            field.bind(this) { _, value -> view.isEnabled = value }
+            field.bind(this) { value -> view.isEnabled = value }
         }
 
     val clicks: EventStream<Unit>
         get() {
             val eventStream = EventStream<Unit>()
-            view.setOnClickListener { eventStream.occur(System.currentTimeMillis(), Unit) }
+            view.setOnClickListener { eventStream.occur(Unit) }
             return eventStream
         }
 }
@@ -34,11 +34,11 @@ class EditTextReactive(private val editText: EditText) {
     val text: EventStream<String>
         get() {
             val eventStream = EventStream<String>()
-            eventStream.occur(System.currentTimeMillis(), editText.text.toString())
+            eventStream.occur(editText.text.toString())
 
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {
-                    eventStream.occur(System.currentTimeMillis(), s.toString())
+                    eventStream.occur(s.toString())
                 }
 
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {

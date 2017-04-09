@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import com.seadowg.taflan.R
-import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.util.reactive
 
 class Form : FrameLayout {
@@ -31,13 +30,11 @@ class Form : FrameLayout {
         val submitButton = findViewById(R.id.submit) as Button
         submitButton.text = submitText
 
-        editTexts.forEach { editText ->
-            editText.reactive().text.bind(this) { _, _ ->
-                submitButton.isEnabled = editTexts.filter { it.text.isEmpty() }.isEmpty()
-            }
-        }
+        val isValids = editTexts.map { it.reactive().text.map(String::isNotEmpty) }
+        val allAreValid = isValids.first().zipN(isValids.drop(1)).map { !it.contains(false) }
+        submitButton.reactive().enabled = allAreValid
 
-        submitButton.reactive().clicks.bind(this) { _, _ ->
+        submitButton.reactive().clicks.bind(this) {
             val values = editTexts.map { field -> field.text.toString() }
             onSubmit(values)
         }

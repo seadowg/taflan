@@ -18,7 +18,7 @@ class LaunchActivity : TaflanActivity() {
         setContentView(R.layout.launch)
         setupToolbar("Taflan")
 
-        findViewById(R.id.fab).reactive().clicks.bind(this) { _, _ ->
+        findViewById(R.id.fab).reactive().clicks.bind(this) {
             startActivity(Intent(this, NewTableActivity::class.java))
         }
     }
@@ -32,7 +32,7 @@ class LaunchActivity : TaflanActivity() {
         tableRepository.fetchAll().forEach { table ->
             val tableItem = TableItem.inflate(table, tablesList, this)
 
-            tableItem.reactive().clicks.bind(this) { _, _ ->
+            tableItem.reactive().clicks.bind(this) {
                 val intent = Intent(this, TableActivity::class.java)
                 intent.putExtra(TableActivity.EXTRA_TABLE, table)
                 startActivity(intent)

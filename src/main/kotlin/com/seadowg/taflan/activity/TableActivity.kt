@@ -39,7 +39,7 @@ class TableActivity : TaflanActivity() {
     private fun setupFAB(table: Table) {
         val fabMenu = findViewById(R.id.fab) as FloatingActionMenu
 
-        findViewById(R.id.add_item).reactive().clicks.bind(this) { _, _ ->
+        findViewById(R.id.add_item).reactive().clicks.bind(this) {
             fabMenu.close(true)
 
             val intent = Intent(this, NewItemActivity::class.java)
@@ -48,7 +48,7 @@ class TableActivity : TaflanActivity() {
             startActivity(intent)
         }
 
-        findViewById(R.id.add_field).reactive().clicks.bind(this) { _, _ ->
+        findViewById(R.id.add_field).reactive().clicks.bind(this) {
             fabMenu.close(true)
 
             val intent = Intent(this, NewFieldActivity::class.java)
@@ -65,7 +65,7 @@ class TableActivity : TaflanActivity() {
         table.items.forEach { item ->
             val itemItem = ItemItem.inflate(item, table, itemsList, this)
 
-            itemItem.reactive().clicks.bind(this) { _, _ ->
+            itemItem.reactive().clicks.bind(this) {
                 val intent = Intent(this, EditItemActivity::class.java)
                 intent.putExtra(EditItemActivity.EXTRA_TABLE, table)
                 intent.putExtra(EditItemActivity.EXTRA_ITEM, item)
@@ -82,7 +82,7 @@ class TableActivity : TaflanActivity() {
             val fabHelper = findViewById(R.id.fab_helper)
             fabHelper.visibility = View.VISIBLE
 
-            fabHelper.reactive().clicks.bind(this) { _, _ ->
+            fabHelper.reactive().clicks.bind(this) {
                 val fabMenu = findViewById(R.id.fab) as FloatingActionMenu
                 fabMenu.open(true)
             }
