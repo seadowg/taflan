@@ -62,8 +62,17 @@ class TableActivity : TaflanActivity() {
         val itemsList = findViewById(R.id.items) as ViewGroup
         itemsList.removeAllViews()
 
-        table.items.forEach {
-            val itemItem = ItemItem.inflate(it, table, itemsList, this)
+        table.items.forEach { item ->
+            val itemItem = ItemItem.inflate(item, table, itemsList, this)
+
+            itemItem.reactive().clicks.bind(this) { _, _ ->
+                val intent = Intent(this, EditItemActivity::class.java)
+                intent.putExtra(EditItemActivity.EXTRA_TABLE, table)
+                intent.putExtra(EditItemActivity.EXTRA_ITEM, item)
+
+                startActivity(intent)
+            }
+
             itemsList.addView(itemItem)
         }
     }

@@ -49,7 +49,7 @@ class AddItemsToTableTest {
                 .fillInField("Name", with = "Salami")
                 .clickAdd()
 
-        onView(allOf(hasSibling(withText("Name")), withText("Bananas"))).check(matches(isDisplayed()))
+
         onView(allOf(hasSibling(withText("Name")), withText("Salami"))).check(matches(isDisplayed()))
     }
 }

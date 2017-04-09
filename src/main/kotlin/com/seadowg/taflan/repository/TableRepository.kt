@@ -8,7 +8,8 @@ interface TableRepository {
     fun create(name: String, color: Color)
     fun fetchAll(): List<Table>
     fun clear()
-    fun addItem(table: Table, item: Item)
+    fun addItem(table: Table, item: Item.New)
     fun fetch(id: String): Table
     fun addField(table: Table, field: String)
+    fun updateItem(table: Table, item: Item.Existing)
 }
