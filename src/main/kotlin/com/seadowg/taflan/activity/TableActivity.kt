@@ -29,7 +29,6 @@ class TableActivity : TaflanActivity() {
 
     override fun onResume() {
         super.onResume()
-
         reloadData()
     }
 
@@ -39,6 +38,30 @@ class TableActivity : TaflanActivity() {
 
         renderItems(table)
         setupFAB(table)
+    }
+
+    private fun renderItems(table: Table) {
+        val itemsList = findViewById(R.id.items) as ViewGroup
+        itemsList.removeAllViews()
+
+        table.items.forEach { item ->
+            val itemItem = ItemItem.inflate(item, table, itemsList, this)
+
+            itemItem.clicks.bind(this) {
+                val intent = Intent(this, EditItemActivity::class.java)
+                intent.putExtra(EditItemActivity.EXTRA_TABLE, table)
+                intent.putExtra(EditItemActivity.EXTRA_ITEM, item)
+
+                startActivity(intent)
+            }
+
+            itemItem.deleteClicks.bind(this) {
+                tableRepository.deleteItem(table, item)
+                reloadData()
+            }
+
+            itemsList.addView(itemItem)
+        }
     }
 
     private fun setupFAB(table: Table) {
@@ -60,38 +83,6 @@ class TableActivity : TaflanActivity() {
             intent.putExtra(NewFieldActivity.EXTRA_TABLE, table)
 
             startActivity(intent)
-        }
-    }
-
-    private fun renderItems(table: Table) {
-        val itemsList = findViewById(R.id.items) as ViewGroup
-        itemsList.removeAllViews()
-
-        table.items.forEach { item ->
-            val itemItem = ItemItem.inflate(item, table, itemsList, this)
-
-            itemItem.reactive().clicks.bind(this) {
-                val intent = Intent(this, EditItemActivity::class.java)
-                intent.putExtra(EditItemActivity.EXTRA_TABLE, table)
-                intent.putExtra(EditItemActivity.EXTRA_ITEM, item)
-
-                startActivity(intent)
-            }
-
-            val menuButton = itemItem.findViewById(R.id.menu)
-            val popup = PopupMenu(this, menuButton)
-            popup.inflate(R.menu.item_menu)
-            popup.setOnMenuItemClickListener { menuItem ->
-                tableRepository.deleteItem(table, item)
-                reloadData()
-                true
-            }
-
-            menuButton.reactive().clicks.bind(this) {
-                popup.show()
-            }
-
-            itemsList.addView(itemItem)
         }
     }
 

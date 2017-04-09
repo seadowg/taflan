@@ -10,14 +10,14 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
             android:id="@+id/menu"
-            android:background="@android:color/transparent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/menu"
             android:src="@drawable/ic_more" />
 
