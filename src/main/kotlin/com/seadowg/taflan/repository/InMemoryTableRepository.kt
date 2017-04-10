@@ -37,7 +37,8 @@ class InMemoryTableRepository : TableRepository {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
-        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields + field, items = table.items))
+        val migratedItems = table.items.map { Item.Existing(it.id, it.values + "") }
+        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields + field, items = migratedItems))
     }
 
     override fun updateItem(table: Table.Existing, item: Item.Existing) {

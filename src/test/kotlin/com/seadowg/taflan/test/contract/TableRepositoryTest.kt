@@ -85,6 +85,22 @@ abstract class TableRepositoryTest {
     }
 
     @Test
+    fun addField_addsTheFieldToExistingItems() {
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name")))
+
+        tableRepository.addItem(table, Item.New(listOf("Long John Silver")))
+
+        tableRepository.addField(table, "Beard Length")
+        tableRepository.addField(table, "Ship Name")
+
+        val tableWithNewFields = tableRepository.fetch(table.id)
+        assertThat(tableWithNewFields.items.first().values.size).isEqualTo(3)
+        assertThat(tableWithNewFields.items.first().values[0]).isEqualTo("Long John Silver")
+        assertThat(tableWithNewFields.items.first().values[1]).isEqualTo("")
+        assertThat(tableWithNewFields.items.first().values[2]).isEqualTo("")
+    }
+
+    @Test
     fun updateItem_updatesTheItemInTheTable() {
         val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name")))
 
