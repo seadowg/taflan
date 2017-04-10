@@ -33,14 +33,14 @@ class TableActivity : TaflanActivity() {
     }
 
     private fun reloadData() {
-        val intentTable = intent.extras.getSerializable(EXTRA_TABLE) as Table
+        val intentTable = intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing
         val table = tableRepository.fetch(intentTable.id)
 
         renderItems(table)
         setupFAB(table)
     }
 
-    private fun renderItems(table: Table) {
+    private fun renderItems(table: Table.Existing) {
         val itemsList = findViewById(R.id.items) as ViewGroup
         itemsList.removeAllViews()
 

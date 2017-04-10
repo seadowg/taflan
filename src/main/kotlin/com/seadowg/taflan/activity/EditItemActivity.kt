@@ -17,7 +17,7 @@ class EditItemActivity : TaflanActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edit_item)
 
-        val table = intent.getSerializableExtra(EXTRA_TABLE) as Table
+        val table = intent.getSerializableExtra(EXTRA_TABLE) as Table.Existing
         val item = intent.getSerializableExtra(EXTRA_ITEM) as Item.Existing
 
         setupToolbar(item.values[0], color = table.colorDrawable(this))

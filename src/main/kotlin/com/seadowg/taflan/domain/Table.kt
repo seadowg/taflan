@@ -2,7 +2,29 @@ package com.seadowg.taflan.domain
 
 import java.io.Serializable
 
-data class Table(val name: String, val color: Color, val fields: List<String>, val items: List<Item.Existing> = emptyList()) : Serializable {
+sealed class Table : Serializable {
 
-    val id = name
+    abstract val name: String
+    abstract val color: Color
+    abstract val fields: List<String>
+    abstract val items: List<Item.Existing>
+
+    data class New(
+            override val name: String,
+            override val color: Color,
+            override val fields: List<String>
+    ) : Table() {
+
+        override val items: List<Item.Existing> = emptyList()
+    }
+
+    data class Existing(
+            val id: String,
+            override val name: String,
+            override val color: Color,
+            override val fields: List<String>,
+            override val items: List<Item.Existing>
+    ) : Table() {
+
+    }
 }

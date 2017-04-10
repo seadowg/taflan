@@ -7,23 +7,40 @@ import com.seadowg.taflan.domain.Table
 
 class InMemoryTableRepository : TableRepository {
 
-    private val tables = mutableListOf<Table>()
+    private val tables = mutableListOf<Table.Existing>()
     private var idCounter = 0
 
-    override fun create(name: String, color: Color) {
-        tables.add(Table(name, color, fields = listOf("Name")))
+    override fun create(table: Table.New): Table.Existing {
+        val createdTable = Table.Existing(generateID(), table.name, table.color, table.fields, table.items)
+        tables.add(createdTable)
+        return createdTable
     }
 
-    override fun addItem(table: Table, item: Item.New) {
+    override fun fetch(id: String): Table.Existing {
+        return tables.single { it.id == id }
+    }
+
+    override fun fetchAll(): List<Table.Existing> {
+        return tables.toList()
+    }
+
+    override fun addItem(table: Table.Existing, item: Item.New) {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
         val savedItem = Item.Existing(generateID(), item.values)
 
-        tables.add(Table(table.name, table.color, fields = table.fields, items = table.items + savedItem))
+        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields, items = table.items + savedItem))
     }
 
-    override fun updateItem(table: Table, item: Item.Existing) {
+    override fun addField(table: Table.Existing, field: String) {
+        val table = tables.single { it.id == table.id }
+        tables.remove(table)
+
+        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields + field, items = table.items))
+    }
+
+    override fun updateItem(table: Table.Existing, item: Item.Existing) {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
@@ -35,30 +52,15 @@ class InMemoryTableRepository : TableRepository {
             }
         }
 
-        tables.add(Table(table.name, table.color, fields = table.fields, items = updatedItems))
+        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems))
     }
 
-    override fun deleteItem(table: Table, item: Item.Existing) {
+    override fun deleteItem(table: Table.Existing, item: Item.Existing) {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
         val updatedItems = table.items - item
-        tables.add(Table(table.name, table.color, fields = table.fields, items = updatedItems))
-    }
-
-    override fun addField(table: Table, field: String) {
-        val table = tables.single { it.id == table.id }
-        tables.remove(table)
-
-        tables.add(Table(table.name, table.color, fields = table.fields + field, items = table.items))
-    }
-
-    override fun fetch(id: String): Table {
-        return tables.single { it.id == id }
-    }
-
-    override fun fetchAll(): List<Table> {
-        return tables.toList()
+        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems))
     }
 
     override fun clear() {

@@ -22,7 +22,7 @@ class NewItemActivity : TaflanActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_item)
 
-        val table = intent.getSerializableExtra(EXTRA_TABLE) as Table
+        val table = intent.getSerializableExtra(EXTRA_TABLE) as Table.Existing
         setupToolbar("Add Item", color = table.colorDrawable(this))
 
         val form = findViewById(R.id.form) as Form
