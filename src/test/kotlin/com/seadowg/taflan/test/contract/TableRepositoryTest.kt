@@ -13,7 +13,7 @@ abstract class TableRepositoryTest {
 
     @Test
     fun fetch_fetchesTableByID() {
-        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
         val fetchedTable = tableRepository.fetch(table.id)
 
         assertThat(fetchedTable).isEqualTo(table)
@@ -21,9 +21,9 @@ abstract class TableRepositoryTest {
 
     @Test
     fun create_generatesUniqueIDsForEachTable() {
-        val table1 = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
-        val table2 = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
-        val table3 = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
+        val table1 = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
+        val table2 = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
+        val table3 = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
 
         assertThat(table1.id).isNotEqualTo(table2.id)
         assertThat(table2.id).isNotEqualTo(table3.id)
@@ -32,9 +32,9 @@ abstract class TableRepositoryTest {
 
     @Test
     fun fetchAll_returnsAllTables() {
-        val table1 = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
-        val table2 = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
-        val table3 = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
+        val table1 = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
+        val table2 = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
+        val table3 = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
 
         val all = tableRepository.fetchAll()
         assertThat(all.size).isEqualTo(3)
@@ -45,7 +45,7 @@ abstract class TableRepositoryTest {
 
     @Test
     fun addItem_addsAnItemToTheTable() {
-        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
 
         tableRepository.addItem(table, Item.New(listOf("Long John Silver", "67cm")))
         tableRepository.addItem(table, Item.New(listOf("Jack Sparrow", "12cm")))
@@ -58,7 +58,7 @@ abstract class TableRepositoryTest {
 
     @Test
     fun addItem_generatesUniqueIDsForEachItem() {
-        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name", "Beard Length")))
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
 
         tableRepository.addItem(table, Item.New(listOf("Geoff")))
         tableRepository.addItem(table, Item.New(listOf("Troy")))
@@ -72,7 +72,7 @@ abstract class TableRepositoryTest {
 
     @Test
     fun addField_addsAFieldToATable() {
-        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name")))
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name")))
 
         tableRepository.addField(table, "Beard Length")
         tableRepository.addField(table, "Ship Name")
@@ -86,7 +86,7 @@ abstract class TableRepositoryTest {
 
     @Test
     fun addField_addsTheFieldToExistingItems() {
-        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name")))
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name")))
 
         tableRepository.addItem(table, Item.New(listOf("Long John Silver")))
 
@@ -102,7 +102,7 @@ abstract class TableRepositoryTest {
 
     @Test
     fun updateItem_updatesTheItemInTheTable() {
-        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name")))
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name")))
 
         tableRepository.addItem(table, Item.New(listOf("Geoff")))
         tableRepository.addItem(table, Item.New(listOf("Troy")))
@@ -124,7 +124,7 @@ abstract class TableRepositoryTest {
 
     @Test
     fun deleteItem_removesTheItemFromTheTable() {
-        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red(), listOf("Name")))
+        val table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name")))
 
         tableRepository.addItem(table, Item.New(listOf("Geoff")))
         tableRepository.addItem(table, Item.New(listOf("Troy")))

@@ -8,6 +8,6 @@ import com.seadowg.taflan.util.sample
 class TableCreator(val tableRepository: TableRepository) {
 
     fun create(name: String) {
-        tableRepository.create(Table.New(name, Color.ALL.sample(), listOf("Name")))
+        tableRepository.create(Table.New(name, Color.values().sample(), listOf("Name")))
     }
 }
