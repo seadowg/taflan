@@ -6,6 +6,7 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Table
+import com.seadowg.taflan.domain.usecase.TableCreator
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.util.sample
@@ -22,7 +23,7 @@ class NewTableActivity : TaflanActivity() {
 
         val form = findViewById(R.id.form) as Form
         form.setup(listOf(Form.Field("Name", "")), "Add") { values ->
-            tableRepository.create(Table.New(values.first(), Color.ALL.sample(), listOf("Name")))
+            TableCreator(tableRepository).create(values.first())
             finish()
         }
     }
