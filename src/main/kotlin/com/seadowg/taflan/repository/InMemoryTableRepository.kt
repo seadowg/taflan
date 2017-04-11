@@ -24,24 +24,28 @@ class InMemoryTableRepository : TableRepository {
         return tables.toList()
     }
 
-    override fun addItem(table: Table.Existing, item: Item.New) {
+    override fun addItem(table: Table.Existing, item: Item.New): Table.Existing {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
         val savedItem = Item.Existing(generateID(), item.values)
 
-        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields, items = table.items + savedItem))
+        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields, items = table.items + savedItem)
+        tables.add(updatedTable)
+        return updatedTable
     }
 
-    override fun addField(table: Table.Existing, field: String) {
+    override fun addField(table: Table.Existing, field: String): Table.Existing {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
         val migratedItems = table.items.map { Item.Existing(it.id, it.values + "") }
-        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields + field, items = migratedItems))
+        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields + field, items = migratedItems)
+        tables.add(updatedTable)
+        return updatedTable
     }
 
-    override fun updateItem(table: Table.Existing, item: Item.Existing) {
+    override fun updateItem(table: Table.Existing, item: Item.Existing): Table.Existing {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
@@ -53,15 +57,19 @@ class InMemoryTableRepository : TableRepository {
             }
         }
 
-        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems))
+        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems)
+        tables.add(updatedTable)
+        return updatedTable
     }
 
-    override fun deleteItem(table: Table.Existing, item: Item.Existing) {
+    override fun deleteItem(table: Table.Existing, item: Item.Existing): Table.Existing {
         val table = tables.single { it.id == table.id }
         tables.remove(table)
 
         val updatedItems = table.items - item
-        tables.add(Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems))
+        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems)
+        tables.add(updatedTable)
+        return table
     }
 
     override fun clear() {
