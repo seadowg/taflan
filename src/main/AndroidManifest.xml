@@ -4,7 +4,9 @@
 
     <application
         android:name="TaflanApplication"
-        android:theme="@style/TaflanTheme">
+        android:theme="@style/TaflanTheme"
+        android:icon="@drawable/ic_launcher"
+        android:allowBackup="false">
 
         <activity
             android:name=".activity.LaunchActivity"
