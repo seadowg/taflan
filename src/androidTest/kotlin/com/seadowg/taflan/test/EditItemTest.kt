@@ -28,7 +28,7 @@ class EditItemTest {
         )
 
         var shoppingListPage = tablesPage.clickOnTableItem("Shopping list")
-        val editItemPage = shoppingListPage.clickOnItem("Bananas")
+        val editItemPage = shoppingListPage.editItem("Bananas")
 
         shoppingListPage = editItemPage.fillInField("Name", "Strawberries").clickUpdate()
 

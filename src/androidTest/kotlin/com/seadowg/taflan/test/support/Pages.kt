@@ -60,7 +60,7 @@ class TablePage(val name: String) {
         return TablesPage()
     }
 
-    fun clickOnItem(itemName: String): EditItemPage {
+    fun editItem(itemName: String): EditItemPage {
         onView(itemCard(itemName)).perform(click())
         return EditItemPage(tableName = name, itemName = itemName)
     }
