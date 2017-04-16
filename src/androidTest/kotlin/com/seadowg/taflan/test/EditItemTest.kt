@@ -36,4 +36,20 @@ class EditItemTest {
         onView(allOf(hasSibling(withText("Name")), withText("Strawberries"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Name")), withText("Eggs"))).check(matches(isDisplayed()))
     }
+
+    @Test
+    fun hittingUpdate_withoutChangingAnything_changesNothing() {
+        val tablesPage = TablesPage().createTableFlow(
+                "Shopping list",
+                items = listOf("Bananas", "Eggs")
+        )
+
+        var shoppingListPage = tablesPage.clickOnTableItem("Shopping list")
+        val editItemPage = shoppingListPage.editItem("Bananas")
+
+        shoppingListPage = editItemPage.clickUpdate()
+
+        onView(allOf(hasSibling(withText("Name")), withText("Bananas"))).check(matches(isDisplayed()))
+        onView(allOf(hasSibling(withText("Name")), withText("Eggs"))).check(matches(isDisplayed()))
+    }
 }

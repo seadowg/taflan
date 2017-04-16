@@ -38,6 +38,14 @@ class Form : FrameLayout {
             val values = editTexts.map { field -> field.text.toString() }
             onSubmit(values)
         }
+
+        prefillFields(editTexts, fields)
+    }
+
+    private fun prefillFields(editTexts: List<EditText>, fields: List<Field>) {
+        editTexts.zip(fields).forEach { (editText, field) ->
+            editText.setText(field.value)
+        }
     }
 
     private fun renderFields(fields: List<Field>): List<EditText> {
@@ -46,7 +54,6 @@ class Form : FrameLayout {
         val editTexts = fields.map { (name, value) ->
             val editText = LayoutInflater.from(context).inflate(R.layout.field_entry, fieldList, false) as EditText
             editText.hint = name
-            editText.setText(value)
 
             editText
         }
