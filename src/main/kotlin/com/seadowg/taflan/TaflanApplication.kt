@@ -26,9 +26,4 @@ class TaflanApplication : Application() {
             bind<TableRepository>().with(singleton { tableRepository })
         }
     }
-
-    fun setupTest() {
-        tableRepository.clear()
-        TaflanActivity.TEST_MODE = true
-    }
 }
