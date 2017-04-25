@@ -30,8 +30,8 @@ class Form : FrameLayout {
         val submitButton = findViewById(R.id.submit) as Button
         submitButton.text = submitText
 
-        val isValids = editTexts.map { it.reactive().text.map(String::isNotEmpty) }
-        val allAreValid = isValids.first().zipN(isValids.drop(1)).map { !it.contains(false) }
+        val isNotValids = editTexts.map { it.reactive().text.map(String::isEmpty) }
+        val allAreValid = isNotValids.first().mapN(isNotValids.drop(1)) { !it.contains(true) }
         submitButton.reactive().enabled = allAreValid
 
         submitButton.reactive().clicks.bind(this) {

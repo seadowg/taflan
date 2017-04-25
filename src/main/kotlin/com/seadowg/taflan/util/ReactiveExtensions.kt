@@ -14,7 +14,7 @@ fun View.reactive(): ViewReactive {
 }
 
 class ViewReactive(private val view: View) {
-    var enabled: EventStream<Boolean> = EventStream()
+    var enabled: Reactive<Boolean> = Reactive(view.isEnabled, EventStream())
         set(value) {
             field.unbind(this)
 
@@ -31,10 +31,9 @@ class ViewReactive(private val view: View) {
 }
 
 class EditTextReactive(private val editText: EditText) {
-    val text: EventStream<String>
+    val text: Reactive<String>
         get() {
             val eventStream = EventStream<String>()
-            eventStream.occur(editText.text.toString())
 
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {
@@ -48,6 +47,6 @@ class EditTextReactive(private val editText: EditText) {
                 }
             })
 
-            return eventStream
+            return Reactive(editText.text.toString(), eventStream)
         }
 }
