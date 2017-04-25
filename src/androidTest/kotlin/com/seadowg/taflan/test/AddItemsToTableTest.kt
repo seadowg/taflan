@@ -38,6 +38,7 @@ class AddItemsToTableTest {
         var shoppingListPage = tablesPage.clickOnTableItem("Shopping list")
 
         shoppingListPage = shoppingListPage
+                .clickFAB()
                 .clickAddItem()
                 .fillInField("Name", with = "Bananas")
                 .clickAdd()
@@ -45,6 +46,7 @@ class AddItemsToTableTest {
         onView(allOf(hasSibling(withText("Name")), withText("Bananas"))).check(matches(isDisplayed()))
 
         shoppingListPage = shoppingListPage
+                .clickFAB()
                 .clickAddItem()
                 .fillInField("Name", with = "Salami")
                 .clickAdd()

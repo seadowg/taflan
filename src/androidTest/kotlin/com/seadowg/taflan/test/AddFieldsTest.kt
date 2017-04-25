@@ -26,10 +26,10 @@ class AddFieldsTest {
         val tablesPage = TablesPage().createTableFlow("Shopping list")
         var shoppingListPage = tablesPage.clickOnTableItem("Shopping list")
 
-        var addFieldPage = shoppingListPage.clickAddField()
+        var addFieldPage = shoppingListPage.clickFAB().clickAddField()
         shoppingListPage = addFieldPage.fillInName("Quantity").clickAdd()
 
-        var addItemPage = shoppingListPage.clickAddItem()
+        var addItemPage = shoppingListPage.clickFAB().clickAddItem()
         addItemPage.fillInField("Name", "Bananas")
         addItemPage.fillInField("Quantity", "5")
 
@@ -37,10 +37,10 @@ class AddFieldsTest {
         onView(allOf(hasSibling(withText("Name")), withText("Bananas"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Quantity")), withText("5"))).check(matches(isDisplayed()))
 
-        addFieldPage = shoppingListPage.clickAddField()
+        addFieldPage = shoppingListPage.clickFAB().clickAddField()
         shoppingListPage = addFieldPage.fillInName("Healthy?").clickAdd()
 
-        addItemPage = shoppingListPage.clickAddItem()
+        addItemPage = shoppingListPage.clickFAB().clickAddItem()
         addItemPage.fillInField("Name", "Cheese")
         addItemPage.fillInField("Quantity", "1")
         addItemPage.fillInField("Healthy?", "No...")
@@ -56,7 +56,7 @@ class AddFieldsTest {
         val tablesPage = TablesPage().createTableFlow("Shopping list")
         var shoppingListPage = tablesPage.clickOnTableItem("Shopping list")
 
-        var addFieldPage = shoppingListPage.clickAddField()
+        var addFieldPage = shoppingListPage.clickFAB().clickAddField()
         addFieldPage.fillInName("")
 
         onView(withText("Add")).check(matches(Matchers.not(isEnabled())))

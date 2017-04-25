@@ -1,14 +1,15 @@
 package com.seadowg.taflan.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.PopupMenu
 import android.view.View
 import android.view.ViewGroup
 import com.github.clans.fab.FloatingActionMenu
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Table
+import com.seadowg.taflan.format.CSV
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.ItemItem
@@ -84,6 +85,17 @@ class TableActivity : TaflanActivity() {
 
             startActivity(intent)
         }
+
+        findViewById(R.id.export).reactive().clicks.bind(this) {
+            fabMenu.close(true)
+
+            val csv = CSV(table.fields, table.items.map { it.values })
+
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/csv"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, csv.toString())
+            startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
+        }
     }
 
     private fun setupFabHelper() {
@@ -99,6 +111,11 @@ class TableActivity : TaflanActivity() {
     }
 
     companion object {
-        val EXTRA_TABLE = "extra_table"
+        private val EXTRA_TABLE = "extra_table"
+
+        fun intent(context: Context, table: Table.Existing): Intent {
+            return Intent(context, TableActivity::class.java)
+                    .putExtra(EXTRA_TABLE, table)
+        }
     }
 }

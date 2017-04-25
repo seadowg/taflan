@@ -33,8 +33,7 @@ class LaunchActivity : TaflanActivity() {
             val tableItem = TableItem.inflate(table, tablesList, this)
 
             tableItem.reactive().clicks.bind(this) {
-                val intent = Intent(this, TableActivity::class.java)
-                intent.putExtra(TableActivity.EXTRA_TABLE, table)
+                val intent = TableActivity.intent(this, table)
                 startActivity(intent)
             }
 

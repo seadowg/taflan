@@ -72,6 +72,17 @@
         fab:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share"
+            fab:fab_label="Export"
+            fab:fab_size="mini"
+            fab:menu_colorNormal="@color/primary"
+            fab:menu_colorPressed="@color/primary"
+            fab:menu_colorRipple="@color/primary" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/add_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

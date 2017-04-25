@@ -25,7 +25,7 @@ class TablesPage {
         val tablePage = tablesPage.clickOnTableItem(name)
 
         items.forEach { item ->
-            tablePage.clickAddItem().fillInField("Name", item).clickAdd()
+            tablePage.clickFAB().clickAddItem().fillInField("Name", item).clickAdd()
         }
 
         return tablePage.pressBack()
@@ -43,26 +43,19 @@ class TablePage(val name: String) {
         onView(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(name))).check(matches(isDisplayed()))
     }
 
-    fun clickAddItem(): AddItemPage {
+    fun clickFAB(): TableFAB {
         onView(withId(R.id.fab_helper)).perform(click())
-        onView(withText("Add Item")).perform(click())
-        return AddItemPage(name)
-    }
-
-    fun clickAddField(): AddFieldPage {
-        onView(withId(R.id.fab_helper)).perform(click())
-        onView(withText("Add Field")).perform(click())
-        return AddFieldPage(name)
-    }
-
-    fun pressBack(): TablesPage {
-        Espresso.pressBack()
-        return TablesPage()
+        return TableFAB(name)
     }
 
     fun editItem(itemName: String): EditItemPage {
         onView(itemCard(itemName)).perform(click())
         return EditItemPage(tableName = name, itemName = itemName)
+    }
+
+    fun pressBack(): TablesPage {
+        Espresso.pressBack()
+        return TablesPage()
     }
 
     fun deleteItem(itemName: String): TablePage {
@@ -75,6 +68,23 @@ class TablePage(val name: String) {
             withContentDescription("item"),
             hasDescendant(allOf(hasSibling(withText("Name")), withText(itemName)))
     )
+}
+
+class TableFAB(val tableName: String) {
+    fun clickExport(): TablePage {
+        onView(withText("Export")).perform(click())
+        return TablePage(tableName)
+    }
+
+    fun clickAddItem(): AddItemPage {
+        onView(withText("Add Item")).perform(click())
+        return AddItemPage(tableName)
+    }
+
+    fun clickAddField(): AddFieldPage {
+        onView(withText("Add Field")).perform(click())
+        return AddFieldPage(tableName)
+    }
 }
 
 class EditItemPage(val tableName: String, itemName: String) {
