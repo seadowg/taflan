@@ -3,7 +3,7 @@ package com.seadowg.taflan.activity
 import android.os.Bundle
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
-import com.seadowg.taflan.csv.Parser
+import com.seadowg.taflan.csv.CSVParser
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.usecase.TableCreator
 import com.seadowg.taflan.repository.TableRepository
@@ -29,15 +29,19 @@ class ImportCSVActivity : TaflanActivity() {
     }
 
     private fun createTableFromCSV(name: String, reader: BufferedReader) {
-        val csv = Parser().parse(reader)
+        val result = CSVParser().parse(reader)
 
-        TableCreator(tableRepository).create(name).let {
-            csv.headers.fold(it) { table, field ->
-                tableRepository.addField(table, field)
-            }
-        }.let {
-            csv.rows.fold(it) { table, row ->
-                tableRepository.addItem(table, Item.New(row))
+        when (result) {
+            is CSVParser.Result.Valid -> {
+                TableCreator(tableRepository).create(name).let {
+                    result.csv.headers.fold(it) { table, field ->
+                        tableRepository.addField(table, field)
+                    }
+                }.let {
+                    result.csv.rows.fold(it) { table, row ->
+                        tableRepository.addItem(table, Item.New(row))
+                    }
+                }
             }
         }
     }
