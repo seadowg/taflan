@@ -7,7 +7,7 @@ import com.seadowg.taflan.util.sample
 
 class TableCreator(val tableRepository: TableRepository) {
 
-    fun create(name: String) {
+    fun create(name: String): Table.Existing {
         val lastTable = tableRepository.fetchAll().lastOrNull()
 
         val color = if (lastTable != null) {
@@ -15,6 +15,7 @@ class TableCreator(val tableRepository: TableRepository) {
         } else {
             Color.values().sample()
         }
-        tableRepository.create(Table.New(name, color, listOf("Name")))
+
+        return tableRepository.create(Table.New(name, color, listOf("Name")))
     }
 }

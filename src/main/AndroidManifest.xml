@@ -37,5 +37,16 @@
         <activity
             android:name=".activity.EditItemActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.ImportCSVActivity" android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="text/csv" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
