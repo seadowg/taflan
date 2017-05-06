@@ -23,7 +23,7 @@ class NewItemActivity : TaflanActivity() {
         setContentView(R.layout.new_item)
 
         val table = intent.getSerializableExtra(EXTRA_TABLE) as Table.Existing
-        setupToolbar("Add Item", color = table.colorDrawable(this))
+        setupToolbar("Add Item", color = table.colorDrawable(this), backArrow = true)
 
         val form = findViewById(R.id.form) as Form
         form.setup(table.fields.map { Form.Field(it, "") }, "Add") { values ->

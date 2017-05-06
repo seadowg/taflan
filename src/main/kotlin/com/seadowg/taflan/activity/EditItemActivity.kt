@@ -20,7 +20,7 @@ class EditItemActivity : TaflanActivity() {
         val table = intent.getSerializableExtra(EXTRA_TABLE) as Table.Existing
         val item = intent.getSerializableExtra(EXTRA_ITEM) as Item.Existing
 
-        setupToolbar(item.values[0], color = table.colorDrawable(this))
+        setupToolbar(item.values[0], color = table.colorDrawable(this), backArrow = true)
 
         val fields = table.fields.zip(item.values) { name, value -> Form.Field(name, value) }
 

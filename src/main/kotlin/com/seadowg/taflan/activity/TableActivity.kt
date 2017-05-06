@@ -24,7 +24,7 @@ class TableActivity : TaflanActivity() {
         setContentView(R.layout.table)
 
         val table = intent.extras.getSerializable(EXTRA_TABLE) as Table
-        setupToolbar(table.name, color = table.colorDrawable(this))
+        setupToolbar(table.name, color = table.colorDrawable(this), backArrow = true)
         setupFabHelper()
     }
 

@@ -19,7 +19,7 @@ class NewTableActivity : TaflanActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_table)
-        setupToolbar("Add Table")
+        setupToolbar("Add Table", backArrow = true)
 
         val form = findViewById(R.id.form) as Form
         form.setup(listOf(Form.Field("Name", "")), "Add") { values ->
