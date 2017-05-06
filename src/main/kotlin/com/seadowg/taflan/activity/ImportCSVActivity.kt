@@ -1,17 +1,20 @@
 package com.seadowg.taflan.activity
 
-import android.content.Intent
 import android.os.Bundle
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
+import com.seadowg.taflan.csv.Parser
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.usecase.TableCreator
 import com.seadowg.taflan.repository.TableRepository
+import com.seadowg.taflan.util.ContentReader
 import com.seadowg.taflan.view.Form
+import java.io.BufferedReader
 
 class ImportCSVActivity : TaflanActivity() {
 
     private val tableRepository: TableRepository by injector.instance()
+    private val contentReader: ContentReader by injector.instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,29 +23,22 @@ class ImportCSVActivity : TaflanActivity() {
 
         val form = findViewById(R.id.form) as Form
         form.setup(listOf(Form.Field("Name", "")), "Add") { values ->
-            val reader = contentResolver.openInputStream(intent.data).bufferedReader()
-
-            val fieldsAndItems = reader.lineSequence().fold(Pair(emptyList<String>(), emptyList<Item.New>())) { fieldsAndItems, line ->
-                val values = line.split(",")
-
-                if (fieldsAndItems.first.isEmpty()) {
-                    Pair(values, fieldsAndItems.second)
-                } else {
-                    Pair(fieldsAndItems.first, fieldsAndItems.second + Item.New(values))
-                }
-            }
-
-            TableCreator(tableRepository).create(values.first()).let {
-                fieldsAndItems.first.fold(it) { table, field ->
-                    tableRepository.addField(table, field)
-                }
-            }.let {
-                fieldsAndItems.second.fold(it) { table, item ->
-                    tableRepository.addItem(table, item)
-                }
-            }
-
+            createTableFromCSV(values.first(), contentReader.read(intent.data).bufferedReader())
             finish()
+        }
+    }
+
+    private fun createTableFromCSV(name: String, reader: BufferedReader) {
+        val csv = Parser().parse(reader)
+
+        TableCreator(tableRepository).create(name).let {
+            csv.headers.fold(it) { table, field ->
+                tableRepository.addField(table, field)
+            }
+        }.let {
+            csv.rows.fold(it) { table, row ->
+                tableRepository.addItem(table, Item.New(row))
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
-package com.seadowg.taflan.format
+package com.seadowg.taflan.csv
 
-class CSV(val headers: List<String>, val rows: List<List<String>>) {
+data class CSV(val headers: List<String>, val rows: List<List<String>>) {
 
     override fun toString(): String {
         val allRows = listOf(headers) + rows

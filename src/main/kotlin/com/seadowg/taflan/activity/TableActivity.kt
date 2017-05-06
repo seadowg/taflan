@@ -9,7 +9,7 @@ import com.github.clans.fab.FloatingActionMenu
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Table
-import com.seadowg.taflan.format.CSV
+import com.seadowg.taflan.csv.CSV
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.ItemItem

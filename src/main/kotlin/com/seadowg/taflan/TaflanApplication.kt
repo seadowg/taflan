@@ -9,6 +9,8 @@ import com.seadowg.taflan.activity.TaflanActivity
 import com.seadowg.taflan.repository.InMemoryTableRepository
 import com.seadowg.taflan.repository.SharedPreferencesTableRepository
 import com.seadowg.taflan.repository.TableRepository
+import com.seadowg.taflan.util.AndroidContentReader
+import com.seadowg.taflan.util.ContentReader
 
 class TaflanApplication : Application() {
 
@@ -19,11 +21,12 @@ class TaflanApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         tableRepository = SharedPreferencesTableRepository(preferences)
 
         kodein = Kodein {
             bind<TableRepository>().with(singleton { tableRepository })
+            bind<ContentReader>().with(singleton { AndroidContentReader(applicationContext) })
         }
     }
 }
