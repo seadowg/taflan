@@ -6,13 +6,14 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Table
 import java.util.*
 
-class TableItem : android.support.v7.widget.CardView {
+class TableItem : LinearLayout {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)

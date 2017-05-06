@@ -22,10 +22,8 @@
                 android:id="@+id/tables"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/list_divider"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:showDividers="middle">
+                android:showDividers="none">
 
             </LinearLayout>
 
