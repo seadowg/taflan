@@ -11,20 +11,15 @@
 
         <include layout="@layout/toolbar" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
+            <ListView
                 android:id="@+id/items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:divider="@drawable/list_divider"
-                android:orientation="vertical"
-                android:showDividers="middle|end"/>
-
-        </ScrollView>
+                android:showDividers="middle|end"
+                android:scrollbarStyle="outsideOverlay"
+                android:padding="16dip"
+                android:clipToPadding="false"/>
 
     </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
@@ -30,31 +31,40 @@ class ItemItem : CardView, PopupMenu.OnMenuItemClickListener {
         return true
     }
 
+    fun setItem(item: Item.Existing, table: Table.Existing): ItemItem {
+        val fieldsList = findViewById(R.id.fields) as ViewGroup
+        fieldsList.removeAllViews()
+
+        item.values.forEachIndexed { index, value ->
+            val itemField = LayoutInflater.from(context).inflate(R.layout.item_field, fieldsList, false)
+
+            val nameView = itemField.findViewById(R.id.name) as TextView
+            val valueView = itemField.findViewById(R.id.value) as TextView
+
+            nameView.text = table.fields[index]
+            valueView.text = value
+            fieldsList.addView(itemField)
+        }
+
+        val menuButton = findViewById(R.id.menu)
+        val popup = PopupMenu(context, menuButton)
+        popup.inflate(R.menu.item_menu)
+        popup.setOnMenuItemClickListener(this)
+
+        menuButton.reactive().clicks.unbind(this)
+        menuButton.reactive().clicks.bind(this) {
+            popup.show()
+        }
+
+        return this
+    }
+
     companion object {
-        fun inflate(item: Item, table: Table, rootView: ViewGroup, context: Context): ItemItem {
+        fun inflate(item: Item.Existing, table: Table.Existing, rootView: ViewGroup, context: Context): ItemItem {
             val inflater = LayoutInflater.from(context)
             val view = inflater.inflate(R.layout.item_item, rootView, false) as ItemItem
 
-            val fieldsList = view.findViewById(R.id.fields) as ViewGroup
-            item.values.forEachIndexed { index, value ->
-                val itemField = inflater.inflate(R.layout.item_field, fieldsList, false)
-
-                val nameView = itemField.findViewById(R.id.name) as TextView
-                val valueView = itemField.findViewById(R.id.value) as TextView
-
-                nameView.text = table.fields[index]
-                valueView.text = value
-                fieldsList.addView(itemField)
-            }
-
-            val menuButton = view.findViewById(R.id.menu)
-            val popup = PopupMenu(context, menuButton)
-            popup.inflate(R.menu.item_menu)
-            popup.setOnMenuItemClickListener(view)
-
-            menuButton.reactive().clicks.bind(this) {
-                popup.show()
-            }
+            view.setItem(item, table)
 
             return view
         }

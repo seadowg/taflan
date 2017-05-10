@@ -5,11 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.ListView
 import com.github.clans.fab.FloatingActionMenu
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.csv.CSV
+import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.ItemItem
@@ -19,13 +22,19 @@ class TableActivity : TaflanActivity() {
 
     private val tableRepository: TableRepository by injector.instance()
 
+    private lateinit var itemAdapter: ItemAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.table)
 
-        val table = intent.extras.getSerializable(EXTRA_TABLE) as Table
+        val table = intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing
         setupToolbar(table.name, color = table.colorDrawable(this), backArrow = true)
         setupFabHelper()
+
+        itemAdapter = ItemAdapter(this, tableRepository, table.id)
+        val itemsList = findViewById(R.id.items) as ListView
+        itemsList.adapter = itemAdapter
     }
 
     override fun onResume() {
@@ -37,32 +46,12 @@ class TableActivity : TaflanActivity() {
         val intentTable = intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing
         val table = tableRepository.fetch(intentTable.id)
 
-        renderItems(table)
+        renderItems()
         setupFAB(table)
     }
 
-    private fun renderItems(table: Table.Existing) {
-        val itemsList = findViewById(R.id.items) as ViewGroup
-        itemsList.removeAllViews()
-
-        table.items.forEach { item ->
-            val itemItem = ItemItem.inflate(item, table, itemsList, this)
-
-            itemItem.clicks.bind(this) {
-                val intent = Intent(this, EditItemActivity::class.java)
-                intent.putExtra(EditItemActivity.EXTRA_TABLE, table)
-                intent.putExtra(EditItemActivity.EXTRA_ITEM, item)
-
-                startActivity(intent)
-            }
-
-            itemItem.deleteClicks.bind(this) {
-                tableRepository.deleteItem(table, item)
-                reloadData()
-            }
-
-            itemsList.addView(itemItem)
-        }
+    private fun renderItems() {
+        itemAdapter.notifyDataSetChanged()
     }
 
     private fun setupFAB(table: Table) {
@@ -118,4 +107,52 @@ class TableActivity : TaflanActivity() {
                     .putExtra(EXTRA_TABLE, table)
         }
     }
+}
+
+private class ItemAdapter(val context: Context, val tableRepository: TableRepository, val tableID: String) : BaseAdapter() {
+
+    private val table: Table.Existing
+        get() {
+            return tableRepository.fetch(tableID)
+        }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val item = table.items[position]
+
+        val itemItem = if (convertView == null) {
+            ItemItem.inflate(item, table, parent, context)
+        } else {
+            (convertView as ItemItem).setItem(item, table)
+        }
+
+        itemItem.clicks.unbind(this)
+        itemItem.clicks.bind(this) {
+            val intent = Intent(context, EditItemActivity::class.java)
+            intent.putExtra(EditItemActivity.EXTRA_TABLE, table)
+            intent.putExtra(EditItemActivity.EXTRA_ITEM, item)
+
+            context.startActivity(intent)
+        }
+
+        itemItem.deleteClicks.unbind(this)
+        itemItem.deleteClicks.bind(this) {
+            tableRepository.deleteItem(table, item).items
+            notifyDataSetChanged()
+        }
+
+        return itemItem
+    }
+
+    override fun getItem(position: Int): Any {
+        return table.items[position]
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getCount(): Int {
+        return table.items.size
+    }
+
 }
