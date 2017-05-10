@@ -37,8 +37,8 @@ class TableActivityTest {
     @Test
     fun clickingExport_sendsCSVShareIntent() {
         var table = tableRepository.create(Table.New("Shopping list", Color.values().sample(), listOf("Name", "Quantity")))
-        table = tableRepository.addItem(table, Item.New(listOf("Banana", "5")))
-        table = tableRepository.addItem(table, Item.New(listOf("Kiwi", "2")))
+        table = tableRepository.addItem(table, Item.New(listOf("Banana\nThe good ones", "5")))
+        table = tableRepository.addItem(table, Item.New(listOf("Kiwi, because they are my favourite", "2")))
 
         val tableIntent = TableActivity.intent(RuntimeEnvironment.application, table)
         val activity = buildActivity(TableActivity::class.java, tableIntent).setup().get()
@@ -52,6 +52,6 @@ class TableActivityTest {
         assertThat(sendIntent.action).isEqualTo(Intent.ACTION_SEND)
         assertThat(sendIntent.type).isEqualTo("text/csv")
         assertThat(chooserIntent.extras[Intent.EXTRA_TITLE]).isEqualTo("Export \"Shopping list\" as .csv")
-        assertThat(sendIntent.extras[Intent.EXTRA_TEXT]).isEqualTo("Name,Quantity\nBanana,5\nKiwi,2\n")
+        assertThat(sendIntent.extras[Intent.EXTRA_TEXT]).isEqualTo("\"Name\",\"Quantity\"\n\"Banana\nThe good ones\",\"5\"\n\"Kiwi, because they are my favourite\",\"2\"\n")
     }
 }
