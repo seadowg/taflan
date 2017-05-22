@@ -33,7 +33,7 @@ open class TaflanActivity : AppCompatActivity() {
 
         }
 
-        if (color != null) {
+        color?.let {
             supportActionBar?.setBackgroundDrawable(color)
         }
     }

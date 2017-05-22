@@ -52,20 +52,16 @@ class EventStream<T> {
             left.bind(eventStream) { value ->
                 leftEvent = value
 
-                val otherEvent = rightEvent
-
-                if (otherEvent != null) {
-                    eventStream.occur(Pair(value, otherEvent))
+                rightEvent?.let {
+                    eventStream.occur(Pair(value, it))
                 }
             }
 
             right.bind(eventStream) { value ->
                 rightEvent = value
 
-                val otherEvent = leftEvent
-
-                if (otherEvent != null) {
-                    eventStream.occur(Pair(otherEvent, value))
+                leftEvent?.let {
+                    eventStream.occur(Pair(it, value))
                 }
             }
         }

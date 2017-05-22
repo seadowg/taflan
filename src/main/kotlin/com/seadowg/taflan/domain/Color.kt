@@ -5,4 +5,10 @@ enum class Color {
     Blue,
     Green,
     Orange;
+
+    companion object {
+        fun set(): Set<Color> {
+            return values().toSet()
+        }
+    }
 }
