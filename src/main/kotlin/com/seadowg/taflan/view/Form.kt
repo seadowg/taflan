@@ -8,9 +8,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import com.seadowg.taflan.R
+import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 
-class Form : FrameLayout {
+class Form : FrameLayout, Reference {
 
     constructor(context: Context) : super(context) {
         inflate(context)

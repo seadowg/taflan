@@ -13,9 +13,10 @@ import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.util.EventStream
+import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 
-class ItemItem : CardView, PopupMenu.OnMenuItemClickListener {
+class ItemItem : CardView, PopupMenu.OnMenuItemClickListener, Reference {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)

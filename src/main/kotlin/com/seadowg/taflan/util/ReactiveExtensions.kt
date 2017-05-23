@@ -13,7 +13,7 @@ fun View.reactive(): ViewReactive {
     return ViewReactive(this)
 }
 
-class ViewReactive(private val view: View) {
+class ViewReactive(private val view: View) : Reference {
     var enabled: Reactive<Boolean> = Reactive(view.isEnabled, EventStream())
         set(value) {
             field.unbind(this)

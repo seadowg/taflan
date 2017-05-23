@@ -14,11 +14,12 @@ import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.csv.CSV
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.repository.TableRepository
+import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.ItemItem
 import com.seadowg.taflan.view.colorDrawable
 
-class TableActivity : TaflanActivity() {
+class TableActivity : TaflanActivity(), Reference {
 
     private val tableRepository: TableRepository by injector.instance()
 
@@ -109,7 +110,7 @@ class TableActivity : TaflanActivity() {
     }
 }
 
-private class ItemAdapter(val context: Context, val tableRepository: TableRepository, val tableID: String) : BaseAdapter() {
+private class ItemAdapter(val context: Context, val tableRepository: TableRepository, val tableID: String) : BaseAdapter(), Reference {
 
     private val table: Table.Existing
         get() {

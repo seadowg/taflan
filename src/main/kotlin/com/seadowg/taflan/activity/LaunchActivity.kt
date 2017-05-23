@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.repository.TableRepository
+import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.TableItem
 
-class LaunchActivity : TaflanActivity() {
+class LaunchActivity : TaflanActivity(), Reference {
 
     private val tableRepository: TableRepository by injector.instance()
 

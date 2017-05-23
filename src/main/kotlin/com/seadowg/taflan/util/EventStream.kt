@@ -1,10 +1,8 @@
 package com.seadowg.taflan.util
 
-import java.util.Collections.list
+class EventStream<T> : Reference, Bindable<T> {
 
-class EventStream<T> {
-
-    private val bindings = mutableMapOf<Any, MutableList<(T) -> Unit>>()
+    private val bindings = mutableMapOf<Reference, MutableList<(T) -> Unit>>()
 
     fun occur(value: T) {
         bindings.values.forEach { callbacks ->
@@ -14,11 +12,11 @@ class EventStream<T> {
         }
     }
 
-    fun bind(reference: Any, callback: (T) -> Unit) {
+    override fun bind(reference: Reference, callback: (T) -> Unit) {
         bindings.getOrPut(reference) { mutableListOf() }.add(callback)
     }
 
-    fun unbind(reference: Any) {
+    override fun unbind(reference: Reference) {
         bindings.remove(reference)
     }
 
@@ -68,9 +66,10 @@ class EventStream<T> {
     }
 }
 
-class Reactive<T>(initial: T, private val eventStream: EventStream<T>) {
+class Reactive<T>(initial: T, private val eventStream: EventStream<T>) : Reference, Bindable<T> {
 
     var currentValue = initial
+        private set
 
     init {
         eventStream.bind(this) { value ->
@@ -78,12 +77,12 @@ class Reactive<T>(initial: T, private val eventStream: EventStream<T>) {
         }
     }
 
-    fun bind(reference: Any, callback: (T) -> Unit) {
+    override fun bind(reference: Reference, callback: (T) -> Unit) {
         callback(currentValue)
         eventStream.bind(reference, callback)
     }
 
-    fun unbind(reference: Any) {
+    override fun unbind(reference: Reference) {
         eventStream.unbind(reference)
     }
 
@@ -98,4 +97,11 @@ class Reactive<T>(initial: T, private val eventStream: EventStream<T>) {
 
         return Reactive(func(nCurrentVals), eventStream)
     }
+}
+
+interface Reference
+
+interface Bindable<out T> {
+    fun bind(reference: Reference, callback: (T) -> Unit)
+    fun unbind(reference: Reference)
 }
