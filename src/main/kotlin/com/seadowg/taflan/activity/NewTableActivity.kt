@@ -1,15 +1,10 @@
 package com.seadowg.taflan.activity
 
 import android.os.Bundle
-import android.widget.EditText
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
-import com.seadowg.taflan.domain.Color
-import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.domain.usecase.TableCreator
 import com.seadowg.taflan.repository.TableRepository
-import com.seadowg.taflan.util.reactive
-import com.seadowg.taflan.util.sample
 import com.seadowg.taflan.view.Form
 
 class NewTableActivity : TaflanActivity() {
@@ -22,7 +17,7 @@ class NewTableActivity : TaflanActivity() {
         setupToolbar("Add Table", backArrow = true)
 
         val form = findViewById(R.id.form) as Form
-        form.setup(listOf(Form.Field("Name", "")), "Add") { values ->
+        form.setup(listOf(Form.Field("Name", "", multiline = false)), "Add") { values ->
             TableCreator(tableRepository).create(values.first())
             finish()
         }

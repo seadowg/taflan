@@ -52,8 +52,13 @@ class Form : FrameLayout, Reference {
     private fun renderFields(fields: List<Field>): List<EditText> {
         val fieldList = findViewById(R.id.fields) as ViewGroup
 
-        val editTexts = fields.map { (name, value) ->
-            val editText = LayoutInflater.from(context).inflate(R.layout.field_entry, fieldList, false) as EditText
+        val editTexts = fields.map { (name, value, multiline) ->
+            val editText = if (multiline) {
+                LayoutInflater.from(context).inflate(R.layout.field_entry_multiline, fieldList, false) as EditText
+            } else {
+                LayoutInflater.from(context).inflate(R.layout.field_entry, fieldList, false) as EditText
+            }
+
             editText.hint = name
 
             editText
@@ -67,5 +72,5 @@ class Form : FrameLayout, Reference {
         LayoutInflater.from(context).inflate(R.layout.form, this)
     }
 
-    data class Field(val name: String, val value: String)
+    data class Field(val name: String, val value: String, val multiline: Boolean = true)
 }

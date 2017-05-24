@@ -1,13 +1,10 @@
 package com.seadowg.taflan.activity
 
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.TextView
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
-import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.Form
 import com.seadowg.taflan.view.colorDrawable
 
@@ -23,7 +20,7 @@ class NewFieldActivity : TaflanActivity() {
         setupToolbar("Add Field", table.colorDrawable(this), backArrow = true)
 
         val form = findViewById(R.id.form) as Form
-        form.setup(listOf(Form.Field("Name", "")), "Add") { values ->
+        form.setup(listOf(Form.Field("Name", "", true)), "Add") { values ->
             tableRepository.addField(table, values.first())
             finish()
         }

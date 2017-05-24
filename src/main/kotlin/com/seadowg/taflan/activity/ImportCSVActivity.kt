@@ -22,7 +22,7 @@ class ImportCSVActivity : TaflanActivity() {
         setupToolbar("Import Table")
 
         val form = findViewById(R.id.form) as Form
-        form.setup(listOf(Form.Field("Name", "")), "Add") { values ->
+        form.setup(listOf(Form.Field("Name", "", true)), "Add") { values ->
             createTableFromCSV(values.first(), contentReader.read(intent.data).bufferedReader())
             finish()
         }

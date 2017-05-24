@@ -22,7 +22,7 @@ class EditItemActivity : TaflanActivity() {
 
         setupToolbar(item.values[0], color = table.colorDrawable(this), backArrow = true)
 
-        val fields = table.fields.zip(item.values) { name, value -> Form.Field(name, value) }
+        val fields = table.fields.zip(item.values) { name, value -> Form.Field(name, value, true) }
 
         val form = findViewById(R.id.form) as Form
         form.setup(fields, "Update") { values ->

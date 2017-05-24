@@ -1,6 +1,6 @@
 defaultTasks 'clean', 'testDebug', 'connectedAndroidTest'
 
-def versionNumber() {
+static def versionNumber() {
     def gitCount = "git rev-list HEAD --count".execute().text.trim()
 
     if (gitCount != "") {
