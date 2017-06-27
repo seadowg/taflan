@@ -19,14 +19,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-}
-
-repositories {
-    jcenter()
-    mavenCentral()
 }
 
 apply plugin: 'com.android.application'
@@ -57,6 +52,15 @@ android {
 }
 
 dependencies {
+    repositories {
+        jcenter()
+        mavenCentral()
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.github.salomonbrys.kodein:kodein:3.3.0'
@@ -81,4 +85,5 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
+    androidTestCompile(name:'macchiato-0.4.0', ext:'aar')
 }

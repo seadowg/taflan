@@ -7,17 +7,15 @@ import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import com.seadowg.taflan.R
+import io.pivotal.macchiato.pages.Page
+import io.pivotal.macchiato.pages.Page.assertOnPage
 import org.hamcrest.Matchers.allOf
 
-class TablesPage {
-
-    init {
-        onView(withText("Taflan")).check(matches(isDisplayed()))
-    }
+class TablesPage : Page(withText("Taflan")) {
 
     fun clickFAB(): AddTablePage {
         onView(withId(R.id.fab)).perform(click())
-        return AddTablePage()
+        return assertOnPage(AddTablePage())
     }
 
     fun createTableFlow(name: String, items: List<String> = emptyList()): TablesPage {
@@ -33,15 +31,11 @@ class TablesPage {
 
     fun clickOnTableItem(name: String): TablePage {
         onView(withText(name)).perform(click())
-        return TablePage(name)
+        return assertOnPage(TablePage(name))
     }
 }
 
-class TablePage(val name: String) {
-
-    init {
-        onView(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(name))).check(matches(isDisplayed()))
-    }
+class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(name))) {
 
     fun clickFAB(): TableFAB {
         onView(withId(R.id.fab_helper)).perform(click())
@@ -50,12 +44,12 @@ class TablePage(val name: String) {
 
     fun editItem(itemName: String): EditItemPage {
         onView(itemCard(itemName)).perform(click())
-        return EditItemPage(tableName = name, itemName = itemName)
+        return assertOnPage(EditItemPage(tableName = name, itemName = itemName))
     }
 
     fun pressBack(): TablesPage {
         Espresso.pressBack()
-        return TablesPage()
+        return assertOnPage(TablesPage())
     }
 
     fun deleteItem(itemName: String): TablePage {
@@ -71,28 +65,24 @@ class TablePage(val name: String) {
 }
 
 class TableFAB(val tableName: String) {
+
     fun clickExport(): TablePage {
         onView(withText("Export")).perform(click())
-        return TablePage(tableName)
+        return assertOnPage(TablePage(tableName))
     }
 
     fun clickAddItem(): AddItemPage {
         onView(withText("Add Item")).perform(click())
-        return AddItemPage(tableName)
+        return assertOnPage(AddItemPage(tableName))
     }
 
     fun clickAddField(): AddFieldPage {
         onView(withText("Add Field")).perform(click())
-        return AddFieldPage(tableName)
+        return assertOnPage(AddFieldPage(tableName))
     }
 }
 
-class EditItemPage(val tableName: String, itemName: String) {
-
-    init {
-        onView(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(itemName))).check(matches(isDisplayed()))
-        onView(allOf(hasSibling(withHint("Name")), withText(itemName))).check(matches(isDisplayed()))
-    }
+class EditItemPage(val tableName: String, itemName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(itemName))) {
 
     fun fillInField(name: String, with: String): EditItemPage {
         onView(withHint(name)).perform(replaceText(with))
@@ -101,16 +91,12 @@ class EditItemPage(val tableName: String, itemName: String) {
 
     fun clickUpdate(): TablePage {
         onView(withText("Update")).perform(click())
-        return TablePage(tableName)
+        return assertOnPage(TablePage(tableName))
     }
 
 }
 
-class AddFieldPage(val tableName: String) {
-
-    init {
-        onView(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Field"))).check(matches(isDisplayed()))
-    }
+class AddFieldPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Field"))) {
 
     fun fillInName(name: String): AddFieldPage {
         onView(withHint("Name")).perform(typeText(name))
@@ -119,15 +105,11 @@ class AddFieldPage(val tableName: String) {
 
     fun clickAdd(): TablePage {
         onView(withText("Add")).perform(click())
-        return TablePage(tableName)
+        return assertOnPage(TablePage(tableName))
     }
 }
 
-class AddItemPage(val tableName: String) {
-
-    init {
-        onView(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Item"))).check(matches(isDisplayed()))
-    }
+class AddItemPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Item"))) {
 
     fun fillInField(name: String, with: String): AddItemPage {
         onView(withHint(name)).perform(typeText(with))
@@ -136,16 +118,12 @@ class AddItemPage(val tableName: String) {
 
     fun clickAdd(): TablePage {
         onView(withText("Add")).perform(click())
-        return TablePage(tableName)
+        return assertOnPage(TablePage(tableName))
     }
 
 }
 
-class AddTablePage {
-
-    init {
-        onView(withText("Add Table")).check(matches(isDisplayed()))
-    }
+class AddTablePage : Page(withText("Add Table")) {
 
     fun fillInName(name: String): AddTablePage {
         onView(withHint("Name")).perform(typeText(name))
@@ -154,7 +132,7 @@ class AddTablePage {
 
     fun clickAdd(): TablesPage {
         onView(withText("Add")).perform(click())
-        return TablesPage()
+        return assertOnPage(TablesPage())
     }
 
 }
