@@ -53,7 +53,7 @@ open class TaflanActivity : AppCompatActivity() {
         return true
     }
 
-    fun <T> reactive(def: () -> T): Reactive<T> {
+    fun <T> resumeReactive(def: () -> T): Reactive<T> {
         val eventStream = EventStream<T>()
         val reactive = Reactive(def(), eventStream)
 

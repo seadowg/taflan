@@ -13,7 +13,7 @@ import com.seadowg.taflan.view.TableItem
 class LaunchActivity : TaflanActivity(), Reference {
 
     private val tableRepository: TableRepository by injector.instance()
-    private val tables by lazy { reactive { tableRepository.fetchAll() } }
+    private val tables by lazy { resumeReactive { tableRepository.fetchAll() } }
 
     private val fab by lazy { findViewById(R.id.fab).reactive() }
     private val tablesList by lazy { findViewById(R.id.tables) as ViewGroup }
@@ -45,10 +45,5 @@ class LaunchActivity : TaflanActivity(), Reference {
                 tablesList.addView(tableItem)
             }
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        tables.unbind(this)
     }
 }

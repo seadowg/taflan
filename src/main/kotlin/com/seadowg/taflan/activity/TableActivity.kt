@@ -20,11 +20,13 @@ import com.seadowg.taflan.view.colorDrawable
 class TableActivity : TaflanActivity(), Reference {
 
     private val tableRepository: TableRepository by injector.instance()
-    private val navigator = Navigator(this)
-
     private val tableID: String by lazy {
         (intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing).id
     }
+
+    private val table by lazy { resumeReactive { tableRepository.fetch(tableID) } }
+
+    private val navigator = Navigator(this)
 
     private val itemAdapter: ItemAdapter by lazy {
         ItemAdapter(this, tableRepository, tableID, navigator)
@@ -34,25 +36,17 @@ class TableActivity : TaflanActivity(), Reference {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.table)
 
-        val table = tableRepository.fetch(tableID)
-        setupToolbar(table.name, color = table.colorDrawable(this), backArrow = true)
         setupFabHelper()
 
         val itemsList = findViewById(R.id.items) as ListView
         itemsList.adapter = itemAdapter
-    }
 
-    override fun onResume() {
-        super.onResume()
-        reloadData()
-    }
+        table.bind(this) {
+            setupToolbar(it.name, color = it.colorDrawable(this), backArrow = true)
 
-    private fun reloadData() {
-        val intentTable = intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing
-        val table = tableRepository.fetch(intentTable.id)
-
-        itemAdapter.notifyDataSetChanged()
-        setupFAB(table)
+            itemAdapter.notifyDataSetChanged()
+            setupFAB(it)
+        }
     }
 
     private fun setupFAB(table: Table) {
