@@ -8,14 +8,24 @@ import android.support.v7.widget.Toolbar
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.seadowg.taflan.R
 import com.seadowg.taflan.TaflanApplication
+import com.seadowg.taflan.util.EventStream
+import com.seadowg.taflan.util.Reactive
 
 open class TaflanActivity : AppCompatActivity() {
 
     protected val injector = KodeinInjector()
 
+    private val reactives = mutableListOf<Pair<() -> Any, EventStream<Any>>>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject((application as TaflanApplication).kodein)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        reactives.forEach { it.second.occur(it.first()) }
     }
 
     protected fun setupToolbar(title: String, color: Drawable? = null, backArrow: Boolean = false) {
@@ -41,6 +51,14 @@ open class TaflanActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    fun <T> reactive(def: () -> T): Reactive<T> {
+        val eventStream = EventStream<T>()
+        val reactive = Reactive(def(), eventStream)
+
+        reactives.add(Pair(def as () -> Any, eventStream as EventStream<Any>))
+        return reactive
     }
 
     companion object {

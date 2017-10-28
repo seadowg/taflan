@@ -13,32 +13,42 @@ import com.seadowg.taflan.view.TableItem
 class LaunchActivity : TaflanActivity(), Reference {
 
     private val tableRepository: TableRepository by injector.instance()
+    private val tables by lazy { reactive { tableRepository.fetchAll() } }
+
+    private val fab by lazy { findViewById(R.id.fab).reactive() }
+    private val tablesList by lazy { findViewById(R.id.tables) as ViewGroup }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.launch)
         setupToolbar("Taflan")
-
-        findViewById(R.id.fab).reactive().clicks.bind(this) {
-            startActivity(Intent(this, NewTableActivity::class.java))
-        }
     }
 
     override fun onResume() {
         super.onResume()
 
-        val tablesList = findViewById(R.id.tables) as ViewGroup
-        tablesList.removeAllViews()
-
-        tableRepository.fetchAll().forEach { table ->
-            val tableItem = TableItem.inflate(table, tablesList, this)
-
-            tableItem.reactive().clicks.bind(this) {
-                val intent = TableActivity.intent(this, table)
-                startActivity(intent)
-            }
-
-            tablesList.addView(tableItem)
+        fab.clicks.bind(this) {
+            startActivity(Intent(this, NewTableActivity::class.java))
         }
+
+        tables.bind(this) {
+            tablesList.removeAllViews()
+
+            it.forEach { table ->
+                val tableItem = TableItem.inflate(table, tablesList, this)
+
+                tableItem.reactive().clicks.bind(this) {
+                    val intent = TableActivity.intent(this, table)
+                    startActivity(intent)
+                }
+
+                tablesList.addView(tableItem)
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        tables.unbind(this)
     }
 }
