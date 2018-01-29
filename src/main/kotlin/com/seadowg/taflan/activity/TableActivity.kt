@@ -80,6 +80,15 @@ class TableActivity : TaflanActivity(), Reference {
             shareIntent.putExtra(Intent.EXTRA_TEXT, csv.toString())
             startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
         }
+
+        findViewById(R.id.fields).reactive().clicks.bind(this) {
+            fabMenu.close(true)
+
+            val intent = Intent(this, FieldsActivity::class.java)
+            intent.putExtra(NewFieldActivity.EXTRA_TABLE, table)
+
+            startActivity(intent)
+        }
     }
 
     private fun setupFabHelper() {

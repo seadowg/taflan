@@ -80,6 +80,30 @@ class TableFAB(val tableName: String) {
         onView(withText("Add Field")).perform(click())
         return assertOnPage(AddFieldPage(tableName))
     }
+
+    fun clickFields(): FieldsPage {
+        onView(withText("Fields")).perform(click())
+        return FieldsPage(tableName)
+    }
+}
+
+class FieldsPage(val tableName: String) {
+
+    fun deleteField(fieldName: String): FieldsPage {
+        onView(allOf(isDescendantOfA(fieldItem(fieldName)), withContentDescription("menu"))).perform(click())
+        onView(withText("Delete")).perform(click())
+        return this
+    }
+
+    fun pressBack(): TablePage {
+        Espresso.pressBack()
+        return TablePage(tableName)
+    }
+
+    private fun fieldItem(fieldName: String) = allOf(
+            withContentDescription("field"),
+            hasDescendant(withText(fieldName))
+    )
 }
 
 class EditItemPage(val tableName: String, itemName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(itemName))) {
@@ -112,7 +136,7 @@ class AddFieldPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.
 class AddItemPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Item"))) {
 
     fun fillInField(name: String, with: String): AddItemPage {
-        onView(withHint(name)).perform(typeText(with))
+        onView(withHint(name)).perform(typeText(with), closeSoftKeyboard())
         return this
     }
 

@@ -1,6 +1,7 @@
 package com.seadowg.taflan.test
 
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
@@ -45,7 +46,6 @@ class AddFieldsTest {
         addItemPage.fillInField("Quantity", "1")
         addItemPage.fillInField("Healthy?", "No...")
 
-        addItemPage.clickAdd()
         onView(allOf(hasSibling(withText("Name")), withText("Cheese"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Quantity")), withText("1"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Healthy?")), withText("No..."))).check(matches(isDisplayed()))

@@ -89,6 +89,17 @@
             fab:menu_colorRipple="@color/primary" />
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_view_column"
+            fab:fab_label="Fields"
+            fab:fab_size="mini"
+            fab:menu_colorNormal="@color/primary"
+            fab:menu_colorPressed="@color/primary"
+            fab:menu_colorRipple="@color/primary" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/add_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
