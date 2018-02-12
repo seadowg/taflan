@@ -2,6 +2,7 @@ package com.seadowg.taflan.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
@@ -15,8 +16,8 @@ class LaunchActivity : TaflanActivity(), Reference {
     private val tableRepository: TableRepository by injector.instance()
     private val tables by lazy { resumeReactive { tableRepository.fetchAll() } }
 
-    private val fab by lazy { findViewById(R.id.fab).reactive() }
-    private val tablesList by lazy { findViewById(R.id.tables) as ViewGroup }
+    private val fab by lazy { findViewById<View>(R.id.fab).reactive() }
+    private val tablesList by lazy { findViewById<ViewGroup>(R.id.tables) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -6,6 +6,7 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.PopupMenu
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
@@ -36,7 +37,7 @@ class ItemItem : CardView, Reference {
     private fun initialize() {
         if (initialized) return
 
-        val menuButton = findViewById(R.id.menu)
+        val menuButton = findViewById<View>(R.id.menu)
         val popup = PopupMenu(context, menuButton)
         popup.inflate(R.menu.item_menu)
 
@@ -44,7 +45,7 @@ class ItemItem : CardView, Reference {
             popup.show()
         }
 
-        popup.setOnMenuItemClickListener { item ->
+        popup.setOnMenuItemClickListener {
             deleteClicks.occur(Unit)
             true
         }
@@ -60,14 +61,14 @@ class ItemItem : CardView, Reference {
 
         initialize()
 
-        val fieldsList = findViewById(R.id.fields) as ViewGroup
+        val fieldsList = findViewById<ViewGroup>(R.id.fields)
         fieldsList.removeAllViews()
 
         item.values.forEachIndexed { index, value ->
             val itemField = LayoutInflater.from(context).inflate(R.layout.item_field, fieldsList, false)
 
-            val nameView = itemField.findViewById(R.id.name) as TextView
-            val valueView = itemField.findViewById(R.id.value) as TextView
+            val nameView = itemField.findViewById<TextView>(R.id.name)
+            val valueView = itemField.findViewById<TextView>(R.id.value)
 
             nameView.text = table.fields[index]
             valueView.text = value

@@ -24,7 +24,7 @@ class EditItemActivity : TaflanActivity() {
 
         val fields = table.fields.zip(item.values) { name, value -> Form.Field(name, value, true) }
 
-        val form = findViewById(R.id.form) as Form
+        val form = findViewById<Form>(R.id.form)
         form.setup(fields, "Update") { values ->
             tableRepository.updateItem(table, Item.Existing(item.id, values))
             finish()

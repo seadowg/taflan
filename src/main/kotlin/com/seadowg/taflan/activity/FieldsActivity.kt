@@ -15,7 +15,7 @@ class FieldsActivity : TaflanActivity() {
         (intent.extras.getSerializable(FieldsActivity.EXTRA_TABLE) as Table.Existing)
     }
 
-    private val fields: ViewGroup by lazy { findViewById(R.id.fields) as ViewGroup }
+    private val fields: ViewGroup by lazy { findViewById<ViewGroup>(R.id.fields) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class FieldsActivity : TaflanActivity() {
 
         table.fields.forEach {
             val view = LayoutInflater.from(this).inflate(R.layout.field_item, fields, false)
-            (view.findViewById(R.id.name) as TextView).text = it
+            view.findViewById<TextView>(R.id.name).text = it
             fields.addView(view)
         }
     }

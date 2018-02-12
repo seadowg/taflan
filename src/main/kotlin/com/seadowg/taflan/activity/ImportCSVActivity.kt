@@ -21,28 +21,14 @@ class ImportCSVActivity : TaflanActivity() {
         setContentView(R.layout.new_table)
         setupToolbar("Import Table")
 
-        val form = findViewById(R.id.form) as Form
+        val form = findViewById<Form>(R.id.form)
         form.setup(listOf(Form.Field("Name", "", true)), "Add") { values ->
-            createTableFromCSV(values.first(), contentReader.read(intent.data).bufferedReader())
+            TableCreator(tableRepository).createTableFromCSV(
+                    values.first(),
+                    contentReader.read(intent.data).bufferedReader()
+            )
+
             finish()
-        }
-    }
-
-    private fun createTableFromCSV(name: String, reader: BufferedReader) {
-        val result = CSVParser().parse(reader)
-
-        when (result) {
-            is CSVParser.Result.Valid -> {
-                TableCreator(tableRepository).create(name).let {
-                    result.csv.headers.fold(it) { table, field ->
-                        tableRepository.addField(table, field)
-                    }
-                }.let {
-                    result.csv.rows.fold(it) { table, row ->
-                        tableRepository.addItem(table, Item.New(row))
-                    }
-                }
-            }
         }
     }
 }

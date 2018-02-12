@@ -16,7 +16,7 @@ class NewTableActivity : TaflanActivity() {
         setContentView(R.layout.new_table)
         setupToolbar("Add Table", backArrow = true)
 
-        val form = findViewById(R.id.form) as Form
+        val form = findViewById<Form>(R.id.form)
         form.setup(listOf(Form.Field("Name", "", multiline = false)), "Add") { values ->
             TableCreator(tableRepository).create(values.first())
             finish()

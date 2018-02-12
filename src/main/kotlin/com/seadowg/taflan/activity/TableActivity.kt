@@ -38,7 +38,7 @@ class TableActivity : TaflanActivity(), Reference {
 
         setupFabHelper()
 
-        val itemsList = findViewById(R.id.items) as ListView
+        val itemsList = findViewById<ListView>(R.id.items)
         itemsList.adapter = itemAdapter
 
         table.bind(this) {
@@ -50,9 +50,9 @@ class TableActivity : TaflanActivity(), Reference {
     }
 
     private fun setupFAB(table: Table) {
-        val fabMenu = findViewById(R.id.fab) as FloatingActionMenu
+        val fabMenu = findViewById<FloatingActionMenu>(R.id.fab)
 
-        findViewById(R.id.add_item).reactive().clicks.bind(this) {
+        findViewById<View>(R.id.add_item).reactive().clicks.bind(this) {
             fabMenu.close(true)
 
             val intent = Intent(this, NewItemActivity::class.java)
@@ -61,7 +61,7 @@ class TableActivity : TaflanActivity(), Reference {
             startActivity(intent)
         }
 
-        findViewById(R.id.add_field).reactive().clicks.bind(this) {
+        findViewById<View>(R.id.add_field).reactive().clicks.bind(this) {
             fabMenu.close(true)
 
             val intent = Intent(this, NewFieldActivity::class.java)
@@ -70,7 +70,7 @@ class TableActivity : TaflanActivity(), Reference {
             startActivity(intent)
         }
 
-        findViewById(R.id.export).reactive().clicks.bind(this) {
+        findViewById<View>(R.id.export).reactive().clicks.bind(this) {
             fabMenu.close(true)
 
             val csv = CSV(table.fields, table.items.map { it.values })
@@ -81,7 +81,7 @@ class TableActivity : TaflanActivity(), Reference {
             startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
         }
 
-        findViewById(R.id.fields).reactive().clicks.bind(this) {
+        findViewById<View>(R.id.fields).reactive().clicks.bind(this) {
             fabMenu.close(true)
 
             val intent = Intent(this, FieldsActivity::class.java)
@@ -93,11 +93,11 @@ class TableActivity : TaflanActivity(), Reference {
 
     private fun setupFabHelper() {
         if (TEST_MODE) {
-            val fabHelper = findViewById(R.id.fab_helper)
+            val fabHelper = findViewById<View>(R.id.fab_helper)
             fabHelper.visibility = View.VISIBLE
 
             fabHelper.reactive().clicks.bind(this) {
-                val fabMenu = findViewById(R.id.fab) as FloatingActionMenu
+                val fabMenu = findViewById<FloatingActionMenu>(R.id.fab) as FloatingActionMenu
                 fabMenu.open(true)
             }
         }

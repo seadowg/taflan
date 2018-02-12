@@ -46,6 +46,8 @@ class AddFieldsTest {
         addItemPage.fillInField("Quantity", "1")
         addItemPage.fillInField("Healthy?", "No...")
 
+        addItemPage.clickAdd()
+
         onView(allOf(hasSibling(withText("Name")), withText("Cheese"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Quantity")), withText("1"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Healthy?")), withText("No..."))).check(matches(isDisplayed()))

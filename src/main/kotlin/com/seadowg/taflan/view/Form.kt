@@ -28,7 +28,7 @@ class Form : FrameLayout, Reference {
     fun setup(fields: List<Field>, submitText: String, onSubmit: (List<String>) -> Unit) {
         val editTexts = renderFields(fields)
 
-        val submitButton = findViewById(R.id.submit) as Button
+        val submitButton = findViewById<Button>(R.id.submit)
         submitButton.text = submitText
 
         val isNotValids = editTexts.map { it.reactive().text.map(String::isEmpty) }
@@ -50,7 +50,7 @@ class Form : FrameLayout, Reference {
     }
 
     private fun renderFields(fields: List<Field>): List<EditText> {
-        val fieldList = findViewById(R.id.fields) as ViewGroup
+        val fieldList = findViewById<ViewGroup>(R.id.fields)
 
         val editTexts = fields.map { (name, value, multiline) ->
             val editText = if (multiline) {

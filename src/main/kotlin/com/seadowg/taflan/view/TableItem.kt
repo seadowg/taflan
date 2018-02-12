@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,10 +23,10 @@ class TableItem : LinearLayout {
     companion object {
         fun inflate(table: Table, rootView: ViewGroup, context: Context): TableItem {
             val view = LayoutInflater.from(context).inflate(R.layout.table_item, rootView, false)
-            val name = view.findViewById(R.id.name) as TextView
+            val name = view.findViewById<TextView>(R.id.name)
             name.text = table.name
 
-            view.findViewById(R.id.content).background = table.colorDrawable(context)
+            view.findViewById<View>(R.id.content).background = table.colorDrawable(context)
 
             return view as TableItem
         }

@@ -19,7 +19,7 @@ class NewFieldActivity : TaflanActivity() {
         val table = intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing
         setupToolbar("Add Field", table.colorDrawable(this), backArrow = true)
 
-        val form = findViewById(R.id.form) as Form
+        val form = findViewById<Form>(R.id.form)
         form.setup(listOf(Form.Field("Name", "", true)), "Add") { values ->
             tableRepository.addField(table, values.first())
             finish()

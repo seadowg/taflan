@@ -29,7 +29,7 @@ open class TaflanActivity : AppCompatActivity() {
     }
 
     protected fun setupToolbar(title: String, color: Drawable? = null, backArrow: Boolean = false) {
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = title
 
