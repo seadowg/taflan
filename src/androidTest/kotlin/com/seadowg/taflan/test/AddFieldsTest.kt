@@ -1,11 +1,13 @@
 package com.seadowg.taflan.test
 
+import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.scrollTo
+import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
+import com.seadowg.taflan.R
 import com.seadowg.taflan.test.support.TablePage
 import com.seadowg.taflan.test.support.TablesPage
 import com.seadowg.taflan.test.support.TaflanEspressoTestRule
@@ -17,13 +19,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-@LargeTest
 class AddFieldsTest {
 
     @get:Rule
     val mActivityRule = TaflanEspressoTestRule()
 
-    @Test @Ignore("Test needs scrolling to find last item")
+    @Test
     fun canAddFieldsToATable() {
         val tablesPage = TablesPage().createTableFlow("Shopping list")
         var shoppingListPage = tablesPage.clickOnTableItem("Shopping list")
@@ -48,6 +49,8 @@ class AddFieldsTest {
         addItemPage.fillInField("Healthy?", "No...")
 
         addItemPage.clickAdd()
+
+        onView(withId(R.id.items)).perform(swipeUp())
 
         onView(allOf(hasSibling(withText("Name")), withText("Cheese"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Quantity")), withText("1"))).check(matches(isDisplayed()))
