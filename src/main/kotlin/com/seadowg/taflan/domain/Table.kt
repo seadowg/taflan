@@ -1,5 +1,6 @@
 package com.seadowg.taflan.domain
 
+import com.seadowg.taflan.util.Identifiable
 import java.io.Serializable
 
 sealed class Table : Serializable {
@@ -19,12 +20,12 @@ sealed class Table : Serializable {
     }
 
     data class Existing(
-            val id: String,
+            override val id: String,
             override val name: String,
             override val color: Color,
             override val fields: List<String>,
             override val items: List<Item.Existing>
-    ) : Table() {
+    ) : Table(), Identifiable {
 
     }
 }

@@ -4,13 +4,14 @@ import android.os.Bundle
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Table
+import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.view.Form
 import com.seadowg.taflan.view.colorDrawable
 
 class NewFieldActivity : TaflanActivity() {
 
-    private val tableRepository: TableRepository by injector.instance()
+    private val tableRepository: ReactiveTableRepository by injector.instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +22,7 @@ class NewFieldActivity : TaflanActivity() {
 
         val form = findViewById<Form>(R.id.form)
         form.setup(listOf(Form.Field("Name", "", true)), "Add") { values ->
-            tableRepository.addField(table, values.first())
+            tableRepository.change { it.addField(table, values.first()) }
             finish()
         }
     }

@@ -5,13 +5,14 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
+import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.view.Form
 import com.seadowg.taflan.view.colorDrawable
 
 class EditItemActivity : TaflanActivity() {
 
-    private val tableRepository: TableRepository by injector.instance()
+    private val tableRepository: ReactiveTableRepository by injector.instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +27,7 @@ class EditItemActivity : TaflanActivity() {
 
         val form = findViewById<Form>(R.id.form)
         form.setup(fields, "Update") { values ->
-            tableRepository.updateItem(table, Item.Existing(item.id, values))
+            tableRepository.change { it.updateItem(table, Item.Existing(item.id, values)) }
             finish()
         }
     }

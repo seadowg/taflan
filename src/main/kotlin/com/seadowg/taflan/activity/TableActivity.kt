@@ -19,22 +19,22 @@ import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.colorDrawable
 import android.support.v7.widget.DividerItemDecoration
-
+import com.seadowg.taflan.repository.ReactiveTableRepository
 
 
 class TableActivity : TaflanActivity(), Reference {
 
-    private val tableRepository: TableRepository by injector.instance()
+    private val tableRepository: ReactiveTableRepository by injector.instance()
     private val tableID: String by lazy {
         (intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing).id
     }
 
-    private val table by lazy { resumeReactive { tableRepository.fetch(tableID) } }
+    private val table by lazy { tableRepository.fetch(tableID) }
 
     private val navigator = Navigator(this)
 
     private val itemAdapter: ItemAdapter by lazy {
-        ItemAdapter(this, tableRepository, tableID, navigator)
+        ItemAdapter(this, tableRepository.store, tableID, navigator)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
