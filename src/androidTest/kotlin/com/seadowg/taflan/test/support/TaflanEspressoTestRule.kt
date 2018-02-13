@@ -7,13 +7,14 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.LaunchActivity
 import com.seadowg.taflan.activity.TaflanActivity
+import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 
 class TaflanEspressoTestRule : ActivityTestRule<LaunchActivity>(LaunchActivity::class.java) {
 
     private val injector = KodeinInjector()
 
-    private val tableRepository: TableRepository by injector.instance()
+    private val tableRepository: ReactiveTableRepository by injector.instance()
 
     override fun beforeActivityLaunched() {
         super.beforeActivityLaunched()
@@ -25,7 +26,7 @@ class TaflanEspressoTestRule : ActivityTestRule<LaunchActivity>(LaunchActivity::
     }
 
     private fun setupTest() {
-        tableRepository.clear()
+        tableRepository.store.clear()
         TaflanActivity.TEST_MODE = true
     }
 }

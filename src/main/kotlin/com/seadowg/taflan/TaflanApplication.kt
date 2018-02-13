@@ -27,7 +27,6 @@ class TaflanApplication : Application() {
         tableRepository = SharedPreferencesTableRepository(preferences)
 
         kodein = Kodein {
-            bind<TableRepository>().with(singleton { tableRepository })
             bind<ContentReader>().with(singleton { AndroidContentReader(applicationContext) })
             bind<ReactiveTableRepository>().with(singleton { ReactiveTableRepository(tableRepository) })
         }

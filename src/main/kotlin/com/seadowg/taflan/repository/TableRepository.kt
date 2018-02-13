@@ -8,7 +8,7 @@ import com.seadowg.taflan.util.Store
 
 interface TableRepository : Store<Table.Existing> {
     fun create(table: Table.New): Table.Existing
-    fun fetchAll(): List<Table.Existing>
+    override fun fetchAll(): List<Table.Existing>
     fun clear()
     fun addItem(table: Table.Existing, item: Item.New): Table.Existing
     override fun fetch(id: String): Table.Existing
