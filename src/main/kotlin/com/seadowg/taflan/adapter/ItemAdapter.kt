@@ -24,12 +24,7 @@ class ItemAdapter(val context: Context, val tableRepository: TableRepository, va
         val itemItem = if (recycledView == null) {
             ItemItem.inflate(item, table, parent, context, tableRepository, this)
         } else {
-            (recycledView as ItemItem).setItem(item, table, tableRepository, this)
-        }
-
-        itemItem.deleteClicks.bind(this) {
-            tableRepository.deleteItem(table, item).items
-            notifyDataSetChanged()
+            (recycledView as ItemItem).setItem(item, table, tableRepository)
         }
 
         itemItem.reactive().clicks.bind(this) {

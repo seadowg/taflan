@@ -11,6 +11,7 @@ import com.seadowg.taflan.test.support.TablesPage
 import com.seadowg.taflan.test.support.TaflanEspressoTestRule
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,7 +23,7 @@ class AddFieldsTest {
     @get:Rule
     val mActivityRule = TaflanEspressoTestRule()
 
-    @Test
+    @Test @Ignore("Test needs scrolling to find last item")
     fun canAddFieldsToATable() {
         val tablesPage = TablesPage().createTableFlow("Shopping list")
         var shoppingListPage = tablesPage.clickOnTableItem("Shopping list")

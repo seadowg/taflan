@@ -1,6 +1,7 @@
 package com.seadowg.taflan.test.activity
 
 import android.content.Intent
+import android.view.View
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.BuildConfig
@@ -23,7 +24,6 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(constants = BuildConfig::class, sdk = intArrayOf(23))
 class TableActivityTest {
 
     private val injector = KodeinInjector()
@@ -43,7 +43,7 @@ class TableActivityTest {
         val tableIntent = TableActivity.intent(RuntimeEnvironment.application, table)
         val activity = buildActivity(TableActivity::class.java, tableIntent).setup().get()
 
-        activity.findViewById(R.id.export).performClick()
+        activity.findViewById<View>(R.id.export).performClick()
 
         val chooserIntent = Shadows.shadowOf(activity).nextStartedActivity
         assertThat(chooserIntent.action).isEqualTo(Intent.ACTION_CHOOSER)
