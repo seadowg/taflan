@@ -3,6 +3,7 @@ package com.seadowg.taflan.view
 import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.PopupMenu
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,7 @@ class ItemItem : CardView, Reference {
 
     lateinit var popup: PopupMenu
 
-    private fun initialize(baseAdapter: BaseAdapter) {
+    private fun initialize(baseAdapter: RecyclerView.Adapter<*>) {
         val menuButton = findViewById<View>(R.id.menu)
         popup = PopupMenu(context, menuButton)
         popup.inflate(R.menu.item_menu)
@@ -72,12 +73,11 @@ class ItemItem : CardView, Reference {
     }
 
     companion object {
-        fun inflate(item: Item.Existing, table: Table.Existing, rootView: ViewGroup?, context: Context, tableRepository: TableRepository, baseAdapter: BaseAdapter): ItemItem {
+        fun inflate(rootView: ViewGroup?, context: Context, baseAdapter: RecyclerView.Adapter<*>): ItemItem {
             val inflater = LayoutInflater.from(context)
             val view = inflater.inflate(R.layout.item_item, rootView, false) as ItemItem
 
             view.initialize(baseAdapter)
-            view.setItem(item, table, tableRepository)
 
             return view
         }

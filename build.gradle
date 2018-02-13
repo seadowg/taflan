@@ -87,9 +87,11 @@ dependencies {
     testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1' // Fix for https://github.com/robolectric/robolectric/issues/2566
 
     // Espresso
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1')  {
         exclude module: 'support-annotations'
     }
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
 
     androidTestImplementation(name:'macchiato-0.4.0', ext:'aar')
 }

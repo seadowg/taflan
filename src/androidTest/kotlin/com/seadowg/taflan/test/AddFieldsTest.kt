@@ -4,10 +4,12 @@ import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
 import com.seadowg.taflan.R
+import com.seadowg.taflan.adapter.ItemAdapter
 import com.seadowg.taflan.test.support.TablePage
 import com.seadowg.taflan.test.support.TablesPage
 import com.seadowg.taflan.test.support.TaflanEspressoTestRule
@@ -50,7 +52,7 @@ class AddFieldsTest {
 
         addItemPage.clickAdd()
 
-        onView(withId(R.id.items)).perform(swipeUp())
+        onView(withId(R.id.items)).perform(RecyclerViewActions.scrollToPosition<ItemAdapter.ViewHolder>(1))
 
         onView(allOf(hasSibling(withText("Name")), withText("Cheese"))).check(matches(isDisplayed()))
         onView(allOf(hasSibling(withText("Quantity")), withText("1"))).check(matches(isDisplayed()))

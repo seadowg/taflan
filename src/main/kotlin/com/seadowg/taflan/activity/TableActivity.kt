@@ -3,6 +3,8 @@ package com.seadowg.taflan.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ListView
 import com.github.clans.fab.FloatingActionMenu
@@ -16,6 +18,9 @@ import com.seadowg.taflan.util.Navigator
 import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.colorDrawable
+import android.support.v7.widget.DividerItemDecoration
+
+
 
 class TableActivity : TaflanActivity(), Reference {
 
@@ -38,7 +43,15 @@ class TableActivity : TaflanActivity(), Reference {
 
         setupFabHelper()
 
-        val itemsList = findViewById<ListView>(R.id.items)
+        val itemsList = findViewById<RecyclerView>(R.id.items)
+
+        val layoutManager = LinearLayoutManager(this)
+        itemsList.layoutManager = layoutManager
+
+        val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        dividerItemDecoration.setDrawable(getDrawable(R.drawable.list_divider))
+        itemsList.addItemDecoration(dividerItemDecoration)
+
         itemsList.adapter = itemAdapter
 
         table.bind(this) {
