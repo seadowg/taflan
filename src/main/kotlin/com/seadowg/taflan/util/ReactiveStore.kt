@@ -10,14 +10,15 @@ open class ReactiveStore<T : Identifiable, out Y: Store<T>>(val store: Y) {
         return Reactive(store.fetch(id), eventStream)
     }
 
-    fun change(changer: (Y) -> T) {
-        val newValue = changer(store)
-        idEventStreams[newValue.id]?.occur(newValue)
-        allEventStream.occur(store.fetchAll())
-    }
-
     fun fetchAll(): Reactive<List<T>> {
         return Reactive(store.fetchAll(), allEventStream)
+    }
+
+    fun change(changer: (Y) -> Unit) {
+        changer(store)
+        idEventStreams.entries.forEach { entry -> entry.value.occur(store.fetch(entry.key)) }
+
+        allEventStream.occur(store.fetchAll())
     }
 }
 

@@ -8,7 +8,6 @@ import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.LaunchActivity
 import com.seadowg.taflan.activity.TaflanActivity
 import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.repository.TableRepository
 
 class TaflanEspressoTestRule : ActivityTestRule<LaunchActivity>(LaunchActivity::class.java) {
 
@@ -20,13 +19,12 @@ class TaflanEspressoTestRule : ActivityTestRule<LaunchActivity>(LaunchActivity::
         super.beforeActivityLaunched()
         val context = InstrumentationRegistry.getTargetContext().applicationContext
         val application = context as TaflanApplication
+
+        application.setupKodein()
         injector.inject(application.kodein)
 
-        setupTest()
-    }
-
-    private fun setupTest() {
         tableRepository.store.clear()
         TaflanActivity.TEST_MODE = true
     }
+
 }
