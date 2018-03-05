@@ -3,23 +3,23 @@ package com.seadowg.taflan.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.ListView
 import com.github.clans.fab.FloatingActionMenu
 import com.github.salomonbrys.kodein.instance
-import com.seadowg.taflan.adapter.ItemAdapter
 import com.seadowg.taflan.R
+import com.seadowg.taflan.adapter.ItemAdapter
 import com.seadowg.taflan.csv.CSV
 import com.seadowg.taflan.domain.Table
-import com.seadowg.taflan.repository.TableRepository
+import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.util.Navigator
 import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.colorDrawable
-import android.support.v7.widget.DividerItemDecoration
-import com.seadowg.taflan.repository.ReactiveTableRepository
 
 
 class TableActivity : TaflanActivity(), Reference {
@@ -62,6 +62,29 @@ class TableActivity : TaflanActivity(), Reference {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.table_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.export -> {
+                val table = table.currentValue
+                val csv = CSV(table.fields, table.items.map { it.values })
+
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/csv"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, csv.toString())
+                startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
+
+                true
+            }
+
+            else -> false
+        }
+    }
+
     private fun setupFAB(table: Table) {
         val fabMenu = findViewById<FloatingActionMenu>(R.id.fab)
 
@@ -81,17 +104,6 @@ class TableActivity : TaflanActivity(), Reference {
             intent.putExtra(NewFieldActivity.EXTRA_TABLE, table)
 
             startActivity(intent)
-        }
-
-        findViewById<View>(R.id.export).reactive().clicks.bind(this) {
-            fabMenu.close(true)
-
-            val csv = CSV(table.fields, table.items.map { it.values })
-
-            val shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.type = "text/csv"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, csv.toString())
-            startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
         }
     }
 

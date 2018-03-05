@@ -25,7 +25,7 @@ class ExportTableTest {
         val tablesPage = TablesPage()
                 .createTableFlow("Shopping list", items = listOf("Bananas", "Eggs"))
 
-        tablesPage.clickOnTableItem("Shopping list").clickFAB()
-        onView(withText("Export")).check(matches(isClickable()))
+        tablesPage.clickOnTableItem("Shopping list").openMenu()
+        onView(withContentDescription("Export")).check(matches(isDisplayed()))
     }
 }

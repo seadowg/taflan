@@ -23,6 +23,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
+import org.robolectric.fakes.RoboMenuItem
 
 @RunWith(RobolectricTestRunner::class)
 class TableActivityTest {
@@ -45,7 +46,7 @@ class TableActivityTest {
         val tableIntent = TableActivity.intent(RuntimeEnvironment.application, table)
         val activity = buildActivity(TableActivity::class.java, tableIntent).setup().get()
 
-        activity.findViewById<View>(R.id.export).performClick()
+        activity.onOptionsItemSelected(RoboMenuItem(R.id.export))
 
         val chooserIntent = Shadows.shadowOf(activity).nextStartedActivity
         assertThat(chooserIntent.action).isEqualTo(Intent.ACTION_CHOOSER)

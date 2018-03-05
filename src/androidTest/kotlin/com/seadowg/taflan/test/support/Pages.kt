@@ -1,8 +1,10 @@
 package com.seadowg.taflan.test.support
 
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.Espresso.pressBack
+import android.support.test.espresso.Espresso.*
+import android.support.test.espresso.ViewAction
+import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -58,10 +60,17 @@ class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolb
         return this
     }
 
+    fun openMenu(): MenuPage {
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext())
+        return MenuPage()
+    }
+
     private fun itemCard(itemName: String) = allOf(
             withContentDescription("item"),
             hasDescendant(allOf(hasSibling(withText("Name")), withText(itemName)))
     )
+
+    class MenuPage
 }
 
 class TableFAB(val tableName: String) {
@@ -136,7 +145,7 @@ class AddFieldPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.
 class AddItemPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Item"))) {
 
     fun fillInField(name: String, with: String): AddItemPage {
-        onView(withHint(name)).perform(typeText(with), closeSoftKeyboard())
+        onView(withHint(name)).perform(typeText(with), ViewActions.closeSoftKeyboard())
         return this
     }
 
