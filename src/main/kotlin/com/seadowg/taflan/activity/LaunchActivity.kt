@@ -24,14 +24,14 @@ class LaunchActivity : TaflanActivity(), Reference {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.launch)
         setupToolbar("Taflan")
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         fab.clicks.bind(this) {
             startActivity(Intent(this, NewTableActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         tables.bind(this) {
             tablesList.removeAllViews()
@@ -47,5 +47,10 @@ class LaunchActivity : TaflanActivity(), Reference {
                 tablesList.addView(tableItem)
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        tables.unbind(this)
     }
 }

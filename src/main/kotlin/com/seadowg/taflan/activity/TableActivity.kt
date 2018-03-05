@@ -53,13 +53,21 @@ class TableActivity : TaflanActivity(), Reference {
         itemsList.addItemDecoration(dividerItemDecoration)
 
         itemsList.adapter = itemAdapter
+    }
 
+    override fun onResume() {
+        super.onResume()
         table.bind(this) {
             setupToolbar(it.name, color = it.colorDrawable(this), backArrow = true)
 
             itemAdapter.notifyDataSetChanged()
             setupFAB(it)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        table.unbind(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
