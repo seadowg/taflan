@@ -26,6 +26,6 @@ class ExportTableTest {
                 .createTableFlow("Shopping list", items = listOf("Bananas", "Eggs"))
 
         tablesPage.clickOnTableItem("Shopping list").openMenu()
-        onView(withContentDescription("Export")).check(matches(isDisplayed()))
+        onView(withText("Export")).check(matches(isDisplayed()))
     }
 }
