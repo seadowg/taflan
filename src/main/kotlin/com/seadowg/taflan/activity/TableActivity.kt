@@ -41,8 +41,6 @@ class TableActivity : TaflanActivity(), Reference {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.table)
 
-        setupFabHelper()
-
         val itemsList = findViewById<RecyclerView>(R.id.items)
 
         val layoutManager = LinearLayoutManager(this)
@@ -78,14 +76,15 @@ class TableActivity : TaflanActivity(), Reference {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.export -> {
-                val table = table.currentValue
-                val csv = CSV(table.fields, table.items.map { it.values })
+                exportTable()
+                true
+            }
 
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "text/csv"
-                shareIntent.putExtra(Intent.EXTRA_TEXT, csv.toString())
-                startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
+            R.id.add_field -> {
+                val intent = Intent(this, NewFieldActivity::class.java)
+                intent.putExtra(NewFieldActivity.EXTRA_TABLE, table.currentValue)
 
+                startActivity(intent)
                 true
             }
 
@@ -93,37 +92,22 @@ class TableActivity : TaflanActivity(), Reference {
         }
     }
 
+    private fun exportTable() {
+        val table = table.currentValue
+        val csv = CSV(table.fields, table.items.map { it.values })
+
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/csv"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, csv.toString())
+        startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
+    }
+
     private fun setupFAB(table: Table) {
-        val fabMenu = findViewById<FloatingActionMenu>(R.id.fab)
-
-        findViewById<View>(R.id.add_item).reactive().clicks.bind(this) {
-            fabMenu.close(true)
-
+        findViewById<FloatingActionMenu>(R.id.fab).reactive().clicks.bind(this) {
             val intent = Intent(this, NewItemActivity::class.java)
             intent.putExtra(NewItemActivity.EXTRA_TABLE, table)
 
             startActivity(intent)
-        }
-
-        findViewById<View>(R.id.add_field).reactive().clicks.bind(this) {
-            fabMenu.close(true)
-
-            val intent = Intent(this, NewFieldActivity::class.java)
-            intent.putExtra(NewFieldActivity.EXTRA_TABLE, table)
-
-            startActivity(intent)
-        }
-    }
-
-    private fun setupFabHelper() {
-        if (TEST_MODE) {
-            val fabHelper = findViewById<View>(R.id.fab_helper)
-            fabHelper.visibility = View.VISIBLE
-
-            fabHelper.reactive().clicks.bind(this) {
-                val fabMenu = findViewById<FloatingActionMenu>(R.id.fab) as FloatingActionMenu
-                fabMenu.open(true)
-            }
         }
     }
 

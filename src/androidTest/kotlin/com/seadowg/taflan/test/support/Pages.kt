@@ -25,7 +25,7 @@ class TablesPage : Page(withText("Taflan")) {
         val tablePage = tablesPage.clickOnTableItem(name)
 
         items.forEach { item ->
-            tablePage.clickFAB().clickAddItem().fillInField("Name", item).clickAdd()
+            tablePage.clickFAB().fillInField("Name", item).clickAdd()
         }
 
         return tablePage.pressBack()
@@ -39,9 +39,9 @@ class TablesPage : Page(withText("Taflan")) {
 
 class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(name))) {
 
-    fun clickFAB(): TableFAB {
-        onView(withId(R.id.fab_helper)).perform(click())
-        return TableFAB(name)
+    fun clickFAB(): AddItemPage {
+        onView(withId(R.id.fab)).perform(click())
+        return AddItemPage(name)
     }
 
     fun editItem(itemName: String): EditItemPage {
@@ -62,7 +62,7 @@ class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolb
 
     fun openMenu(): MenuPage {
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext())
-        return MenuPage()
+        return MenuPage(name)
     }
 
     private fun itemCard(itemName: String) = allOf(
@@ -70,49 +70,12 @@ class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolb
             hasDescendant(allOf(hasSibling(withText("Name")), withText(itemName)))
     )
 
-    class MenuPage
-}
-
-class TableFAB(val tableName: String) {
-
-    fun clickExport(): TablePage {
-        onView(withText("Export")).perform(click())
-        return assertOnPage(TablePage(tableName))
+    class MenuPage(private val tableName: String) {
+        fun clickAddField(): AddFieldPage {
+            onView(withText("Add Field")).perform(click())
+            return assertOnPage(AddFieldPage(tableName))
+        }
     }
-
-    fun clickAddItem(): AddItemPage {
-        onView(withText("Add Item")).perform(click())
-        return assertOnPage(AddItemPage(tableName))
-    }
-
-    fun clickAddField(): AddFieldPage {
-        onView(withText("Add Field")).perform(click())
-        return assertOnPage(AddFieldPage(tableName))
-    }
-
-    fun clickFields(): FieldsPage {
-        onView(withText("Fields")).perform(click())
-        return FieldsPage(tableName)
-    }
-}
-
-class FieldsPage(val tableName: String) {
-
-    fun deleteField(fieldName: String): FieldsPage {
-        onView(allOf(isDescendantOfA(fieldItem(fieldName)), withContentDescription("menu"))).perform(click())
-        onView(withText("Delete")).perform(click())
-        return this
-    }
-
-    fun pressBack(): TablePage {
-        Espresso.pressBack()
-        return TablePage(tableName)
-    }
-
-    private fun fieldItem(fieldName: String) = allOf(
-            withContentDescription("field"),
-            hasDescendant(withText(fieldName))
-    )
 }
 
 class EditItemPage(val tableName: String, itemName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(itemName))) {

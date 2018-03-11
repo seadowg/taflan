@@ -9,7 +9,7 @@
         android:allowBackup="false">
 
         <activity
-            android:name=".activity.LaunchActivity"
+            android:name=".activity.TablesActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_title">
             <intent-filter>

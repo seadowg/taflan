@@ -12,7 +12,7 @@ import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.TableItem
 
-class LaunchActivity : TaflanActivity(), Reference {
+class TablesActivity : TaflanActivity(), Reference {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
     private val tables by lazy { tableRepository.fetchAll() }

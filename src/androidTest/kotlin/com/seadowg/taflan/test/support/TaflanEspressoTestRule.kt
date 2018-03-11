@@ -5,11 +5,11 @@ import android.support.test.rule.ActivityTestRule
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
-import com.seadowg.taflan.activity.LaunchActivity
+import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.activity.TaflanActivity
 import com.seadowg.taflan.repository.ReactiveTableRepository
 
-class TaflanEspressoTestRule : ActivityTestRule<LaunchActivity>(LaunchActivity::class.java) {
+class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::class.java) {
 
     private val injector = KodeinInjector()
 

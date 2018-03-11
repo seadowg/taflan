@@ -7,13 +7,8 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
 import org.junit.runner.RunWith
-import com.seadowg.taflan.activity.LaunchActivity
-import android.support.test.rule.ActivityTestRule
 import android.view.KeyEvent
 import org.junit.Rule
-import com.seadowg.taflan.R
-import com.seadowg.taflan.TaflanApplication
-import com.seadowg.taflan.test.support.TablePage
 import com.seadowg.taflan.test.support.TablesPage
 import com.seadowg.taflan.test.support.TaflanEspressoTestRule
 import org.hamcrest.Matchers.not
@@ -21,7 +16,6 @@ import org.junit.Test
 
 
 @RunWith(AndroidJUnit4::class)
-@LargeTest
 class CreateTableTest {
 
     @get:Rule
