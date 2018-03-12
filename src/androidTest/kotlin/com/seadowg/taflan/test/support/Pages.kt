@@ -114,7 +114,7 @@ class EditItemPage(val tableName: String, itemName: String) : Page(allOf(isDesce
 class AddFieldPage(private val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Field"))) {
 
     fun fillInName(name: String): AddFieldPage {
-        onView(withHint("Name")).perform(typeText(name))
+        onView(withHint("Name")).perform(replaceText(name))
         return this
     }
 
@@ -127,7 +127,7 @@ class AddFieldPage(private val tableName: String) : Page(allOf(isDescendantOfA(w
 class AddItemPage(private val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Item"))) {
 
     fun fillInField(name: String, with: String): AddItemPage {
-        onView(withHint(name)).perform(typeText(with), ViewActions.closeSoftKeyboard())
+        onView(withHint(name)).perform(replaceText(with), ViewActions.closeSoftKeyboard())
         return this
     }
 
@@ -141,7 +141,7 @@ class AddItemPage(private val tableName: String) : Page(allOf(isDescendantOfA(wi
 class AddTablePage : Page(withText("Add Table")) {
 
     fun fillInName(name: String): AddTablePage {
-        onView(withHint("Name")).perform(typeText(name))
+        onView(withHint("Name")).perform(replaceText(name))
         return this
     }
 

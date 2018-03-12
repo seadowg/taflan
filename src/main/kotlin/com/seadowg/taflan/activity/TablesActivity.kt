@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.util.Reference
+import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.TableItem
 
-class TablesActivity : TaflanActivity(), Reference {
+class TablesActivity : TaflanActivity() {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
     private val tables by lazy { tableRepository.fetchAll() }
@@ -27,10 +27,6 @@ class TablesActivity : TaflanActivity(), Reference {
         fab.clicks.bind(this) {
             startActivity(Intent(this, NewTableActivity::class.java))
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         tables.bind(this) {
             tablesList.removeAllViews()
@@ -48,8 +44,4 @@ class TablesActivity : TaflanActivity(), Reference {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        tables.unbind(this)
-    }
 }

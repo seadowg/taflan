@@ -1,5 +1,7 @@
 package com.seadowg.taflan.util
 
+import android.arch.lifecycle.LifecycleOwner
+import android.view.View
 import java.util.*
 
 fun <T> List<T>.sample(): T {
@@ -12,4 +14,8 @@ fun <T> Array<T>.sample(): T {
 
 fun <T> Set<T>.sample(): T {
     return this.toList().sample()
+}
+
+fun View.lifecycle(): LifecycleOwner {
+    return context as LifecycleOwner
 }

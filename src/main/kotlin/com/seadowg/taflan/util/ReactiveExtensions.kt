@@ -1,9 +1,30 @@
 package com.seadowg.taflan.util
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.OnLifecycleEvent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+
+fun <T> Bindable<T>.bind(lifecycleOwner: LifecycleOwner, callback: (T) -> Unit) {
+    val reference = object : Reference, LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        fun onResume() {
+            bind(this, callback)
+        }
+
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        fun onPause() {
+            unbind(this)
+        }
+    }
+
+    lifecycleOwner.lifecycle.addObserver(reference)
+}
 
 fun EditText.reactive(): EditTextReactive {
     return EditTextReactive(this)
@@ -13,13 +34,11 @@ fun View.reactive(): ViewReactive {
     return ViewReactive(this)
 }
 
-class ViewReactive(private val view: View) : Reference {
+class ViewReactive(private val view: View) {
     var enabled: Reactive<Boolean> = Reactive(view.isEnabled, EventStream())
         set(value) {
-            field.unbind(this)
-
             field = value
-            field.bind(this) { value -> view.isEnabled = value }
+            field.bind(view.lifecycle()) { value -> view.isEnabled = value }
         }
 
     val clicks: EventStream<Unit>

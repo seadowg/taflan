@@ -13,10 +13,11 @@ import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
-import com.seadowg.taflan.util.Reference
+import com.seadowg.taflan.util.bind
+import com.seadowg.taflan.util.lifecycle
 import com.seadowg.taflan.util.reactive
 
-class ItemItem : CardView, Reference {
+class ItemItem : CardView {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -33,7 +34,7 @@ class ItemItem : CardView, Reference {
         popup = PopupMenu(context, menuButton)
         popup.inflate(R.menu.item_menu)
 
-        menuButton.reactive().clicks.bind(this) {
+        menuButton.reactive().clicks.bind(lifecycle()) {
             popup.show()
         }
 

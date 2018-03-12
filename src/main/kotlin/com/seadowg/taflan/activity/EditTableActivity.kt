@@ -14,7 +14,7 @@ class EditTableActivity : TaflanActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edit_table)
-        setupToolbar("", backArrow = true)
+        setupToolbar("Edit Table", backArrow = true)
 
         val table = intent.getSerializableExtra(EditItemActivity.EXTRA_TABLE) as Table.Existing
 

@@ -16,12 +16,12 @@ import com.seadowg.taflan.csv.CSV
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.util.Navigator
-import com.seadowg.taflan.util.Reference
+import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.colorDrawable
 
 
-class TableActivity : TaflanActivity(), Reference {
+class TableActivity : TaflanActivity() {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
     private val tableID: String by lazy {
@@ -50,21 +50,13 @@ class TableActivity : TaflanActivity(), Reference {
         itemsList.addItemDecoration(dividerItemDecoration)
 
         itemsList.adapter = itemAdapter
-    }
 
-    override fun onResume() {
-        super.onResume()
         table.bind(this) {
             setupToolbar(it.name, color = it.colorDrawable(this), backArrow = true)
 
             itemAdapter.notifyDataSetChanged()
             setupFAB(it)
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        table.unbind(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

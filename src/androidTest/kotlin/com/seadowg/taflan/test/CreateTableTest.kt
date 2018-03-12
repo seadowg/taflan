@@ -1,8 +1,7 @@
 package com.seadowg.taflan.test
 
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.pressKey
-import android.support.test.espresso.action.ViewActions.typeText
+import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.runner.AndroidJUnit4

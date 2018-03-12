@@ -1,16 +1,16 @@
 package com.seadowg.taflan.adapter
 
-import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.Navigator
-import com.seadowg.taflan.util.Reference
+import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.ItemItem
 
-class ItemAdapter(private val context: Context, val tableRepository: TableRepository, private val tableID: String, private val navigator: Navigator) : RecyclerView.Adapter<ItemAdapter.ViewHolder>(), Reference {
+class ItemAdapter(private val context: AppCompatActivity, val tableRepository: TableRepository, private val tableID: String, private val navigator: Navigator) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     class ViewHolder(val view: ItemItem) : RecyclerView.ViewHolder(view)
 
@@ -27,7 +27,7 @@ class ItemAdapter(private val context: Context, val tableRepository: TableReposi
         val item = table.items[position]
 
         holder.view.setItem(item, table, tableRepository)
-        holder.view.reactive().clicks.bind(this) {
+        holder.view.reactive().clicks.bind(context) {
             navigator.editItem(table, item)
         }
     }
