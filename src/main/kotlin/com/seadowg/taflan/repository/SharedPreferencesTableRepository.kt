@@ -6,8 +6,7 @@ import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import java.util.*
 
-class SharedPreferencesTableRepository(val sharedPreferences: SharedPreferences) : TableRepository {
-
+class SharedPreferencesTableRepository(private val sharedPreferences: SharedPreferences) : TableRepository {
     private val gson = Gson()
 
     override fun create(table: Table.New): Table.Existing {
@@ -15,6 +14,10 @@ class SharedPreferencesTableRepository(val sharedPreferences: SharedPreferences)
 
         storeTable(createdTable)
         return createdTable
+    }
+
+    override fun save(table: Table.Existing) {
+        storeTable(table)
     }
 
     override fun fetch(id: String): Table.Existing {

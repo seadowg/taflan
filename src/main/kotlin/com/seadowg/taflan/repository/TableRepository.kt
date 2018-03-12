@@ -14,6 +14,7 @@ interface TableRepository : Store<Table.Existing> {
     fun addField(table: Table.Existing, field: String): Table.Existing
     fun updateItem(table: Table.Existing, item: Item.Existing): Table.Existing
     fun deleteItem(table: Table.Existing, item: Item.Existing): Table.Existing
+    fun save(table: Table.Existing)
 }
 
 class ReactiveTableRepository(tableRepository: TableRepository) : ReactiveStore<Table.Existing, TableRepository>(tableRepository)

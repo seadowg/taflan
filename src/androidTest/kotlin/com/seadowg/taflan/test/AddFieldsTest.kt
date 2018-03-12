@@ -1,21 +1,16 @@
 package com.seadowg.taflan.test
 
-import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
 import com.seadowg.taflan.R
 import com.seadowg.taflan.adapter.ItemAdapter
-import com.seadowg.taflan.test.support.TablePage
 import com.seadowg.taflan.test.support.TablesPage
 import com.seadowg.taflan.test.support.TaflanEspressoTestRule
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

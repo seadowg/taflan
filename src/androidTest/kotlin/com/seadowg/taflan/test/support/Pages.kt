@@ -2,15 +2,13 @@ package com.seadowg.taflan.test.support
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
-import android.support.test.espresso.Espresso.*
-import android.support.test.espresso.ViewAction
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.*
-import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import com.seadowg.taflan.R
 import io.pivotal.macchiato.pages.Page
-import io.pivotal.macchiato.pages.Page.assertOnPage
 import org.hamcrest.Matchers.allOf
 
 class TablesPage : Page(withText("Taflan")) {
@@ -21,7 +19,7 @@ class TablesPage : Page(withText("Taflan")) {
     }
 
     fun createTableFlow(name: String, items: List<String> = emptyList()): TablesPage {
-        var tablesPage = clickFAB().fillInName(name).clickAdd()
+        val tablesPage = clickFAB().fillInName(name).clickAdd()
         val tablePage = tablesPage.clickOnTableItem(name)
 
         items.forEach { item ->
@@ -75,6 +73,27 @@ class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolb
             onView(withText("Add Field")).perform(click())
             return assertOnPage(AddFieldPage(tableName))
         }
+
+        fun clickEdit(): EditTablePage {
+            onView(withText("Edit")).perform(click())
+            return EditTablePage(tableName)
+        }
+    }
+}
+
+class EditTablePage(tableName: String) : Page(allOf(withHint("Name"), withText(tableName))) {
+
+    private var newTableName: String = tableName
+
+    fun fillInName(name: String): EditTablePage {
+        newTableName = name
+        onView(withHint("Name")).perform(replaceText(name))
+        return this
+    }
+
+    fun clickUpdate(): TablePage {
+        onView(withText("Update")).perform(click())
+        return assertOnPage(TablePage(newTableName))
     }
 }
 
@@ -92,7 +111,7 @@ class EditItemPage(val tableName: String, itemName: String) : Page(allOf(isDesce
 
 }
 
-class AddFieldPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Field"))) {
+class AddFieldPage(private val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Field"))) {
 
     fun fillInName(name: String): AddFieldPage {
         onView(withHint("Name")).perform(typeText(name))
@@ -105,7 +124,7 @@ class AddFieldPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.
     }
 }
 
-class AddItemPage(val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Item"))) {
+class AddItemPage(private val tableName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Add Item"))) {
 
     fun fillInField(name: String, with: String): AddItemPage {
         onView(withHint(name)).perform(typeText(with), ViewActions.closeSoftKeyboard())

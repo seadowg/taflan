@@ -8,13 +8,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.TextView
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
-import com.seadowg.taflan.util.EventStream
 import com.seadowg.taflan.util.Reference
 import com.seadowg.taflan.util.reactive
 
@@ -28,7 +26,7 @@ class ItemItem : CardView, Reference {
     private lateinit var item: Item.Existing
     private lateinit var tableRepository: TableRepository
 
-    lateinit var popup: PopupMenu
+    private lateinit var popup: PopupMenu
 
     private fun initialize(baseAdapter: RecyclerView.Adapter<*>) {
         val menuButton = findViewById<View>(R.id.menu)

@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.github.clans.fab.FloatingActionMenu
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
@@ -75,6 +74,14 @@ class TableActivity : TaflanActivity(), Reference {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
+            R.id.edit -> {
+                val intent = Intent(this, EditTableActivity::class.java)
+                intent.putExtra(EditTableActivity.EXTRA_TABLE, table.currentValue)
+
+                startActivity(intent)
+                true
+            }
+
             R.id.export -> {
                 exportTable()
                 true

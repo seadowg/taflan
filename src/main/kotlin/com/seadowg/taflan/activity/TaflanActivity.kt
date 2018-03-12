@@ -11,7 +11,7 @@ import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.util.EventStream
 import com.seadowg.taflan.util.Reactive
 
-open class TaflanActivity : AppCompatActivity() {
+abstract class TaflanActivity : AppCompatActivity() {
 
     protected val injector = KodeinInjector()
 
@@ -51,14 +51,6 @@ open class TaflanActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    fun <T> resumeReactive(def: () -> T): Reactive<T> {
-        val eventStream = EventStream<T>()
-        val reactive = Reactive(def(), eventStream)
-
-        reactives.add(Pair(def as () -> Any, eventStream as EventStream<Any>))
-        return reactive
     }
 
     companion object {

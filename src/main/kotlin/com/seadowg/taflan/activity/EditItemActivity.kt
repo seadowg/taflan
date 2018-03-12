@@ -6,7 +6,6 @@ import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.view.Form
 import com.seadowg.taflan.view.colorDrawable
 

@@ -1,19 +1,21 @@
 package com.seadowg.taflan.repository
 
-import com.seadowg.taflan.R.id.items
-import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 
 class InMemoryTableRepository : TableRepository {
 
     private val tables = mutableListOf<Table.Existing>()
-    private var idCounter = 0
 
+    private var idCounter = 0
     override fun create(table: Table.New): Table.Existing {
         val createdTable = Table.Existing(generateID(), table.name, table.color, table.fields, table.items)
         tables.add(createdTable)
         return createdTable
+    }
+
+    override fun save(table: Table.Existing) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun fetch(id: String): Table.Existing {

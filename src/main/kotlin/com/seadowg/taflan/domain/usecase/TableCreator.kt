@@ -16,8 +16,7 @@ class TableCreator(val tableRepository: TableRepository) {
 
     private fun generateColor(): Color {
         val lastTableColor = tableRepository.fetchAll().lastOrNull()?.color
-        val color = (lastTableColor?.let { Color.set() - it } ?: Color.set()).sample()
-        return color
+        return (lastTableColor?.let { Color.set() - it } ?: Color.set()).sample()
     }
 
     fun createTableFromCSV(name: String, reader: BufferedReader): Table.Existing {

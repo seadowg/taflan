@@ -38,6 +38,10 @@
             android:name=".activity.EditItemActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.EditTableActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".activity.ImportCSVActivity" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

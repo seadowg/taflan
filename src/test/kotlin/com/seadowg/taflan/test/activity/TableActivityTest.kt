@@ -1,10 +1,8 @@
 package com.seadowg.taflan.test.activity
 
 import android.content.Intent
-import android.view.View
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
-import com.seadowg.taflan.BuildConfig
 import com.seadowg.taflan.R
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.TableActivity
@@ -22,7 +20,6 @@ import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
-import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 
 @RunWith(RobolectricTestRunner::class)

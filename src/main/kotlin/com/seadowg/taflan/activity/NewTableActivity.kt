@@ -5,7 +5,6 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.usecase.TableCreator
 import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.view.Form
 
 class NewTableActivity : TaflanActivity() {

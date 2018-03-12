@@ -3,26 +3,24 @@ package com.seadowg.taflan.activity
 import android.os.Bundle
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
-import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.view.Form
-import com.seadowg.taflan.view.colorDrawable
 
-class NewItemActivity : TaflanActivity() {
+class EditTableActivity : TaflanActivity() {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.new_item)
+        setContentView(R.layout.edit_table)
+        setupToolbar("", backArrow = true)
 
-        val table = intent.getSerializableExtra(EXTRA_TABLE) as Table.Existing
-        setupToolbar("Add Item", color = table.colorDrawable(this), backArrow = true)
+        val table = intent.getSerializableExtra(EditItemActivity.EXTRA_TABLE) as Table.Existing
 
         val form = findViewById<Form>(R.id.form)
-        form.setup(table.fields.map { Form.Field(it, "", true) }, "Add") { values ->
-            tableRepository.change { it.addItem(table, Item.New(values)) }
+        form.setup(listOf(Form.Field("Name", table.name, multiline = false)), "Update") { values ->
+            tableRepository.change { it.save(table.copy(name = values[0])) }
             finish()
         }
     }
