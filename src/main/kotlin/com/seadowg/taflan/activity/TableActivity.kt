@@ -62,8 +62,8 @@ class TableActivity : TaflanActivity(), Reference {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         table.unbind(this)
     }
 

@@ -10,6 +10,7 @@ import com.seadowg.taflan.repository.SharedPreferencesTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.AndroidContentReader
 import com.seadowg.taflan.util.ContentReader
+import com.squareup.leakcanary.LeakCanary
 
 class TaflanApplication : Application() {
 
@@ -19,6 +20,14 @@ class TaflanApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return
+        }
+
+        LeakCanary.install(this)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         tableRepository = SharedPreferencesTableRepository(preferences)

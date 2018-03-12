@@ -1,8 +1,10 @@
 package com.seadowg.taflan.util
 
+import java.lang.ref.WeakReference
+
 class EventStream<T> : Reference, Bindable<T> {
 
-    private val bindings = mutableMapOf<Reference, MutableList<(T) -> Unit>>()
+    private val bindings = mutableMapOf<WeakReference<Reference>, MutableList<(T) -> Unit>>()
 
     fun occur(value: T) {
         bindings.values.forEach { callbacks ->
@@ -13,11 +15,12 @@ class EventStream<T> : Reference, Bindable<T> {
     }
 
     override fun bind(reference: Reference, callback: (T) -> Unit) {
-        bindings.getOrPut(reference) { mutableListOf() }.add(callback)
+        bindings.getOrPut(WeakReference(reference)) { mutableListOf() }.add(callback)
     }
 
     override fun unbind(reference: Reference) {
-        bindings.remove(reference)
+        val key = bindings.keys.find { it.get() == reference }
+        if (key != null) { bindings.remove(key) }
     }
 
     fun <U> map(func: (T) -> U): EventStream<U> {
