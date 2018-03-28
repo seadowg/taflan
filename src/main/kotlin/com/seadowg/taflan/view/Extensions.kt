@@ -7,7 +7,7 @@ import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Table
 
-fun Table.colorDrawable(context: Context): Drawable {
+fun Table.colorDrawable(context: Context): ColorDrawable {
     val resource = when(this.color) {
         Color.Red -> R.color.card_red
         Color.Blue -> R.color.card_blue
