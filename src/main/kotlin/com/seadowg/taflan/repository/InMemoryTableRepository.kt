@@ -4,22 +4,21 @@ import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 
 class InMemoryTableRepository : TableRepository {
-
     private val tables = mutableListOf<Table.Existing>()
 
     private var idCounter = 0
+
     override fun create(table: Table.New): Table.Existing {
         val createdTable = Table.Existing(generateID(), table.name, table.color, table.fields, table.items)
         tables.add(createdTable)
         return createdTable
     }
-
     override fun save(table: Table.Existing) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetch(id: String): Table.Existing {
-        return tables.single { it.id == id }
+    override fun fetch(id: String): Table.Existing? {
+        return tables.find { it.id == id }
     }
 
     override fun fetchAll(): List<Table.Existing> {
@@ -72,6 +71,10 @@ class InMemoryTableRepository : TableRepository {
         val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems)
         tables.add(updatedTable)
         return table
+    }
+
+    override fun delete(table: Table.Existing) {
+        tables.remove(table)
     }
 
     override fun clear() {

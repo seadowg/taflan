@@ -37,7 +37,7 @@ abstract class TaflanActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
 
-            val upArrow = resources.getDrawable(R.drawable.abc_ic_ab_back_material)
+            val upArrow = resources.getDrawable(R.drawable.abc_ic_ab_back_material, theme)
             upArrow.setColorFilter(resources.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP)
             supportActionBar?.setHomeAsUpIndicator(upArrow)
 

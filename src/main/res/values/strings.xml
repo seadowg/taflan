@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_title">Taflan</string>
     <string name="add">Add</string>
     <string name="name">Name</string>
     <string name="item">item</string>
@@ -10,4 +9,5 @@
     <string name="export">Export</string>
     <string name="add_field">Add Field</string>
     <string name="edit">Edit</string>
+    <string name="app_title">Taflan</string>
 </resources>

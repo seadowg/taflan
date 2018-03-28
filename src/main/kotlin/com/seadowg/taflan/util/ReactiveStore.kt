@@ -5,9 +5,12 @@ open class ReactiveStore<T : Identifiable, out Y: Store<T>>(val store: Y) {
     private val idEventStreams: MutableMap<String, EventStream<T>> = mutableMapOf()
     private val allEventStream = EventStream<List<T>>()
 
-    fun fetch(id: String): Reactive<T> {
+    fun fetch(id: String): Reactive<T>? {
         val eventStream = idEventStreams.getOrPut(id) { EventStream() }
-        return Reactive(store.fetch(id), eventStream)
+
+        return store.fetch(id)?.let {
+            Reactive(it, eventStream)
+        }
     }
 
     fun fetchAll(): Reactive<List<T>> {
@@ -16,7 +19,9 @@ open class ReactiveStore<T : Identifiable, out Y: Store<T>>(val store: Y) {
 
     fun change(changer: (Y) -> Unit) {
         changer(store)
-        idEventStreams.entries.forEach { entry -> entry.value.occur(store.fetch(entry.key)) }
+        idEventStreams.entries.forEach { entry ->
+            store.fetch(entry.key)?.let { entry.value.occur(it) }
+        }
 
         allEventStream.occur(store.fetchAll())
     }
@@ -27,6 +32,6 @@ interface Identifiable {
 }
 
 interface Store<out T> {
-    fun fetch(id: String): T
+    fun fetch(id: String): T?
     fun fetchAll(): List<T>
 }

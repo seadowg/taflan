@@ -10,11 +10,12 @@ interface TableRepository : Store<Table.Existing> {
     override fun fetchAll(): List<Table.Existing>
     fun clear()
     fun addItem(table: Table.Existing, item: Item.New): Table.Existing
-    override fun fetch(id: String): Table.Existing
+    override fun fetch(id: String): Table.Existing?
     fun addField(table: Table.Existing, field: String): Table.Existing
     fun updateItem(table: Table.Existing, item: Item.Existing): Table.Existing
     fun deleteItem(table: Table.Existing, item: Item.Existing): Table.Existing
     fun save(table: Table.Existing)
+    fun delete(table: Table.Existing)
 }
 
 class ReactiveTableRepository(tableRepository: TableRepository) : ReactiveStore<Table.Existing, TableRepository>(tableRepository)

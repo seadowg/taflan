@@ -95,6 +95,11 @@ class EditTablePage(tableName: String) : Page(allOf(withHint("Name"), withText(t
         onView(withText("Update")).perform(click())
         return assertOnPage(TablePage(newTableName))
     }
+
+    fun clickDelete(): TablesPage {
+        onView(withText("Delete")).perform(click())
+        return assertOnPage(TablesPage())
+    }
 }
 
 class EditItemPage(val tableName: String, itemName: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(itemName))) {

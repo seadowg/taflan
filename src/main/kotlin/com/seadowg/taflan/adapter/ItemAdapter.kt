@@ -16,7 +16,7 @@ class ItemAdapter(private val context: AppCompatActivity, val tableRepository: T
 
     private val table: Table.Existing
         get() {
-            return tableRepository.fetch(tableID)
+            return tableRepository.fetch(tableID)!!
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

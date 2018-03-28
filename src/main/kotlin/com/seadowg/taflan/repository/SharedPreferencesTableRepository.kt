@@ -7,6 +7,7 @@ import com.seadowg.taflan.domain.Table
 import java.util.*
 
 class SharedPreferencesTableRepository(private val sharedPreferences: SharedPreferences) : TableRepository {
+
     private val gson = Gson()
 
     override fun create(table: Table.New): Table.Existing {
@@ -20,16 +21,18 @@ class SharedPreferencesTableRepository(private val sharedPreferences: SharedPref
         storeTable(table)
     }
 
-    override fun fetch(id: String): Table.Existing {
+    override fun fetch(id: String): Table.Existing? {
         val json = sharedPreferences.getString("tables:$id", null)
-        return gson.fromJson(json, Table.Existing::class.java)
+        return json?.let {
+            gson.fromJson(it, Table.Existing::class.java)
+        }
     }
 
     override fun fetchAll(): List<Table.Existing> {
         val tableIDs = allTableKeys()
                 .map { it.split(":")[1] }
 
-        return tableIDs.map { fetch(it) }
+        return tableIDs.mapNotNull { fetch(it) }
     }
 
     override fun addItem(table: Table.Existing, item: Item.New): Table.Existing {
@@ -68,6 +71,10 @@ class SharedPreferencesTableRepository(private val sharedPreferences: SharedPref
         return updatedTable
     }
 
+    override fun delete(table: Table.Existing) {
+        sharedPreferences.edit().remove(keyForTable(table)).apply()
+    }
+
     override fun clear() {
         allTableKeys().forEach { sharedPreferences.edit().remove(it).apply() }
     }
@@ -77,8 +84,10 @@ class SharedPreferencesTableRepository(private val sharedPreferences: SharedPref
 
     private fun storeTable(updatedTable: Table.Existing) {
         val json = gson.toJson(updatedTable)
-        sharedPreferences.edit().putString("tables:${updatedTable.id}", json).apply()
+        sharedPreferences.edit().putString(keyForTable(updatedTable), json).apply()
     }
+
+    private fun keyForTable(table: Table.Existing) = "tables:${table.id}"
 
     private fun generateID() = UUID.randomUUID().toString()
 }

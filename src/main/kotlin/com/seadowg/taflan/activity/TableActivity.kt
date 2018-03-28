@@ -28,7 +28,7 @@ class TableActivity : TaflanActivity() {
         (intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing).id
     }
 
-    private val table by lazy { tableRepository.fetch(tableID) }
+    private val table by lazy { tableRepository.fetch(tableID)!! }
 
     private val navigator = Navigator(this)
 

@@ -22,7 +22,7 @@ class TablesActivity : TaflanActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.launch)
-        setupToolbar("Taflan")
+        setupToolbar(getString(R.string.app_title))
 
         fab.clicks.bind(this) {
             startActivity(Intent(this, NewTableActivity::class.java))
