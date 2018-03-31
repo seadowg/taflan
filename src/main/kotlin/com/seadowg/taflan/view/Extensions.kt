@@ -2,7 +2,6 @@ package com.seadowg.taflan.view
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Table

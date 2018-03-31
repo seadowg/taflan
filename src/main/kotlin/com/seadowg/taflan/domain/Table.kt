@@ -25,7 +25,5 @@ sealed class Table : Serializable {
             override val color: Color,
             override val fields: List<String>,
             override val items: List<Item.Existing>
-    ) : Table(), Identifiable {
-
-    }
+    ) : Table(), Identifiable
 }

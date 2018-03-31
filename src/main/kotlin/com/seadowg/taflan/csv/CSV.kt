@@ -7,8 +7,8 @@ data class CSV(val headers: List<String>, val rows: List<List<String>>) {
     }
 
     override fun toString(): String {
-        return (listOf(headers) + rows)
-                .map { it.joinToString(",", transform = { s -> "\"$s\""}) }
-                .joinToString("\n", postfix = "\n")
+        return (listOf(headers) + rows).joinToString("\n", postfix = "\n") {
+            it.joinToString(",", transform = { s -> "\"$s\"" })
+        }
     }
 }

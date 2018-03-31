@@ -6,4 +6,5 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="24dp"
     android:inputType="textMultiLine"
-    tools:hint="@string/name" />
+    tools:hint="@string/name"
+    tools:ignore="LabelFor" />

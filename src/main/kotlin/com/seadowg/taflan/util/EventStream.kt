@@ -33,14 +33,14 @@ class EventStream<T> : Reference, Bindable<T> {
         return newEventStream
     }
 
-    fun <U> zip(other: EventStream<U>): EventStream<Pair<T, U>> {
-        return ZipBridge(this, other).eventStream
-    }
-
     fun zipN(eventStreams: List<EventStream<T>>): EventStream<List<T>> {
         return eventStreams.fold(this.map { listOf(it) }) { left, right ->
             left.zip(right).map { (list, value) -> list + value }
         }
+    }
+
+    private fun <U> zip(other: EventStream<U>): EventStream<Pair<T, U>> {
+        return ZipBridge(this, other).eventStream
     }
 
     private class ZipBridge<T, U>(left: EventStream<T>, right: EventStream<U>) {

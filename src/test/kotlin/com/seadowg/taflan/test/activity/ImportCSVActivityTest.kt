@@ -1,6 +1,5 @@
 package com.seadowg.taflan.test.activity
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.EditText
@@ -9,8 +8,6 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.ImportCSVActivity
 import com.seadowg.taflan.activity.TablesActivity
-import com.seadowg.taflan.domain.Item
-import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import kotlinx.android.synthetic.main.form.view.*
@@ -23,9 +20,6 @@ import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
-import org.robolectric.shadows.ShadowContentResolver
-import java.io.File
-import java.io.StringReader
 
 @RunWith(RobolectricTestRunner::class)
 class ImportCSVActivityTest {

@@ -9,16 +9,16 @@
     <com.seadowg.taflan.view.Form
         android:id="@+id/form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/delete"
-        android:backgroundTint="@color/error"
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="@string/delete" />
+        android:backgroundTint="@color/error"
+        android:text="@string/delete"
+        android:textColor="@color/white" />
 
 </LinearLayout>

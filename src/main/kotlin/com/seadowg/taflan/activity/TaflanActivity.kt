@@ -9,7 +9,6 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.seadowg.taflan.R
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.util.EventStream
-import com.seadowg.taflan.util.Reactive
 
 abstract class TaflanActivity : AppCompatActivity() {
 
@@ -36,11 +35,6 @@ abstract class TaflanActivity : AppCompatActivity() {
         if (backArrow) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
-
-            val upArrow = resources.getDrawable(R.drawable.abc_ic_ab_back_material, theme)
-            upArrow.setColorFilter(resources.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP)
-            supportActionBar?.setHomeAsUpIndicator(upArrow)
-
         }
 
         color?.let {

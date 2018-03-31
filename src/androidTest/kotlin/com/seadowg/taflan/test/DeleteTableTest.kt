@@ -1,6 +1,5 @@
 package com.seadowg.taflan.test
 
-import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
 import android.support.test.espresso.matcher.ViewMatchers.withText

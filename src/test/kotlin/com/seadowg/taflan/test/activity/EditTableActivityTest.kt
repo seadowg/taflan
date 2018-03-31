@@ -7,10 +7,8 @@ import com.seadowg.taflan.R
 import com.seadowg.taflan.activity.EditTableActivity
 import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Table
-import com.seadowg.taflan.test.support.backgroundColor
 import com.seadowg.taflan.view.colorDrawable
 import kotlinx.android.synthetic.main.edit_table.*
-import kotlinx.android.synthetic.main.toolbar.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith

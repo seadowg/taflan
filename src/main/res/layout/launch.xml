@@ -39,6 +39,7 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_add_white"
         fab:fab_colorNormal="@color/primary"
         fab:fab_colorPressed="@color/primary"
