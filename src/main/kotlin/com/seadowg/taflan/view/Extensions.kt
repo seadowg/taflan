@@ -1,7 +1,9 @@
 package com.seadowg.taflan.view
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Table
@@ -14,5 +16,14 @@ fun Table.colorDrawable(context: Context): ColorDrawable {
         Color.Orange -> R.color.card_orange
     }
 
-    return ColorDrawable(context.resources.getColor(resource))
+    return ColorDrawable(context.resources.getColorPolyfill(resource, context.theme))
+}
+
+@Suppress("DEPRECATION")
+fun Resources.getColorPolyfill(resource: Int, theme: Resources.Theme): Int {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        getColor(resource, theme)
+    } else {
+        getColor(resource)
+    }
 }

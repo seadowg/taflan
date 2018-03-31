@@ -1,4 +1,4 @@
-defaultTasks 'clean', 'testDebug', 'connectedAndroidTest'
+defaultTasks 'clean', 'lintDebug', 'testDebug', 'connectedAndroidTest'
 
 static def versionNumber() {
     def gitCount = "git rev-list HEAD --count".execute().text.trim()
@@ -11,7 +11,7 @@ static def versionNumber() {
 }
 
 buildscript {
-    ext.kotlin_version = '1.1.51'
+    ext.kotlin_version = '1.2.30'
 
     repositories {
         jcenter()
