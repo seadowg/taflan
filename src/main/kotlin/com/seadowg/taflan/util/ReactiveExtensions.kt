@@ -38,7 +38,7 @@ class ViewReactive(private val view: View) {
     var enabled: Reactive<Boolean> = Reactive(view.isEnabled, EventStream())
         set(value) {
             field = value
-            field.bind(view.lifecycle()) { value -> view.isEnabled = value }
+            field.bind(view.lifecycle()) { view.isEnabled = it }
         }
 
     val clicks: EventStream<Unit>

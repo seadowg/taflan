@@ -13,6 +13,7 @@ class InMemoryTableRepository : TableRepository {
         tables.add(createdTable)
         return createdTable
     }
+
     override fun save(table: Table.Existing) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -26,31 +27,31 @@ class InMemoryTableRepository : TableRepository {
     }
 
     override fun addItem(table: Table.Existing, item: Item.New): Table.Existing {
-        val table = tables.single { it.id == table.id }
-        tables.remove(table)
+        val tableToAddTo = tables.single { it.id == table.id }
+        tables.remove(tableToAddTo)
 
         val savedItem = Item.Existing(generateID(), item.values)
 
-        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields, items = table.items + savedItem)
+        val updatedTable = Table.Existing(tableToAddTo.id, tableToAddTo.name, tableToAddTo.color, fields = tableToAddTo.fields, items = tableToAddTo.items + savedItem)
         tables.add(updatedTable)
         return updatedTable
     }
 
     override fun addField(table: Table.Existing, field: String): Table.Existing {
-        val table = tables.single { it.id == table.id }
-        tables.remove(table)
+        val tableToAddTo = tables.single { it.id == table.id }
+        tables.remove(tableToAddTo)
 
-        val migratedItems = table.items.map { Item.Existing(it.id, it.values + "") }
-        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields + field, items = migratedItems)
+        val migratedItems = tableToAddTo.items.map { Item.Existing(it.id, it.values + "") }
+        val updatedTable = Table.Existing(tableToAddTo.id, tableToAddTo.name, tableToAddTo.color, fields = tableToAddTo.fields + field, items = migratedItems)
         tables.add(updatedTable)
         return updatedTable
     }
 
     override fun updateItem(table: Table.Existing, item: Item.Existing): Table.Existing {
-        val table = tables.single { it.id == table.id }
-        tables.remove(table)
+        val tableToUpdate = tables.single { it.id == table.id }
+        tables.remove(tableToUpdate)
 
-        val updatedItems = table.items.map { oldItem ->
+        val updatedItems = tableToUpdate.items.map { oldItem ->
             if (oldItem.id == item.id) {
                 item
             } else {
@@ -58,19 +59,19 @@ class InMemoryTableRepository : TableRepository {
             }
         }
 
-        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems)
+        val updatedTable = Table.Existing(tableToUpdate.id, tableToUpdate.name, tableToUpdate.color, fields = tableToUpdate.fields, items = updatedItems)
         tables.add(updatedTable)
         return updatedTable
     }
 
     override fun deleteItem(table: Table.Existing, item: Item.Existing): Table.Existing {
-        val table = tables.single { it.id == table.id }
-        tables.remove(table)
+        val tableToUpdate = tables.single { it.id == table.id }
+        tables.remove(tableToUpdate)
 
-        val updatedItems = table.items - item
-        val updatedTable = Table.Existing(table.id, table.name, table.color, fields = table.fields, items = updatedItems)
+        val updatedItems = tableToUpdate.items - item
+        val updatedTable = Table.Existing(tableToUpdate.id, tableToUpdate.name, tableToUpdate.color, fields = tableToUpdate.fields, items = updatedItems)
         tables.add(updatedTable)
-        return table
+        return tableToUpdate
     }
 
     override fun delete(table: Table.Existing) {
