@@ -4,14 +4,15 @@
 
     <application
         android:name="TaflanApplication"
-        android:theme="@style/TaflanTheme"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
-        android:allowBackup="false">
+        android:label="Taflan"
+        android:theme="@style/TaflanTheme">
 
         <activity
             android:name=".activity.TablesActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_title">
+            android:label="@string/app_title"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -42,10 +43,13 @@
             android:name=".activity.EditTableActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.ImportCSVActivity" android:noHistory="true">
+        <activity
+            android:name=".activity.ImportCSVActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:scheme="content" />
                 <data android:host="*" />
