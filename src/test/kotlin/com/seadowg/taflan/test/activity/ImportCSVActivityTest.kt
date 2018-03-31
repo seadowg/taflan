@@ -8,6 +8,7 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.ImportCSVActivity
+import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
@@ -61,7 +62,7 @@ class ImportCSVActivityTest {
     }
 
     @Test
-    fun clickingAdd_finishes() {
+    fun clickingAdd_finishesAndOpensTablesActivity() {
         val uri = createCSVFile("field1,field2\nhello,hi\ngoodbye,see ya")
         val intent = Intent(RuntimeEnvironment.application, ImportCSVActivity::class.java).apply {
             data = uri
@@ -73,9 +74,13 @@ class ImportCSVActivityTest {
         activity.form.submit.performClick()
 
         assertThat(activity.isFinishing).isTrue()
+
+        val nextStartedActivity = shadowOf(activity).nextStartedActivity
+        assertThat(nextStartedActivity.component.className).isEqualTo(TablesActivity::class.java.name)
+        assertThat(nextStartedActivity.flags).isEqualTo(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 
-    private fun createCSVFile(contents: String): Uri? {
+    private fun createCSVFile(contents: String): Uri {
         val context = RuntimeEnvironment.application
         val uri = Uri.parse("file://test")
         shadowOf(context.contentResolver).registerInputStream(uri, contents.byteInputStream())

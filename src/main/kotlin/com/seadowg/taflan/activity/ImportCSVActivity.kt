@@ -1,5 +1,6 @@
 package com.seadowg.taflan.activity
 
+import android.content.Intent
 import android.os.Bundle
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
@@ -26,6 +27,9 @@ class ImportCSVActivity : TaflanActivity() {
             )
 
             finish()
+            startActivity(Intent(this, TablesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            })
         }
     }
 }
