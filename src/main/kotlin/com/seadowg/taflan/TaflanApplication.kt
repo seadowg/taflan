@@ -53,7 +53,6 @@ open class TaflanApplication : Application() {
     }
 
     private fun createTracker(context: Context): Tracker {
-        val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
-        return FirebaseTracker(firebaseAnalytics)
+        return FirebaseTracker(context, PreferenceManager.getDefaultSharedPreferences(context).getBoolean("analytics_enabled", true))
     }
 }

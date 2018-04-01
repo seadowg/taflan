@@ -2,6 +2,7 @@ package com.seadowg.taflan.activity
 
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.widget.Toast
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.tracking.Tracker
@@ -20,6 +21,8 @@ class SettingsActivity : TaflanActivity() {
         analytics.isChecked = preferences.getBoolean("analytics_enabled", true)
 
         analytics.setOnCheckedChangeListener { _, isChecked ->
+            Toast.makeText(this, "Requires restart to take effect!", Toast.LENGTH_SHORT).show()
+
             tracker.isEnabled = isChecked
             preferences
                     .edit()
