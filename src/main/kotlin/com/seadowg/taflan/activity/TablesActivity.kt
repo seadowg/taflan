@@ -40,6 +40,8 @@ class TablesActivity : TaflanActivity() {
                 val tableItem = TableItem.inflate(table, tablesList, this)
 
                 tableItem.reactive().clicks.bind(this) {
+                    tracker.track("load_items", value = table.items.size.toLong())
+
                     val intent = TableActivity.intent(this, table)
                     startActivity(intent)
                 }

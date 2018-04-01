@@ -7,11 +7,13 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.TablesActivity
+import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.usecase.TableCreator
 import com.seadowg.taflan.repository.InMemoryTableRepository
 import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.Tracker
+import kotlinx.android.synthetic.main.launch.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,5 +50,21 @@ class TablesActivityTest {
 
         setupActivity(TablesActivity::class.java)
         verify(tracker).track("load_tables", value = 2)
+    }
+
+    @Test
+    fun whenThereAreTables_clickingOnTable_tracksLoadItemsEvent() {
+        val table1 = TableCreator(tableRepository).create("A Table")
+        val table2 = TableCreator(tableRepository).create("Another Table")
+        tableRepository.addItem(table2, Item.New(listOf("blah")))
+        tableRepository.addItem(table2, Item.New(listOf("blah1")))
+
+        val activity = setupActivity(TablesActivity::class.java)
+
+        activity.tables.getChildAt(0).performClick()
+        verify(tracker).track("load_items", value = 0)
+
+        activity.tables.getChildAt(1).performClick()
+        verify(tracker).track("load_items", value = 2)
     }
 }
