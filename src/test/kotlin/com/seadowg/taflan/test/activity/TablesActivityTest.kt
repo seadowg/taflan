@@ -3,8 +3,10 @@ package com.seadowg.taflan.test.activity
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.singleton
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.seadowg.taflan.R
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.domain.Item
@@ -14,12 +16,15 @@ import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.Tracker
 import kotlinx.android.synthetic.main.launch.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric.setupActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows.shadowOf
+import org.robolectric.fakes.RoboMenuItem
 
 @RunWith(RobolectricTestRunner::class)
 class TablesActivityTest {
@@ -66,5 +71,14 @@ class TablesActivityTest {
 
         activity.tables.getChildAt(1).performClick()
         verify(tracker).track("load_items", value = 2)
+    }
+
+    @Test
+    fun clickingOpenSourceLicensesInMenu_opensOpenSourceLicenseActivity() {
+        val activity = setupActivity(TablesActivity::class.java)
+        activity.onOptionsItemSelected(RoboMenuItem(R.id.open_source_licenses))
+
+        val nextStartedActivity = shadowOf(activity).nextStartedActivity
+        assertThat(nextStartedActivity.component.className).isEqualTo(OssLicensesMenuActivity::class.java.name)
     }
 }

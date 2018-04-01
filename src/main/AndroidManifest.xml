@@ -43,6 +43,12 @@
             android:name=".activity.EditTableActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
+
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
+
         <activity
             android:name=".activity.ImportCSVActivity"
             android:noHistory="true">

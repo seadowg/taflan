@@ -2,9 +2,12 @@ package com.seadowg.taflan.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.github.salomonbrys.kodein.instance
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.seadowg.taflan.R
 import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.tracking.Tracker
@@ -51,4 +54,19 @@ class TablesActivity : TaflanActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.app_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.open_source_licenses -> {
+                startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+                true
+            }
+
+            else -> false
+        }
+    }
 }
