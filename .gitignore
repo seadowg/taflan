@@ -9,3 +9,4 @@ build
 local.properties
 *.apk
 release
+google-services.json

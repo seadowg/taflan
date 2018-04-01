@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.repository.ReactiveTableRepository
+import com.seadowg.taflan.tracking.Tracker
 import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.TableItem
@@ -14,6 +15,8 @@ import com.seadowg.taflan.view.TableItem
 class TablesActivity : TaflanActivity() {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
+    private val tracker: Tracker by injector.instance()
+
     private val tables by lazy { tableRepository.fetchAll() }
 
     private val fab by lazy { findViewById<View>(R.id.fab).reactive() }
@@ -29,6 +32,8 @@ class TablesActivity : TaflanActivity() {
         }
 
         tables.bind(this) {
+            tracker.track("load_tables", value = it.size.toLong())
+
             tablesList.removeAllViews()
 
             it.forEach { table ->

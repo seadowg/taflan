@@ -12,7 +12,6 @@ import com.seadowg.taflan.repository.ReactiveTableRepository
 class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::class.java) {
 
     private val injector = KodeinInjector()
-
     private val tableRepository: ReactiveTableRepository by injector.instance()
 
     override fun beforeActivityLaunched() {
@@ -20,7 +19,7 @@ class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::
         val context = InstrumentationRegistry.getTargetContext().applicationContext
         val application = context as TaflanApplication
 
-        application.setupKodein()
+        application.setupKodein(context, tracking = false)
         injector.inject(application.kodein)
 
         tableRepository.store.clear()
