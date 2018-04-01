@@ -56,7 +56,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode versionNumber()
-        versionName "1.0.0"
+        versionName "1.0.${versionNumber()}"
         applicationId "com.seadowg.taflan"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
