@@ -6,7 +6,10 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers.*
+import android.widget.Switch
+import android.widget.ToggleButton
 import com.seadowg.taflan.R
 import io.pivotal.macchiato.pages.Page
 import org.hamcrest.Matchers.allOf
@@ -33,6 +36,27 @@ class TablesPage : Page(withText("Taflan")) {
         onView(withText(name)).perform(click())
         return assertOnPage(TablePage(name))
     }
+
+    fun openMenu():TablesPage.MenuPage {
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext())
+        return MenuPage()
+    }
+
+    class MenuPage {
+        fun clickSettings(): SettingsPage {
+            onView(withText("Settings")).perform(click())
+            return SettingsPage()
+        }
+
+    }
+}
+
+class SettingsPage : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Settings"))) {
+    fun toggleTracking() {
+        onView(allOf(hasSibling(withText("Analytics and crash reporting")), isAssignableFrom(Switch::class.java)))
+                .perform(click())
+    }
+
 }
 
 class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(name))) {

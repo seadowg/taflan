@@ -9,6 +9,8 @@
         android:label="Taflan"
         android:theme="@style/TaflanTheme">
 
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
+
         <activity
             android:name=".activity.TablesActivity"
             android:label="@string/app_title"
@@ -43,11 +45,17 @@
             android:name=".activity.EditTableActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
 
         <activity
             android:name=".activity.ImportCSVActivity"

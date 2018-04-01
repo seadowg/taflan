@@ -10,4 +10,6 @@
     <string name="edit">Edit</string>
     <string name="app_title">Taflan</string>
     <string name="open_source_licenses">Open source licenses</string>
+    <string name="settings">Settings</string>
+    <string name="analytics_and_crash_reporting">Analytics and crash reporting</string>
 </resources>

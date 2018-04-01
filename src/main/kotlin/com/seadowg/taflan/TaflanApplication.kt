@@ -25,7 +25,7 @@ open class TaflanApplication : Application() {
 
         if (setupLeakCanary()) return
 
-        setupKodein(this, tracking = true)
+        setupKodein(this)
     }
 
     private fun setupLeakCanary(): Boolean {
@@ -39,11 +39,11 @@ open class TaflanApplication : Application() {
         }
     }
 
-    fun setupKodein(context: Context, tracking: Boolean) {
+    fun setupKodein(context: Context) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val tableRepository = SharedPreferencesTableRepository(preferences)
 
-        val tracker = createTracker(tracking, context)
+        val tracker = createTracker(context)
 
         kodein = Kodein {
             bind<ContentReader>().with(singleton { AndroidContentReader(applicationContext) })
@@ -52,19 +52,8 @@ open class TaflanApplication : Application() {
         }
     }
 
-    private fun createTracker(tracking: Boolean, context: Context): Tracker {
-        return if (tracking) {
-            val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
-            firebaseAnalytics.setAnalyticsCollectionEnabled(true)
-            FirebaseTracker(firebaseAnalytics)
-        } else {
-            val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
-            firebaseAnalytics.setAnalyticsCollectionEnabled(false)
-            object : Tracker {
-                override fun track(event: String, parameters: Map<String, String>?, value: Long?) {
-
-                }
-            }
-        }
+    private fun createTracker(context: Context): Tracker {
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
+        return FirebaseTracker(firebaseAnalytics)
     }
 }

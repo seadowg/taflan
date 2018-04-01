@@ -10,3 +10,4 @@ local.properties
 *.apk
 release
 google-services.json
+src/main/res/raw/third_party_license*
