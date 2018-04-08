@@ -38,7 +38,7 @@ class SettingsActivityTest {
                 .apply()
 
         var activity = setupActivity(SettingsActivity::class.java)
-        assertThat(activity.analytics.isChecked).isTrue()
+        assertThat(activity.analytics_enabled   .isChecked).isTrue()
 
         PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application)
                 .edit()
@@ -46,17 +46,17 @@ class SettingsActivityTest {
                 .apply()
 
         activity = setupActivity(SettingsActivity::class.java)
-        assertThat(activity.analytics.isChecked).isFalse()
+        assertThat(activity.analytics_enabled.isChecked).isFalse()
     }
 
     @Test
     fun togglingAnalytics_disablesAndEnablesTracker() {
         val activity = setupActivity(SettingsActivity::class.java)
 
-        activity.analytics.isChecked = false
+        activity.analytics_enabled.isChecked = false
         verify(tracker).isEnabled = false
 
-        activity.analytics.isChecked = true
+        activity.analytics_enabled.isChecked = true
         verify(tracker).isEnabled = true
     }
 
@@ -65,10 +65,10 @@ class SettingsActivityTest {
         val preferences = PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application)
         val activity = setupActivity(SettingsActivity::class.java)
 
-        activity.analytics.isChecked = false
+        activity.analytics_enabled.isChecked = false
         assertThat(preferences.getBoolean("analytics_enabled", true)).isFalse()
 
-        activity.analytics.isChecked = true
+        activity.analytics_enabled.isChecked = true
         assertThat(preferences.getBoolean("analytics_enabled", false)).isTrue()
     }
 }

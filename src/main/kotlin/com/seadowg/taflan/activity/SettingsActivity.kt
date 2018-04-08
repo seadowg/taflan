@@ -18,9 +18,9 @@ class SettingsActivity : TaflanActivity() {
         setupToolbar(getString(R.string.settings), backArrow = true)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        analytics.isChecked = preferences.getBoolean("analytics_enabled", true)
+        analytics_enabled.isChecked = preferences.getBoolean("analytics_enabled", true)
 
-        analytics.setOnCheckedChangeListener { _, isChecked ->
+        analytics_enabled.setOnCheckedChangeListener { _, isChecked ->
             Toast.makeText(this, "Requires restart to take effect!", Toast.LENGTH_SHORT).show()
 
             tracker.isEnabled = isChecked
