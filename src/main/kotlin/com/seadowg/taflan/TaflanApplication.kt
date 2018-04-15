@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.provider.Settings
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.singleton
@@ -53,6 +54,13 @@ open class TaflanApplication : Application() {
     }
 
     private fun createTracker(context: Context): Tracker {
-        return FirebaseTracker(context, PreferenceManager.getDefaultSharedPreferences(context).getBoolean("analytics_enabled", true))
+        val testLabSetting = Settings.System.getString(context.contentResolver, "firebase.test.lab")
+        if ("true" == testLabSetting) {
+            return FirebaseTracker(context, false)
+        }
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val analyticsEnabled = preferences.getBoolean("analytics_enabled", true)
+        return FirebaseTracker(context, analyticsEnabled)
     }
 }
