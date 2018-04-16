@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
+import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.lifecycle
@@ -25,7 +26,7 @@ class ItemItem : CardView {
 
     private lateinit var table: Table.Existing
     private lateinit var item: Item.Existing
-    private lateinit var tableRepository: TableRepository
+    private lateinit var tableRepository: ReactiveTableRepository
 
     private lateinit var popup: PopupMenu
 
@@ -40,12 +41,11 @@ class ItemItem : CardView {
 
         popup.setOnMenuItemClickListener {
             deleteItem()
-            baseAdapter.notifyDataSetChanged()
             true
         }
     }
 
-    fun setItem(item: Item.Existing, table: Table.Existing, tableRepository: TableRepository): ItemItem {
+    fun setItem(item: Item.Existing, table: Table.Existing, tableRepository: ReactiveTableRepository): ItemItem {
         this.item = item
         this.table = table
         this.tableRepository = tableRepository
@@ -68,7 +68,7 @@ class ItemItem : CardView {
     }
 
     private fun deleteItem() {
-        tableRepository.deleteItem(table, item)
+        tableRepository.change { it.deleteItem(table, item) }
     }
 
     companion object {

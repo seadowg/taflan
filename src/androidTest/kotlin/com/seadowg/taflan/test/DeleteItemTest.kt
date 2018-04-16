@@ -33,4 +33,23 @@ class DeleteItemTest {
         onView(allOf(hasSibling(withText("Name")), withText("Eggs"))).check(doesNotExist())
         onView(allOf(hasSibling(withText("Name")), withText("Bananas"))).check(matches(isDisplayed()))
     }
+
+    @Test
+    fun deletingAnItem_thenAddingAnother_doesntCauseOriginalItemToReappear() {
+        val tablesPage = TablesPage().createTableFlow(
+                "Shopping list",
+                items = listOf("Bananas", "Eggs")
+        )
+
+        val shoppingListPage = tablesPage.clickOnTableItem("Shopping list")
+        shoppingListPage
+                .deleteItem("Eggs")
+                .clickFAB()
+                .fillInField("Name", "Bacon")
+                .clickAdd()
+
+        onView(allOf(hasSibling(withText("Name")), withText("Eggs"))).check(doesNotExist())
+        onView(allOf(hasSibling(withText("Name")), withText("Bananas"))).check(matches(isDisplayed()))
+        onView(allOf(hasSibling(withText("Name")), withText("Bacon"))).check(matches(isDisplayed()))
+    }
 }

@@ -33,7 +33,7 @@ class TableActivity : TaflanActivity() {
     private val navigator = Navigator(this)
 
     private val itemAdapter: ItemAdapter by lazy {
-        ItemAdapter(this, tableRepository.store, tableID, navigator)
+        ItemAdapter(this, tableRepository, tableID, navigator)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +53,6 @@ class TableActivity : TaflanActivity() {
 
         table.bind(this) {
             setupToolbar(it.name, color = it.colorDrawable(this), backArrow = true)
-
-            itemAdapter.notifyDataSetChanged()
             setupFAB(it)
         }
     }
