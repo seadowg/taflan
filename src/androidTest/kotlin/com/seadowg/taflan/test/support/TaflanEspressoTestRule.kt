@@ -1,5 +1,7 @@
 package com.seadowg.taflan.test.support
 
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import com.github.salomonbrys.kodein.KodeinInjector
@@ -13,7 +15,6 @@ import com.seadowg.taflan.tracking.Tracker
 class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::class.java) {
 
     private val injector = KodeinInjector()
-    private val tableRepository: ReactiveTableRepository by injector.instance()
     private val tracker: Tracker by injector.instance()
 
     override fun beforeActivityLaunched() {
@@ -24,7 +25,7 @@ class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::
         application.setupKodein(context)
         injector.inject(application.kodein)
 
-        tableRepository.store.clear()
+        PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()
         tracker.isEnabled = false
         TaflanActivity.TEST_MODE = true
     }

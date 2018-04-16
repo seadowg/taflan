@@ -30,6 +30,9 @@ class SettingsTest {
         val tablesPage = TablesPage()
         val settingsPage = tablesPage.openMenu().clickSettings()
 
+        onView(allOf(hasSibling(withText(containsString("Analytics and crash reporting"))), isAssignableFrom(Switch::class.java)))
+                .check(matches(isChecked()))
+
         settingsPage.toggleTracking()
         onView(allOf(hasSibling(withText(containsString("Analytics and crash reporting"))), isAssignableFrom(Switch::class.java)))
                 .check(matches(isNotChecked()))
