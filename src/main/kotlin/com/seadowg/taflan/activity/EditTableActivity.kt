@@ -17,7 +17,7 @@ class EditTableActivity : TaflanActivity() {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
 
-    private val table by lazy { intent.getSerializableExtra(EditItemActivity.EXTRA_TABLE) as Table.Existing }
+    private val table by lazy { intent.getSerializableExtra(EditTableActivity.EXTRA_TABLE) as Table.Existing }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +32,12 @@ class EditTableActivity : TaflanActivity() {
 
         delete.reactive().clicks.bind(this) {
             tableRepository.change { it.delete(table) }
-            startActivity(Intent(this, TablesActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            })
+            navigator.returnToTables()
         }
     }
 
     companion object {
-        val EXTRA_TABLE = "extra_table"
+        private val EXTRA_TABLE = "extra_table"
 
         fun intent(context: Context, table: Table.Existing): Intent {
             return Intent(context, EditTableActivity::class.java)

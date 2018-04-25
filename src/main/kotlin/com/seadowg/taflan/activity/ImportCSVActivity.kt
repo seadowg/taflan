@@ -26,10 +26,7 @@ class ImportCSVActivity : TaflanActivity() {
                     contentReader.read(intent.data).bufferedReader()
             )
 
-            finish()
-            startActivity(Intent(this, TablesActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            })
+            navigator.returnToTables()
         }
     }
 }

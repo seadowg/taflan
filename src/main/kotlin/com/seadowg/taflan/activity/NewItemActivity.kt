@@ -1,5 +1,7 @@
 package com.seadowg.taflan.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
@@ -28,6 +30,13 @@ class NewItemActivity : TaflanActivity() {
     }
 
     companion object {
-        val EXTRA_TABLE = "extra_table"
+        private val EXTRA_TABLE = "extra_table"
+
+        fun intent(context: Context, table: Table.Existing): Intent {
+            val intent = Intent(context, NewItemActivity::class.java)
+            intent.putExtra(NewItemActivity.EXTRA_TABLE, table)
+
+            return intent
+        }
     }
 }

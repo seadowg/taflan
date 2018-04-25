@@ -31,7 +31,7 @@ class TablesActivity : TaflanActivity() {
         setupToolbar(getString(R.string.app_title))
 
         fab.clicks.bind(this) {
-            startActivity(Intent(this, NewTableActivity::class.java))
+            navigator.newTable()
         }
 
         tables.bind(this) {
@@ -44,9 +44,7 @@ class TablesActivity : TaflanActivity() {
 
                 tableItem.reactive().clicks.bind(this) {
                     tracker.track("load_items", value = table.items.size.toLong())
-
-                    val intent = TableActivity.intent(this, table)
-                    startActivity(intent)
+                    navigator.showTable(table)
                 }
 
                 tablesList.addView(tableItem)

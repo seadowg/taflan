@@ -15,7 +15,6 @@ import com.seadowg.taflan.adapter.ItemAdapter
 import com.seadowg.taflan.csv.CSV
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.util.Navigator
 import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.colorDrawable
@@ -29,8 +28,6 @@ class TableActivity : TaflanActivity() {
     }
 
     private val table by lazy { tableRepository.fetch(tableID)!! }
-
-    private val navigator = Navigator(this)
 
     private val itemAdapter: ItemAdapter by lazy {
         ItemAdapter(this, tableRepository, tableID, navigator)
@@ -63,48 +60,36 @@ class TableActivity : TaflanActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        when(item.itemId) {
             R.id.edit -> {
-                val intent = Intent(this, EditTableActivity::class.java)
-                intent.putExtra(EditTableActivity.EXTRA_TABLE, table.currentValue)
-
-                startActivity(intent)
-                true
+                navigator.editTable(table.currentValue)
             }
 
             R.id.export -> {
                 exportTable()
-                true
             }
 
             R.id.add_field -> {
-                val intent = Intent(this, NewFieldActivity::class.java)
-                intent.putExtra(NewFieldActivity.EXTRA_TABLE, table.currentValue)
-
-                startActivity(intent)
-                true
+                navigator.newField(table.currentValue)
             }
 
-            else -> false
+            else -> return false
         }
+
+        return true
     }
 
     private fun exportTable() {
         val table = table.currentValue
+        val tableName = table.name
         val csv = CSV(table.fields, table.items.map { it.values })
 
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/csv"
-        shareIntent.putExtra(Intent.EXTRA_TEXT, csv.toString())
-        startActivity(Intent.createChooser(shareIntent, "Export \"${table.name}\" as .csv"))
+        navigator.shareTable(tableName, csv)
     }
 
-    private fun setupFAB(table: Table) {
+    private fun setupFAB(table: Table.Existing) {
         findViewById<FloatingActionMenu>(R.id.fab).reactive().clicks.bind(this) {
-            val intent = Intent(this, NewItemActivity::class.java)
-            intent.putExtra(NewItemActivity.EXTRA_TABLE, table)
-
-            startActivity(intent)
+            navigator.newItem(table)
         }
     }
 

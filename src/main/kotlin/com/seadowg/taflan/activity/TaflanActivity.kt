@@ -9,12 +9,15 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.seadowg.taflan.R
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.util.EventStream
+import com.seadowg.taflan.util.Navigator
 
 abstract class TaflanActivity : AppCompatActivity() {
 
     protected val injector = KodeinInjector()
 
     private val reactives = mutableListOf<Pair<() -> Any, EventStream<Any>>>()
+
+    protected val navigator = Navigator(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
