@@ -9,7 +9,7 @@ interface TableRepository : Store<Table.Existing> {
     fun create(table: Table.New): Table.Existing
     override fun fetchAll(): List<Table.Existing>
     fun clear()
-    fun addItem(table: Table.Existing, item: Item.New): Table.Existing
+    fun addItem(tableID: String, item: Item.New): Table.Existing
     override fun fetch(id: String): Table.Existing?
     fun addField(table: Table.Existing, field: String): Table.Existing
     fun updateItem(table: Table.Existing, item: Item.Existing): Table.Existing

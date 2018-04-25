@@ -30,7 +30,7 @@ class TableCreator(val tableRepository: TableRepository) {
                     }
                 }.let {
                     result.csv.rows.fold(it) { table, row ->
-                        tableRepository.addItem(table, Item.New(row))
+                        tableRepository.addItem(table.id, Item.New(row))
                     }
                 }
             }

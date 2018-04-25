@@ -30,7 +30,7 @@ class ItemItem : CardView {
 
     private lateinit var popup: PopupMenu
 
-    private fun initialize(baseAdapter: RecyclerView.Adapter<*>) {
+    private fun initialize() {
         val menuButton = findViewById<View>(R.id.menu)
         popup = PopupMenu(context, menuButton)
         popup.inflate(R.menu.item_menu)
@@ -76,8 +76,7 @@ class ItemItem : CardView {
             val inflater = LayoutInflater.from(context)
             val view = inflater.inflate(R.layout.item_item, rootView, false) as ItemItem
 
-            view.initialize(baseAdapter)
-
+            view.initialize()
             return view
         }
     }

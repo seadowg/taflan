@@ -35,8 +35,9 @@ class SharedPreferencesTableRepository(private val sharedPreferences: SharedPref
         return tableIDs.mapNotNull { fetch(it) }
     }
 
-    override fun addItem(table: Table.Existing, item: Item.New): Table.Existing {
+    override fun addItem(tableID: String, item: Item.New): Table.Existing {
         val createdItem = Item.Existing(generateID(), values = item.values)
+        val table = fetch(tableID)!!
         val updatedTable = table.copy(items = table.items + createdItem)
 
         storeTable(updatedTable)

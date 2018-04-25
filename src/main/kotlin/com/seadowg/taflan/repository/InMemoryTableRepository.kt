@@ -26,8 +26,8 @@ class InMemoryTableRepository : TableRepository {
         return tables.toList()
     }
 
-    override fun addItem(table: Table.Existing, item: Item.New): Table.Existing {
-        val tableToAddTo = tables.single { it.id == table.id }
+    override fun addItem(tableID: String, item: Item.New): Table.Existing {
+        val tableToAddTo = tables.single { it.id == tableID }
         tables.remove(tableToAddTo)
 
         val savedItem = Item.Existing(generateID(), item.values)

@@ -15,16 +15,18 @@ class NewItemActivity : TaflanActivity() {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
 
+    private val tableID: String by lazy { intent.extras.getString(NewItemActivity.EXTRA_TABLE) }
+    private val table by lazy { tableRepository.store.fetch(tableID)!! }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_item)
 
-        val table = intent.getSerializableExtra(EXTRA_TABLE) as Table.Existing
         setupToolbar("Add Item", color = table.colorDrawable(this), backArrow = true)
 
         val form = findViewById<Form>(R.id.form)
         form.setup(table.fields.map { Form.Field(it, "", true) }, "Add") { values ->
-            tableRepository.change { it.addItem(table, Item.New(values)) }
+            tableRepository.change { it.addItem(table.id, Item.New(values)) }
             finish()
         }
     }
@@ -34,7 +36,7 @@ class NewItemActivity : TaflanActivity() {
 
         fun intent(context: Context, table: Table.Existing): Intent {
             val intent = Intent(context, NewItemActivity::class.java)
-            intent.putExtra(NewItemActivity.EXTRA_TABLE, table)
+            intent.putExtra(NewItemActivity.EXTRA_TABLE, table.id)
 
             return intent
         }

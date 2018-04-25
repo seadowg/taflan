@@ -23,10 +23,8 @@ import com.seadowg.taflan.view.colorDrawable
 class TableActivity : TaflanActivity() {
 
     private val tableRepository: ReactiveTableRepository by injector.instance()
-    private val tableID: String by lazy {
-        (intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing).id
-    }
 
+    private val tableID: String by lazy { intent.extras.getString(EXTRA_TABLE) }
     private val table by lazy { tableRepository.fetch(tableID)!! }
 
     private val itemAdapter: ItemAdapter by lazy {
@@ -98,7 +96,7 @@ class TableActivity : TaflanActivity() {
 
         fun intent(context: Context, table: Table.Existing): Intent {
             return Intent(context, TableActivity::class.java)
-                    .putExtra(EXTRA_TABLE, table)
+                    .putExtra(EXTRA_TABLE, table.id)
         }
     }
 }

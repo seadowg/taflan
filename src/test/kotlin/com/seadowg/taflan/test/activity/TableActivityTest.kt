@@ -37,8 +37,8 @@ class TableActivityTest {
     @Test
     fun clickingExport_sendsCSVShareIntent() {
         var table = tableRepository.create(Table.New("Shopping list", Color.values().sample(), listOf("Name", "Quantity")))
-        table = tableRepository.addItem(table, Item.New(listOf("Banana\nThe good ones", "5")))
-        table = tableRepository.addItem(table, Item.New(listOf("Kiwi, because they are my favourite", "2")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Banana\nThe good ones", "5")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Kiwi, because they are my favourite", "2")))
 
         val tableIntent = TableActivity.intent(RuntimeEnvironment.application, table)
         val activity = buildActivity(TableActivity::class.java, tableIntent).setup().get()

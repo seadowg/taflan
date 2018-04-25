@@ -61,8 +61,8 @@ class TablesActivityTest {
     fun whenThereAreTables_clickingOnTable_tracksLoadItemsEvent() {
         val table1 = TableCreator(tableRepository).create("A Table")
         val table2 = TableCreator(tableRepository).create("Another Table")
-        tableRepository.addItem(table2, Item.New(listOf("blah")))
-        tableRepository.addItem(table2, Item.New(listOf("blah1")))
+        tableRepository.addItem(table2.id, Item.New(listOf("blah")))
+        tableRepository.addItem(table2.id, Item.New(listOf("blah1")))
 
         val activity = setupActivity(TablesActivity::class.java)
 

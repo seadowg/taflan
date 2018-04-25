@@ -53,8 +53,8 @@ abstract class TableRepositoryTest {
     fun addItem_addsAnItemToTheTable() {
         var table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
 
-        table = tableRepository.addItem(table, Item.New(listOf("Long John Silver", "67cm")))
-        table = tableRepository.addItem(table, Item.New(listOf("Jack Sparrow", "12cm")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Long John Silver", "67cm")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Jack Sparrow", "12cm")))
 
         val tableWithItems = tableRepository.fetch(table.id)!!
         assertThat(tableWithItems.items.size).isEqualTo(2)
@@ -66,9 +66,9 @@ abstract class TableRepositoryTest {
     fun addItem_generatesUniqueIDsForEachItem() {
         var table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name", "Beard Length")))
 
-        table = tableRepository.addItem(table, Item.New(listOf("Geoff")))
-        table = tableRepository.addItem(table, Item.New(listOf("Troy")))
-        table = tableRepository.addItem(table, Item.New(listOf("Charles")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Geoff")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Troy")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Charles")))
 
         val items = tableRepository.fetch(table.id)!!.items
         assertThat(items[0].id).isNotEqualTo(items[1].id)
@@ -94,7 +94,7 @@ abstract class TableRepositoryTest {
     fun addField_addsTheFieldToExistingItems() {
         var table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name")))
 
-        table = tableRepository.addItem(table, Item.New(listOf("Long John Silver")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Long John Silver")))
 
         table = tableRepository.addField(table, "Beard Length")
         table = tableRepository.addField(table, "Ship Name")
@@ -110,9 +110,9 @@ abstract class TableRepositoryTest {
     fun updateItem_updatesTheItemInTheTable() {
         var table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name")))
 
-        table = tableRepository.addItem(table, Item.New(listOf("Geoff")))
-        table = tableRepository.addItem(table, Item.New(listOf("Troy")))
-        table = tableRepository.addItem(table, Item.New(listOf("Charles")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Geoff")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Troy")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Charles")))
 
         val tableWithItems = tableRepository.fetch(table.id)
         val changedItem = Item.Existing(
@@ -132,8 +132,8 @@ abstract class TableRepositoryTest {
     fun deleteItem_removesTheItemFromTheTable() {
         var table = tableRepository.create(Table.New("Favourite Pirates", Color.Red, listOf("Name")))
 
-        table = tableRepository.addItem(table, Item.New(listOf("Geoff")))
-        table = tableRepository.addItem(table, Item.New(listOf("Troy")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Geoff")))
+        table = tableRepository.addItem(table.id, Item.New(listOf("Troy")))
 
         val geoff = tableRepository.fetch(table.id)!!.items.single { it.values == listOf("Geoff") }
         tableRepository.deleteItem(table, geoff)
