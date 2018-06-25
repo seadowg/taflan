@@ -14,6 +14,7 @@ import com.seadowg.taflan.tracking.Tracker
 import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.TableItem
+import kotlinx.android.synthetic.main.launch.*
 
 class TablesActivity : TaflanActivity() {
 
@@ -22,7 +23,6 @@ class TablesActivity : TaflanActivity() {
 
     private val tables by lazy { tableRepository.fetchAll() }
 
-    private val fab by lazy { findViewById<View>(R.id.fab).reactive() }
     private val tablesList by lazy { findViewById<ViewGroup>(R.id.tables) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +30,7 @@ class TablesActivity : TaflanActivity() {
         setContentView(R.layout.launch)
         setupToolbar(getString(R.string.app_title))
 
-        fab.clicks.bind(this) {
+        fab.reactive().clicks.bind(this) {
             navigator.newTable()
         }
 

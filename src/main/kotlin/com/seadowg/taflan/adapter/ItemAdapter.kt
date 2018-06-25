@@ -1,7 +1,7 @@
 package com.seadowg.taflan.adapter
 
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
@@ -11,9 +11,9 @@ import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.ItemItem
 
-class ItemAdapter(private val context: AppCompatActivity, val tableRepository: ReactiveTableRepository, private val tableID: String, private val navigator: Navigator) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(private val context: AppCompatActivity, val tableRepository: ReactiveTableRepository, private val tableID: String, private val navigator: Navigator) : androidx.recyclerview.widget.RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
-    class ViewHolder(val view: ItemItem) : RecyclerView.ViewHolder(view)
+    class ViewHolder(val view: ItemItem) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 
     private var table: Table.Existing
 
@@ -28,7 +28,7 @@ class ItemAdapter(private val context: AppCompatActivity, val tableRepository: R
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemItem.inflate(parent, context, this))
+        return ViewHolder(ItemItem.inflate(parent, context))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

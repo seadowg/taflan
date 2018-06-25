@@ -1,6 +1,6 @@
 package com.seadowg.taflan.test
 
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import com.seadowg.taflan.test.support.TablesPage
 import com.seadowg.taflan.test.support.TaflanEspressoTestRule
 import org.junit.Ignore

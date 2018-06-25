@@ -1,15 +1,13 @@
 package com.seadowg.taflan.test.support
 
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import android.support.test.InstrumentationRegistry
-import android.support.test.rule.ActivityTestRule
+import androidx.test.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.activity.TaflanActivity
-import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.tracking.Tracker
 
 class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::class.java) {
@@ -27,7 +25,6 @@ class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::
 
         PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()
         tracker.isEnabled = false
-        TaflanActivity.TEST_MODE = true
     }
 
 }

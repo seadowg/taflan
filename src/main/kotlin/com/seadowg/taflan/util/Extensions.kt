@@ -1,6 +1,6 @@
 package com.seadowg.taflan.util
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import android.view.View
 import java.util.*
 

@@ -1,24 +1,22 @@
 package com.seadowg.taflan.view
 
 import android.content.Context
-import android.support.v7.widget.CardView
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
+import com.google.android.material.card.MaterialCardView
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.lifecycle
 import com.seadowg.taflan.util.reactive
 
-class ItemItem : CardView {
+class ItemItem : MaterialCardView {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -72,7 +70,7 @@ class ItemItem : CardView {
     }
 
     companion object {
-        fun inflate(rootView: ViewGroup?, context: Context, baseAdapter: RecyclerView.Adapter<*>): ItemItem {
+        fun inflate(rootView: ViewGroup?, context: Context): ItemItem {
             val inflater = LayoutInflater.from(context)
             val view = inflater.inflate(R.layout.item_item, rootView, false) as ItemItem
 

@@ -1,10 +1,10 @@
 package com.seadowg.taflan.test
 
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.runner.AndroidJUnit4
 import com.seadowg.taflan.R
 import com.seadowg.taflan.adapter.ItemAdapter
 import com.seadowg.taflan.test.support.TablesPage

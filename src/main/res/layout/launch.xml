@@ -31,19 +31,14 @@
 
     </LinearLayout>
 
-    <com.github.clans.fab.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_add_white"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorPressed="@color/primary"
-        fab:fab_colorRipple="@color/primary" />
+        android:src="@drawable/ic_add_white"/>
 
 
 </RelativeLayout>

@@ -2,7 +2,7 @@ package com.seadowg.taflan.test.activity
 
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import com.seadowg.taflan.R
 import com.seadowg.taflan.activity.EditTableActivity
 import com.seadowg.taflan.domain.Color

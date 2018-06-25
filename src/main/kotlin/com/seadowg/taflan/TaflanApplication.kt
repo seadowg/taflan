@@ -15,7 +15,6 @@ import com.seadowg.taflan.tracking.FirebaseTracker
 import com.seadowg.taflan.tracking.Tracker
 import com.seadowg.taflan.util.AndroidContentReader
 import com.seadowg.taflan.util.ContentReader
-import com.squareup.leakcanary.LeakCanary
 
 open class TaflanApplication : Application() {
 
@@ -23,21 +22,7 @@ open class TaflanApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        if (setupLeakCanary()) return
-
         setupKodein(this)
-    }
-
-    private fun setupLeakCanary(): Boolean {
-        return if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            true
-        } else {
-            LeakCanary.install(this)
-            false
-        }
     }
 
     fun setupKodein(context: Context) {

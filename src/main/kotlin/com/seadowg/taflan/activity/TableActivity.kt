@@ -3,13 +3,13 @@ package com.seadowg.taflan.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import com.github.clans.fab.FloatingActionMenu
 import com.github.salomonbrys.kodein.instance
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.seadowg.taflan.R
 import com.seadowg.taflan.adapter.ItemAdapter
 import com.seadowg.taflan.csv.CSV
@@ -86,7 +86,7 @@ class TableActivity : TaflanActivity() {
     }
 
     private fun setupFAB(table: Table.Existing) {
-        findViewById<FloatingActionMenu>(R.id.fab).reactive().clicks.bind(this) {
+        findViewById<FloatingActionButton>(R.id.fab).reactive().clicks.bind(this) {
             navigator.newItem(table)
         }
     }

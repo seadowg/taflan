@@ -1,11 +1,11 @@
 package com.seadowg.taflan.test
 
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.RootMatchers.withDecorView
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.runner.AndroidJUnit4
-import android.support.v7.widget.SwitchCompat
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.runner.AndroidJUnit4
+import androidx.appcompat.widget.SwitchCompat
 import android.widget.Checkable
 import android.widget.Switch
 import android.widget.ToggleButton
