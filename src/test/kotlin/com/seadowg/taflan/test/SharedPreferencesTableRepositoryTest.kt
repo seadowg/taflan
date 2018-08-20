@@ -11,7 +11,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(constants = BuildConfig::class, sdk = intArrayOf(23))
 class SharedPreferencesTableRepositoryTest : TableRepositoryTest() {
 
     override val tableRepository: TableRepository

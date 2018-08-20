@@ -36,7 +36,7 @@ class TablesActivityTest {
     fun setup() {
         (RuntimeEnvironment.application as TaflanApplication).kodein = Kodein {
             bind<Tracker>().with(singleton { tracker })
-            bind<ReactiveTableRepository>().with(singleton { ReactiveTableRepository(tableRepository) })
+            bind<TableRepository>().with(singleton { tableRepository })
         }
     }
 

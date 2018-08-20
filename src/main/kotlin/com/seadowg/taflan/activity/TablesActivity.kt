@@ -4,12 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import com.github.salomonbrys.kodein.instance
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.seadowg.taflan.R
-import com.seadowg.taflan.repository.ReactiveTableRepository
+import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.Tracker
 import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
@@ -18,36 +16,34 @@ import kotlinx.android.synthetic.main.launch.*
 
 class TablesActivity : TaflanActivity() {
 
-    private val tableRepository: ReactiveTableRepository by injector.instance()
+    private val tableRepository: TableRepository by injector.instance()
     private val tracker: Tracker by injector.instance()
-
-    private val tables by lazy { tableRepository.fetchAll() }
-
-    private val tablesList by lazy { findViewById<ViewGroup>(R.id.tables) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.launch)
         setupToolbar(getString(R.string.app_title))
 
-        fab.reactive().clicks.bind(this) {
-            navigator.newTable()
-        }
+        tracker.track("load_tables", value = tableRepository.fetchAll().size.toLong())
 
-        tables.bind(this) {
-            tracker.track("load_tables", value = it.size.toLong())
+        fab.setOnClickListener { navigator.newTable() }
+    }
 
-            tablesList.removeAllViews()
+    override fun onResume() {
+        super.onResume()
+
+        tableRepository.fetchAll().let {
+            tables.removeAllViews()
 
             it.forEach { table ->
-                val tableItem = TableItem.inflate(table, tablesList, this)
+                val tableItem = TableItem.inflate(table, tables, this)
 
                 tableItem.reactive().clicks.bind(this) {
                     tracker.track("load_items", value = table.items.size.toLong())
                     navigator.showTable(table)
                 }
 
-                tablesList.addView(tableItem)
+                tables.addView(tableItem)
             }
         }
     }
