@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Table
-import com.seadowg.taflan.repository.ReactiveTableRepository
+import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.bind
 import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.Form
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.edit_table.*
 
 class EditTableActivity : TaflanActivity() {
 
-    private val tableRepository: ReactiveTableRepository by injector.instance()
+    private val tableRepository: TableRepository by injector.instance()
 
     private val table by lazy { intent.getSerializableExtra(EditTableActivity.EXTRA_TABLE) as Table.Existing }
 
@@ -26,12 +26,12 @@ class EditTableActivity : TaflanActivity() {
         setupToolbar("Edit Table", color = table.colorDrawable(this), backArrow = true)
 
         form.setup(listOf(Form.Field("Name", table.name, multiline = false)), "Update") { values ->
-            tableRepository.change { it.save(table.copy(name = values[0])) }
+            tableRepository.save(table.copy(name = values[0]))
             finish()
         }
 
         delete.reactive().clicks.bind(this) {
-            tableRepository.change { it.delete(table) }
+            tableRepository.delete(table)
             navigator.returnToTables()
         }
     }

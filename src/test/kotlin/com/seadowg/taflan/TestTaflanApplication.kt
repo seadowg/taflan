@@ -2,9 +2,10 @@ package com.seadowg.taflan
 
 import android.content.Context
 import android.preference.PreferenceManager
-import com.github.salomonbrys.kodein.*
+import com.github.salomonbrys.kodein.Kodein
+import com.github.salomonbrys.kodein.bind
+import com.github.salomonbrys.kodein.singleton
 import com.nhaarman.mockito_kotlin.mock
-import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.SharedPreferencesTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.Tracker
@@ -20,7 +21,6 @@ class TestTaflanApplication : TaflanApplication() {
         return Kodein {
             bind<ContentReader>().with(singleton { AndroidContentReader(applicationContext) })
             bind<TableRepository>().with(singleton { tableRepository })
-            bind<ReactiveTableRepository>().with(singleton { ReactiveTableRepository(tableRepository) })
             bind<Tracker>().with(singleton { mock<Tracker>() })
         }
     }

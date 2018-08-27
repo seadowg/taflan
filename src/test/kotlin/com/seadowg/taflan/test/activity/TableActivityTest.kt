@@ -9,7 +9,6 @@ import com.seadowg.taflan.activity.TableActivity
 import com.seadowg.taflan.domain.Color
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
-import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.sample
 import org.assertj.core.api.Assertions.assertThat
@@ -26,8 +25,7 @@ import org.robolectric.fakes.RoboMenuItem
 class TableActivityTest {
 
     private val injector = KodeinInjector()
-    private val reactiveTableRepository: ReactiveTableRepository by injector.instance()
-    private val tableRepository: TableRepository by lazy { reactiveTableRepository.store }
+    private val tableRepository: TableRepository by injector.instance()
 
     @Before
     fun setup() {

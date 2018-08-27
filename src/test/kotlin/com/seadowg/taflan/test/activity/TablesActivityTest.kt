@@ -12,7 +12,6 @@ import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.usecase.TableCreator
 import com.seadowg.taflan.repository.InMemoryTableRepository
-import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.Tracker
 import kotlinx.android.synthetic.main.launch.*

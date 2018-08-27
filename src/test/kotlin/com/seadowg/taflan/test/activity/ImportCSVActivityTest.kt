@@ -8,7 +8,6 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.ImportCSVActivity
 import com.seadowg.taflan.activity.TablesActivity
-import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import kotlinx.android.synthetic.main.form.view.*
 import kotlinx.android.synthetic.main.new_table.*
@@ -25,8 +24,7 @@ import org.robolectric.Shadows.shadowOf
 class ImportCSVActivityTest {
 
     private val injector = KodeinInjector()
-    private val reactiveTableRepository: ReactiveTableRepository by injector.instance()
-    private val tableRepository: TableRepository by lazy { reactiveTableRepository.store }
+    private val tableRepository: TableRepository by injector.instance()
 
     @Before
     fun setup() {

@@ -2,14 +2,11 @@ package com.seadowg.taflan
 
 import android.app.Application
 import android.content.Context
-import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.singleton
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.seadowg.taflan.repository.ReactiveTableRepository
 import com.seadowg.taflan.repository.SharedPreferencesTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.FirebaseTracker
@@ -37,7 +34,6 @@ open class TaflanApplication : Application() {
         return Kodein {
             bind<ContentReader>().with(singleton { AndroidContentReader(applicationContext) })
             bind<TableRepository>().with(singleton { tableRepository })
-            bind<ReactiveTableRepository>().with(singleton { ReactiveTableRepository(tableRepository) })
             bind<Tracker>().with(singleton { createTracker(context) })
         }
     }
