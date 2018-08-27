@@ -23,20 +23,22 @@ open class TaflanApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        setupKodein(this)
+        setupKodein()
     }
 
-    fun setupKodein(context: Context) {
+    fun setupKodein() {
+        kodein = dependencies(this)
+    }
+
+    protected open fun dependencies(context: Context): Kodein {
         val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val tableRepository = SharedPreferencesTableRepository(preferences)
 
-        val tracker = createTracker(context)
-
-        kodein = Kodein {
+        return Kodein {
             bind<ContentReader>().with(singleton { AndroidContentReader(applicationContext) })
             bind<TableRepository>().with(singleton { tableRepository })
             bind<ReactiveTableRepository>().with(singleton { ReactiveTableRepository(tableRepository) })
-            bind<Tracker>().with(singleton { tracker })
+            bind<Tracker>().with(singleton { createTracker(context) })
         }
     }
 

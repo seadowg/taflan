@@ -3,29 +3,28 @@ package com.seadowg.taflan.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.Menu
-import android.view.MenuItem
 import com.github.salomonbrys.kodein.instance
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.seadowg.taflan.R
 import com.seadowg.taflan.adapter.ItemAdapter
 import com.seadowg.taflan.csv.CSV
 import com.seadowg.taflan.domain.Table
-import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.util.bind
-import com.seadowg.taflan.util.reactive
+import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.view.colorDrawable
 
 
 class TableActivity : TaflanActivity() {
 
-    private val tableRepository: ReactiveTableRepository by injector.instance()
+    private val tableRepository: TableRepository by injector.instance()
 
     private val tableID: String by lazy { intent.extras.getString(EXTRA_TABLE) }
-    private val table by lazy { tableRepository.fetch(tableID)!! }
+    private val table
+        get() = tableRepository.fetch(tableID)!!
 
     private val itemAdapter: ItemAdapter by lazy {
         ItemAdapter(this, tableRepository, tableID, navigator)
@@ -45,11 +44,15 @@ class TableActivity : TaflanActivity() {
         itemsList.addItemDecoration(dividerItemDecoration)
 
         itemsList.adapter = itemAdapter
+    }
 
-        table.bind(this) {
-            setupToolbar(it.name, color = it.colorDrawable(this), backArrow = true)
-            setupFAB(it)
-        }
+    override fun onResume() {
+        super.onResume()
+
+        setupToolbar(table.name, color = table.colorDrawable(this), backArrow = true)
+        setupFAB(table)
+
+        itemAdapter.update()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -60,7 +63,7 @@ class TableActivity : TaflanActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.edit -> {
-                navigator.editTable(table.currentValue)
+                navigator.editTable(table)
             }
 
             R.id.export -> {
@@ -68,7 +71,7 @@ class TableActivity : TaflanActivity() {
             }
 
             R.id.add_field -> {
-                navigator.newField(table.currentValue)
+                navigator.newField(table)
             }
 
             else -> return false
@@ -78,7 +81,7 @@ class TableActivity : TaflanActivity() {
     }
 
     private fun exportTable() {
-        val table = table.currentValue
+        val table = table
         val tableName = table.name
         val csv = CSV(table.fields, table.items.map { it.values })
 
@@ -86,7 +89,7 @@ class TableActivity : TaflanActivity() {
     }
 
     private fun setupFAB(table: Table.Existing) {
-        findViewById<FloatingActionButton>(R.id.fab).reactive().clicks.bind(this) {
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             navigator.newItem(table)
         }
     }

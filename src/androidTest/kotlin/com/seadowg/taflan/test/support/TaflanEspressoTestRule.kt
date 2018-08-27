@@ -20,7 +20,7 @@ class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::
         val context = InstrumentationRegistry.getTargetContext().applicationContext
         val application = context as TaflanApplication
 
-        application.setupKodein(context)
+        application.setupKodein()
         injector.inject(application.kodein)
 
         PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()

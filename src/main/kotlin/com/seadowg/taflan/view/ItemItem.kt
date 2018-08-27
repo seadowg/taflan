@@ -11,10 +11,7 @@ import com.google.android.material.card.MaterialCardView
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
-import com.seadowg.taflan.repository.ReactiveTableRepository
-import com.seadowg.taflan.util.bind
-import com.seadowg.taflan.util.lifecycle
-import com.seadowg.taflan.util.reactive
+import com.seadowg.taflan.repository.TableRepository
 
 class ItemItem : MaterialCardView {
 
@@ -24,7 +21,7 @@ class ItemItem : MaterialCardView {
 
     private lateinit var table: Table.Existing
     private lateinit var item: Item.Existing
-    private lateinit var tableRepository: ReactiveTableRepository
+    private lateinit var tableRepository: TableRepository
 
     private lateinit var popup: PopupMenu
 
@@ -33,17 +30,12 @@ class ItemItem : MaterialCardView {
         popup = PopupMenu(context, menuButton)
         popup.inflate(R.menu.item_menu)
 
-        menuButton.reactive().clicks.bind(lifecycle()) {
+        menuButton.setOnClickListener {
             popup.show()
-        }
-
-        popup.setOnMenuItemClickListener {
-            deleteItem()
-            true
         }
     }
 
-    fun setItem(item: Item.Existing, table: Table.Existing, tableRepository: ReactiveTableRepository): ItemItem {
+    fun setItem(item: Item.Existing, table: Table.Existing, tableRepository: TableRepository, onDeleteClicked: () -> Unit): ItemItem {
         this.item = item
         this.table = table
         this.tableRepository = tableRepository
@@ -62,11 +54,12 @@ class ItemItem : MaterialCardView {
             fieldsList.addView(itemField)
         }
 
-        return this
-    }
+        popup.setOnMenuItemClickListener {
+            onDeleteClicked()
+            true
+        }
 
-    private fun deleteItem() {
-        tableRepository.change { it.deleteItem(table, item) }
+        return this
     }
 
     companion object {
