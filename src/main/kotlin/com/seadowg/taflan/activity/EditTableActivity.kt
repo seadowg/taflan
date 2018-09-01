@@ -7,8 +7,6 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.R
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
-import com.seadowg.taflan.util.bind
-import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.Form
 import com.seadowg.taflan.view.colorDrawable
 import kotlinx.android.synthetic.main.edit_table.*
@@ -30,7 +28,7 @@ class EditTableActivity : TaflanActivity() {
             finish()
         }
 
-        delete.reactive().clicks.bind(this) {
+        delete.setOnClickListener {
             tableRepository.delete(table)
             navigator.returnToTables()
         }

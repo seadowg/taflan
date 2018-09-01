@@ -1,6 +1,8 @@
 package com.seadowg.taflan.view
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import com.seadowg.taflan.R
-import com.seadowg.taflan.util.bind
-import com.seadowg.taflan.util.lifecycle
-import com.seadowg.taflan.util.reactive
 
 class Form : FrameLayout {
 
@@ -32,11 +31,10 @@ class Form : FrameLayout {
         val submitButton = findViewById<Button>(R.id.submit)
         submitButton.text = submitText
 
-        val isNotValids = editTexts.map { it.reactive().text.map(String::isEmpty) }
-        val allAreValid = isNotValids.first().mapN(isNotValids.drop(1)) { !it.contains(true) }
-        submitButton.reactive().enabled = allAreValid
+        val validator = Validator(submitButton, editTexts) { fields -> !fields.any { it.text.isEmpty() } }
+        editTexts.forEach { it.addTextChangedListener(validator) }
 
-        submitButton.reactive().clicks.bind(lifecycle()) {
+        submitButton.setOnClickListener {
             val values = editTexts.map { field -> field.text.toString() }
             onSubmit(values)
         }
@@ -74,4 +72,20 @@ class Form : FrameLayout {
     }
 
     data class Field(val name: String, val value: String, val multiline: Boolean = true)
+}
+
+open class Validator(
+        private val submitButton: Button,
+        private val fields: List<EditText>,
+        private val isValid: (List<EditText>) -> Boolean) : TextWatcher {
+
+    override fun afterTextChanged(s: Editable) {
+        submitButton.isEnabled = isValid(fields)
+    }
+
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+    }
 }

@@ -9,8 +9,6 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.seadowg.taflan.R
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.Tracker
-import com.seadowg.taflan.util.bind
-import com.seadowg.taflan.util.reactive
 import com.seadowg.taflan.view.TableItem
 import kotlinx.android.synthetic.main.launch.*
 
@@ -38,7 +36,7 @@ class TablesActivity : TaflanActivity() {
             it.forEach { table ->
                 val tableItem = TableItem.inflate(table, tables, this)
 
-                tableItem.reactive().clicks.bind(this) {
+                tableItem.setOnClickListener {
                     tracker.track("load_items", value = table.items.size.toLong())
                     navigator.showTable(table)
                 }
