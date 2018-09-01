@@ -8,7 +8,6 @@ import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.ImportCSVActivity
 import com.seadowg.taflan.activity.MainActivity
-import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.repository.TableRepository
 import kotlinx.android.synthetic.main.form.view.*
 import kotlinx.android.synthetic.main.new_table.*
