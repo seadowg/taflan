@@ -26,7 +26,11 @@ class InMemoryTableRepository : TableRepository {
         return tables.toList()
     }
 
-    override fun addItem(tableID: String, item: Item.New): Table.Existing {
+    override fun fetchItems(tableID: String): List<Item.Existing> {
+        return tables.find { it.id == tableID }!!.items
+    }
+
+    override fun addItem(tableID: String, item: Item.New): Item.Existing {
         val tableToAddTo = tables.single { it.id == tableID }
         tables.remove(tableToAddTo)
 
@@ -34,11 +38,11 @@ class InMemoryTableRepository : TableRepository {
 
         val updatedTable = Table.Existing(tableToAddTo.id, tableToAddTo.name, tableToAddTo.color, fields = tableToAddTo.fields, items = tableToAddTo.items + savedItem)
         tables.add(updatedTable)
-        return updatedTable
+        return savedItem
     }
 
-    override fun addField(table: Table.Existing, field: String): Table.Existing {
-        val tableToAddTo = tables.single { it.id == table.id }
+    override fun addField(tableID: String, field: String): Table.Existing {
+        val tableToAddTo = tables.single { it.id == tableID }
         tables.remove(tableToAddTo)
 
         val migratedItems = tableToAddTo.items.map { Item.Existing(it.id, it.values + "") }
@@ -64,8 +68,8 @@ class InMemoryTableRepository : TableRepository {
         return updatedTable
     }
 
-    override fun deleteItem(table: Table.Existing, item: Item.Existing): Table.Existing {
-        val tableToUpdate = tables.single { it.id == table.id }
+    override fun deleteItem(tableID: String, item: Item.Existing): Table.Existing {
+        val tableToUpdate = tables.single { it.id == tableID }
         tables.remove(tableToUpdate)
 
         val updatedItems = tableToUpdate.items - item

@@ -1,32 +1,28 @@
-package com.seadowg.taflan.test.activity
+package com.seadowg.taflan.test.fragment
 
+import android.view.ViewGroup
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.singleton
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.seadowg.taflan.R
 import com.seadowg.taflan.TaflanApplication
-import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.usecase.TableCreator
+import com.seadowg.taflan.fragment.TablesFragment
 import com.seadowg.taflan.repository.InMemoryTableRepository
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.tracking.Tracker
-import kotlinx.android.synthetic.main.launch.*
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric.setupActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows.shadowOf
-import org.robolectric.fakes.RoboMenuItem
+import org.robolectric.shadows.support.v4.SupportFragmentController
 
 @RunWith(RobolectricTestRunner::class)
-class TablesActivityTest {
+class TablesFragmentTest {
 
     private val tracker: Tracker = mock()
     private val tableRepository: TableRepository = InMemoryTableRepository()
@@ -43,7 +39,7 @@ class TablesActivityTest {
     fun whenThereAreNoTables_tracksLoadTablesEvent() {
         tableRepository.clear()
 
-        setupActivity(TablesActivity::class.java)
+        SupportFragmentController.setupFragment(TablesFragment())
         verify(tracker).track("load_tables", value = 0)
     }
 
@@ -52,7 +48,7 @@ class TablesActivityTest {
         TableCreator(tableRepository).create("A Table")
         TableCreator(tableRepository).create("Another Table")
 
-        setupActivity(TablesActivity::class.java)
+        SupportFragmentController.setupFragment(TablesFragment())
         verify(tracker).track("load_tables", value = 2)
     }
 
@@ -63,21 +59,12 @@ class TablesActivityTest {
         tableRepository.addItem(table2.id, Item.New(listOf("blah")))
         tableRepository.addItem(table2.id, Item.New(listOf("blah1")))
 
-        val activity = setupActivity(TablesActivity::class.java)
+        val fragment = SupportFragmentController.setupFragment(TablesFragment())
 
-        activity.tables.getChildAt(0).performClick()
+        fragment.view!!.findViewById<ViewGroup>(R.id.tables).getChildAt(0).performClick()
         verify(tracker).track("load_items", value = 0)
 
-        activity.tables.getChildAt(1).performClick()
+        fragment.view!!.findViewById<ViewGroup>(R.id.tables).getChildAt(1).performClick()
         verify(tracker).track("load_items", value = 2)
-    }
-
-    @Test
-    fun clickingOpenSourceLicensesInMenu_opensOpenSourceLicenseActivity() {
-        val activity = setupActivity(TablesActivity::class.java)
-        activity.onOptionsItemSelected(RoboMenuItem(R.id.open_source_licenses))
-
-        val nextStartedActivity = shadowOf(activity).nextStartedActivity
-        assertThat(nextStartedActivity.component.className).isEqualTo(OssLicensesMenuActivity::class.java.name)
     }
 }

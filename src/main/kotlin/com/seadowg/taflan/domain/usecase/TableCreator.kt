@@ -24,15 +24,17 @@ class TableCreator(val tableRepository: TableRepository) {
 
         when (result) {
             is CSVParser.Result.Valid -> {
-                return tableRepository.create(Table.New(name, generateColor(), emptyList())).let {
+                val table = tableRepository.create(Table.New(name, generateColor(), emptyList())).let {
                     result.csv.headers.fold(it) { table, field ->
-                        tableRepository.addField(table, field)
+                        tableRepository.addField(table.id, field)
                     }
-                }.let {
-                    result.csv.rows.fold(it) { table, row ->
-                        tableRepository.addItem(table.id, Item.New(row))
+                }.apply {
+                    result.csv.rows.forEach { row ->
+                        tableRepository.addItem(id, Item.New(row))
                     }
                 }
+
+                return tableRepository.fetch(table.id)!!
             }
 
             else -> {

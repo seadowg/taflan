@@ -45,7 +45,7 @@ class Navigator(val activity: Activity) {
 
     fun returnToTables() {
         finish()
-        start(Intent(activity, TablesActivity::class.java).apply {
+        start(Intent(activity, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         })
     }

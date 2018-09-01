@@ -2,6 +2,7 @@ package com.seadowg.taflan.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
+import com.seadowg.taflan.domain.Item
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
 import com.seadowg.taflan.util.Navigator
@@ -12,6 +13,7 @@ class ItemAdapter(private val context: AppCompatActivity, val tableRepository: T
     class ViewHolder(val view: ItemItem) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 
     private lateinit var table: Table.Existing
+    private lateinit var items: List<Item.Existing>
 
     init {
         update()
@@ -19,6 +21,7 @@ class ItemAdapter(private val context: AppCompatActivity, val tableRepository: T
 
     fun update() {
         table = tableRepository.fetch(tableID)!!
+        items = tableRepository.fetchItems(tableID)
         notifyDataSetChanged()
     }
 
@@ -27,10 +30,10 @@ class ItemAdapter(private val context: AppCompatActivity, val tableRepository: T
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = table.items[position]
+        val item = items[position]
 
         holder.view.setItem(item, table, tableRepository, onDeleteClicked = {
-            tableRepository.deleteItem(table, item)
+            tableRepository.deleteItem(table.id, item)
             update()
         })
 
@@ -44,6 +47,6 @@ class ItemAdapter(private val context: AppCompatActivity, val tableRepository: T
     }
 
     override fun getItemCount(): Int {
-        return table.items.size
+        return items.size
     }
 }

@@ -7,6 +7,7 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.activity.ImportCSVActivity
+import com.seadowg.taflan.activity.MainActivity
 import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.repository.TableRepository
 import kotlinx.android.synthetic.main.form.view.*
@@ -68,7 +69,7 @@ class ImportCSVActivityTest {
         assertThat(activity.isFinishing).isTrue()
 
         val nextStartedActivity = shadowOf(activity).nextStartedActivity
-        assertThat(nextStartedActivity.component.className).isEqualTo(TablesActivity::class.java.name)
+        assertThat(nextStartedActivity.component.className).isEqualTo(MainActivity::class.java.name)
         assertThat(nextStartedActivity.flags).isEqualTo(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
 

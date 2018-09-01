@@ -6,11 +6,12 @@ import androidx.test.rule.ActivityTestRule
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
 import com.seadowg.taflan.TaflanApplication
+import com.seadowg.taflan.activity.MainActivity
 import com.seadowg.taflan.activity.TablesActivity
 import com.seadowg.taflan.activity.TaflanActivity
 import com.seadowg.taflan.tracking.Tracker
 
-class TaflanEspressoTestRule : ActivityTestRule<TablesActivity>(TablesActivity::class.java) {
+class TaflanEspressoTestRule : ActivityTestRule<MainActivity>(MainActivity::class.java) {
 
     private val injector = KodeinInjector()
     private val tracker: Tracker by injector.instance()

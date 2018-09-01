@@ -23,7 +23,7 @@ class NewFieldActivity : TaflanActivity() {
 
         val form = findViewById<Form>(R.id.form)
         form.setup(listOf(Form.Field("Name", "", true)), "Add") { values ->
-            tableRepository.addField(table, values.first())
+            tableRepository.addField(table.id, values.first())
             finish()
         }
     }

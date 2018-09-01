@@ -7,7 +7,6 @@ import com.seadowg.taflan.domain.Table
 import java.util.*
 
 class SharedPreferencesTableRepository(private val sharedPreferences: SharedPreferences) : TableRepository {
-
     private val gson = Gson()
 
     override fun create(table: Table.New): Table.Existing {
@@ -35,16 +34,21 @@ class SharedPreferencesTableRepository(private val sharedPreferences: SharedPref
         return tableIDs.mapNotNull { fetch(it) }
     }
 
-    override fun addItem(tableID: String, item: Item.New): Table.Existing {
+    override fun fetchItems(tableID: String): List<Item.Existing> {
+        return fetch(tableID)!!.items
+    }
+
+    override fun addItem(tableID: String, item: Item.New): Item.Existing {
         val createdItem = Item.Existing(generateID(), values = item.values)
         val table = fetch(tableID)!!
         val updatedTable = table.copy(items = table.items + createdItem)
 
         storeTable(updatedTable)
-        return updatedTable
+        return createdItem
     }
 
-    override fun addField(table: Table.Existing, field: String): Table.Existing {
+    override fun addField(tableID: String, field: String): Table.Existing {
+        val table = fetch(tableID)!!
         val migratedItems = table.items.map { it.copy(values = it.values + "") }
         val updatedTable = table.copy(fields = table.fields + field, items = migratedItems)
 
@@ -66,7 +70,8 @@ class SharedPreferencesTableRepository(private val sharedPreferences: SharedPref
         return updatedTable
     }
 
-    override fun deleteItem(table: Table.Existing, item: Item.Existing): Table.Existing {
+    override fun deleteItem(tableID: String, item: Item.Existing): Table.Existing {
+        val table = fetch(tableID)!!
         val updatedTable = table.copy(items = table.items - item)
         storeTable(updatedTable)
         return updatedTable
