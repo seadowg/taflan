@@ -1,11 +1,6 @@
 package com.seadowg.taflan.tracking
 
 import android.content.Context
-import android.os.Bundle
-import com.crashlytics.android.Crashlytics
-import com.google.firebase.analytics.FirebaseAnalytics
-import io.fabric.sdk.android.Fabric
-
 
 
 interface Tracker {
@@ -15,29 +10,29 @@ interface Tracker {
 
 class FirebaseTracker(context: Context, enabled: Boolean) : Tracker {
 
-    private val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
+//    private val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
     override var isEnabled: Boolean = true
         set(value) {
-            firebaseAnalytics.setAnalyticsCollectionEnabled(value)
+//            firebaseAnalytics.setAnalyticsCollectionEnabled(value)
             field = value
         }
 
     init {
-        if (enabled) {
-            Fabric.with(context, Crashlytics())
-        }
+//        if (enabled) {
+//            Fabric.with(context, Crashlytics())
+//        }
 
         isEnabled = enabled
     }
 
     override fun track(event: String, parameters: Map<String, String>?, value: Long?) {
-        val bundle = parameters?.toList()?.fold(Bundle()) { bundle, (key, value) ->
-            bundle.apply { putString(key, value) }
-        } ?: Bundle()
-
-        value?.let { bundle.putLong(FirebaseAnalytics.Param.VALUE, value) }
-
-        firebaseAnalytics.logEvent(event, bundle)
+//        val bundle = parameters?.toList()?.fold(Bundle()) { bundle, (key, value) ->
+//            bundle.apply { putString(key, value) }
+//        } ?: Bundle()
+//
+//        value?.let { bundle.putLong(FirebaseAnalytics.Param.VALUE, value) }
+//
+//        firebaseAnalytics.logEvent(event, bundle)
     }
 }
