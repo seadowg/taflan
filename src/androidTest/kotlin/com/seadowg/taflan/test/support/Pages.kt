@@ -37,26 +37,14 @@ class TablesPage : Page(withText("Taflan")) {
         return assertOnPage(TablePage(name))
     }
 
-    fun openMenu():TablesPage.MenuPage {
+    fun openMenu(): TablesPage.MenuPage {
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext())
         return MenuPage()
     }
 
     class MenuPage {
-        fun clickSettings(): SettingsPage {
-            onView(withText("Settings")).perform(click())
-            return SettingsPage()
-        }
 
     }
-}
-
-class SettingsPage : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText("Settings"))) {
-    fun toggleTracking() {
-        onView(allOf(hasSibling(withText("Analytics and crash reporting")), isAssignableFrom(Switch::class.java)))
-                .perform(click())
-    }
-
 }
 
 class TablePage(val name: String) : Page(allOf(isDescendantOfA(withId(R.id.toolbar)), withText(name))) {

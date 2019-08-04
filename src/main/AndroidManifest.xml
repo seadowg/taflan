@@ -9,9 +9,6 @@
         android:label="Taflan"
         android:theme="@style/TaflanTheme">
 
-        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
-        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_title"
@@ -44,10 +41,6 @@
 
         <activity
             android:name=".activity.EditTableActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait" />
 
         <activity

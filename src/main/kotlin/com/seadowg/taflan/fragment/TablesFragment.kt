@@ -13,7 +13,6 @@ import com.seadowg.taflan.R
 import com.seadowg.taflan.TaflanApplication
 import com.seadowg.taflan.domain.Table
 import com.seadowg.taflan.repository.TableRepository
-import com.seadowg.taflan.tracking.Tracker
 import com.seadowg.taflan.util.Navigator
 import com.seadowg.taflan.view.TableItem
 import kotlinx.android.synthetic.main.launch.*
@@ -23,7 +22,6 @@ class TablesFragment : Fragment() {
     private val injector = KodeinInjector()
 
     private val tableRepository: TableRepository by injector.instance()
-    private val tracker: Tracker by injector.instance()
 
     private val navigator by lazy { Navigator(activity!!) }
     private val tablesViewModel by lazy { createViewModel(this) }
@@ -31,8 +29,6 @@ class TablesFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         injector.inject((context.applicationContext as TaflanApplication).kodein)
-
-        tracker.track("load_tables", value = tableRepository.fetchAll().size.toLong())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,7 +45,6 @@ class TablesFragment : Fragment() {
                 val tableItem = TableItem.inflate(table, tables, context!!)
 
                 tableItem.setOnClickListener {
-                    tracker.track("load_items", value = table.items.size.toLong())
                     navigator.showTable(table)
                 }
 
