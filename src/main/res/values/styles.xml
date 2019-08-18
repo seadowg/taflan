@@ -1,6 +1,6 @@
 <resources>
-
-    <style name="TaflanTheme" parent="Theme.AppCompat.Light.NoActionBar">
+r
+    <style name="TaflanTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="android:colorPrimary">@color/primary</item>
