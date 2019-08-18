@@ -18,7 +18,7 @@ class NewFieldActivity : TaflanActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_field)
 
-        val table = intent.extras.getSerializable(EXTRA_TABLE) as Table.Existing
+        val table = intent.extras!!.getSerializable(EXTRA_TABLE) as Table.Existing
         setupToolbar("Add Field", table.colorDrawable(this), backArrow = true)
 
         val form = findViewById<Form>(R.id.form)

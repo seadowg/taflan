@@ -22,7 +22,7 @@ class TableActivity : TaflanActivity() {
 
     private val tableRepository: TableRepository by injector.instance()
 
-    private val tableID: String by lazy { intent.extras.getString(EXTRA_TABLE) }
+    private val tableID: String by lazy { intent.extras!!.getString(EXTRA_TABLE) }
     private val table
         get() = tableRepository.fetch(tableID)!!
 
@@ -40,7 +40,7 @@ class TableActivity : TaflanActivity() {
         itemsList.layoutManager = layoutManager
 
         val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        dividerItemDecoration.setDrawable(getDrawable(R.drawable.list_divider))
+        dividerItemDecoration.setDrawable(getDrawable(R.drawable.list_divider)!!)
         itemsList.addItemDecoration(dividerItemDecoration)
 
         itemsList.adapter = itemAdapter

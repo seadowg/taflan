@@ -31,7 +31,7 @@ class Form : FrameLayout {
         val submitButton = findViewById<Button>(R.id.submit)
         submitButton.text = submitText
 
-        val validator = Validator(submitButton, editTexts) { fields -> !fields.any { it.text.isEmpty() } }
+        val validator = Validator(submitButton, editTexts) { fieldList -> !fieldList.any { it.text.isEmpty() } }
         editTexts.forEach { it.addTextChangedListener(validator) }
 
         submitButton.setOnClickListener {

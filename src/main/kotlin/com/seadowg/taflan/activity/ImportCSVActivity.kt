@@ -22,7 +22,7 @@ class ImportCSVActivity : TaflanActivity() {
         form.setup(listOf(Form.Field("Name", "", true)), "Add") { values ->
             TableCreator(tableRepository).createTableFromCSV(
                     values.first(),
-                    contentReader.read(intent.data).bufferedReader()
+                    contentReader.read(intent.data!!).bufferedReader()
             )
 
             navigator.returnToTables()

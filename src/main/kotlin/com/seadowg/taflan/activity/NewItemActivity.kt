@@ -15,7 +15,7 @@ class NewItemActivity : TaflanActivity() {
 
     private val tableRepository: TableRepository by injector.instance()
 
-    private val tableID: String by lazy { intent.extras.getString(NewItemActivity.EXTRA_TABLE) }
+    private val tableID: String by lazy { intent.extras!!.getString(EXTRA_TABLE) }
     private val table by lazy { tableRepository.fetch(tableID)!! }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class NewItemActivity : TaflanActivity() {
 
         fun intent(context: Context, table: Table.Existing): Intent {
             val intent = Intent(context, NewItemActivity::class.java)
-            intent.putExtra(NewItemActivity.EXTRA_TABLE, table.id)
+            intent.putExtra(EXTRA_TABLE, table.id)
 
             return intent
         }

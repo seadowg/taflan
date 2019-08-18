@@ -11,7 +11,7 @@ static def versionNumber() {
 }
 
 buildscript {
-    ext.kotlin_version = '1.3.10'
+    ext.kotlin_version = '1.3.41'
 
     repositories {
         jcenter()
@@ -71,7 +71,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.github.salomonbrys.kodein:kodein:3.3.0'
     implementation 'com.google.code.gson:gson:2.8.4'
-
     implementation 'org.apache.commons:commons-csv:1.3'
 
     // Android
